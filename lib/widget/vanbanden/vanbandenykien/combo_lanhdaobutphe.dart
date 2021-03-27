@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_eoffice/models/NguoiDungitem.dart';
+import 'package:app_eoffice/models/Nguoidungitem.dart';
 import 'package:app_eoffice/services/DonVi_Api.dart';
 import 'package:app_eoffice/services/NguoiDung_Api.dart';
 import 'package:app_eoffice/utils/Base.dart';
@@ -17,7 +17,7 @@ var dataquery = {
   "Chucvu": '2,3,4,6',
   "DonViID": '' + nguoidungsessionView.donviid.toString() + ''
 };
-List<int> ltsLanhDao = new List<int>();
+List<int> ltsLanhDao = <int>[];
 
 class _MyComBo_Lanhdaobutphe extends State<MyComBo_Lanhdaobutphe> {
   String strLanhDaoButPhe = '';
@@ -60,11 +60,11 @@ class _MyComBo_Lanhdaobutphe extends State<MyComBo_Lanhdaobutphe> {
               return SearchableDropdown.single(
                 items: lst,
                 value: selectedValue,
-                hint: "Select one",
+                hint: "Chọn lãnh đạo bút phê",
                 searchHint: null,
                 onChanged: (value) {
                   setState(() {
-                    selectedValue = value;
+                    selectedValue = int.parse(value);
                   });
                 },
                 dialogBox: false,

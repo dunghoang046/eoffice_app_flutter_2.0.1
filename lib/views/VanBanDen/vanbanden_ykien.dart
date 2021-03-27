@@ -1,3 +1,7 @@
+import 'package:app_eoffice/block/base/event.dart';
+import 'package:app_eoffice/block/base/state.dart';
+import 'package:app_eoffice/block/vanbandenbloc.dart';
+import 'package:app_eoffice/utils/Base.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDenYkienItem.dart';
 import 'package:app_eoffice/services/Vanbanden_api.dart';
@@ -5,7 +9,9 @@ import 'package:app_eoffice/views/VanBanDen/vanbanden_chitiet.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_formykien.dart';
 import 'package:app_eoffice/widget/Base_widget.dart';
 import 'package:app_eoffice/widget/vanbanden/ViewYkenVBDen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_router/simple_router.dart';
+import 'package:toast/toast.dart';
 
 class MyVanBanDenYKien extends StatefulWidget {
   final int id;
@@ -16,16 +22,24 @@ class MyVanBanDenYKien extends StatefulWidget {
 
 Vanbanden_api objApi = new Vanbanden_api();
 
+Future<List<VanBanDenYKienItem>> lstykien;
+
 class _MyVanBanDenYKien extends State<MyVanBanDenYKien> {
   Vanbanden_api objapi = new Vanbanden_api();
   @override
   void initState() {
+    loadykien();
     super.initState();
+  }
+
+  void loadykien() {
+    var dataquery = {"VanBanID": '' + widget.id.toString() + '', "lang": 'vi'};
+    lstykien = objapi.getykienvanbanden(dataquery);
   }
 
   Widget contentbody(dataquery) => Center(
           child: FutureBuilder(
-        future: objapi.getykienvanbanden(dataquery),
+        future: lstykien,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -47,8 +61,8 @@ class _MyVanBanDenYKien extends State<MyVanBanDenYKien> {
       ));
 
   Widget build(BuildContext context) {
-    var dataquery = {"VanBanID": '' + widget.id.toString() + '', "lang": 'vi'};
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         title: Text(
@@ -58,29 +72,24 @@ class _MyVanBanDenYKien extends State<MyVanBanDenYKien> {
         leading: new IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => MyVanVanDenChiTiet(id: widget.id)),
-              // );
               SimpleRouter.back();
             }),
         backgroundColor: Color.fromARGB(255, 248, 144, 31),
       ),
-      body: contentbody(dataquery),
+      body: BlocBuilder(buildWhen: (pre, state) {
+        if (state is ViewYKienState) {
+          loadykien();
+        }
+        return;
+      }, builder: (context, state) {
+        return contentbody(dataquery);
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // showAlertDialog(context, 'Nội dung', 'Ý kiến xử lý', 'Đồng ý', 'Hủy',
-          //     MyVanBanDenYKienForm());
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //       builder: (context) => MyVanBanDenYKienForm(id: widget.id)),
-          // );
           SimpleRouter.forward(MyVanBanDenYKienForm(id: widget.id));
         },
         child: Icon(Icons.add_comment),
       ),
-    );
+    ));
   }
 }

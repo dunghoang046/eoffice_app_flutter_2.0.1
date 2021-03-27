@@ -186,7 +186,7 @@ class _MyMain extends State<Mymain> {
             onWillPop: _onBackPressed);
       });
   Widget build(BuildContext context) {
-    return scaffold();
+    return SafeArea(child: scaffold());
   }
 
   Future<bool> _onBackPressed() {

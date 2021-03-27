@@ -131,7 +131,6 @@ class _MyTrangThaiVanBanDen extends State<MyTrangThaiVanBanDen> {
   }
 
   Widget _onLoginClick() {
-    // ignore: missing_return
     return BlocBuilder<BlocVanBanDenAction, ActionState>(
         builder: (context, state) {
       if (state is LoadingState) {

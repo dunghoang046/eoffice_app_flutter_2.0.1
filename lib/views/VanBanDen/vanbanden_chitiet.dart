@@ -1,4 +1,5 @@
 import 'package:app_eoffice/views/VanBanDen/vanbanden_TrangThaivb.dart';
+import 'package:app_eoffice/views/VanBanDen/vanbanden_trangthaicn.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -222,115 +223,9 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
             child: Icon(Icons.done, color: Colors.white),
             backgroundColor: Colors.blue,
             onTap: () {
-              Alert(
-                context: context,
-                // type: AlertType.info,
-                style: alertStyle,
-                title: "Cập nhật trạng thái",
-                // desc: "Flutter is more awesome with RFlutter Alert.",
-                content: SingleChildScrollView(
-                  child: Theme(
-                    child: Column(
-                      children: [
-                        SearchableDropdown.single(
-                          items: lst,
-                          value: selectedValuecn,
-                          hint: "Chọn trạng thái",
-                          searchHint: "Chọn trạng thái",
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValuecn = value;
-                            });
-                          },
-                          isExpanded: true,
-                          // dialogBox: false,
-                        ),
-                        TextField(
-                          maxLines: 1,
-                          controller: _noidungcn,
-                          decoration: InputDecoration(
-                            hintText: 'Nội dung',
-                            fillColor: Colors.white,
-                            border: new OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(10.0),
-                              borderSide:
-                                  new BorderSide(color: Colors.black, width: 5),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey[200],
-                                width: 1.0,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey[200],
-                              ),
-                            ),
-                            // labelText: widget.text_hind
-                          ),
-                        ),
-                        NgayXuLycanhanDateField()
-                      ],
-                    ),
-                    data: ThemeData(
-                        buttonTheme:
-                            ButtonThemeData(textTheme: ButtonTextTheme.accent),
-                        accentColor: Colors.blue,
-                        primaryColor: Colors.blue),
-                  ),
-                ),
-                buttons: [
-                  DialogButton(
-                      onPressed: () {
-                        _clicktrangthaicn();
-                      },
-                      width: 100,
-                      color: Colors.blue,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.save,
-                            // size: 17,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'Cập nhật',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: white, fontSize: 17),
-                          ),
-                        ],
-                      )),
-                  DialogButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.close,
-                          // size: 17,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          'Hủy',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: white),
-                        ),
-                      ],
-                    ),
-                    onPressed: () =>
-                        Navigator.of(context, rootNavigator: true).pop(),
-                    gradient: LinearGradient(colors: [
-                      Colors.red,
-                      Colors.red,
-                    ]),
-                  )
-                ],
-              ).show();
+              SimpleRouter.forward(MyTrangThaiVanBanDenCaNhan(
+                id: widget.id,
+              ));
             },
             label: 'Trạng thái cá nhân',
             labelStyle: TextStyle(fontWeight: FontWeight.w500),

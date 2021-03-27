@@ -3,7 +3,6 @@ import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/components/components.dart';
 import 'package:app_eoffice/utils/Base.dart';
-import 'package:app_eoffice/views/CongViec/CongViec_ChiTiet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';

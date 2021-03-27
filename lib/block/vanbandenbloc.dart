@@ -104,9 +104,33 @@ class BlocVanBanDenAction extends Bloc<ActionEvent, ActionState> {
         else
           yield DoneState();
       }
+      if (event is HoanThanhEvent) {
+        await objapi.posthoanthanh(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        if (isError)
+          yield ErrorState();
+        else
+          yield DoneState();
+      }
+      if (event is YKienEvent) {
+        await objapi.postykien(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        if (isError)
+          yield ErrorState();
+        else
+          yield DoneState();
+      }
       if (event is ListEvent) {
         yield ViewState();
       }
+      if (event is ViewYKienEvent) {
+        yield ViewYKienState();
+      }
+      if (event is NoEven) yield NoState();
     } catch (ex) {}
   }
 }

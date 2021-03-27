@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
-import 'package:app_eoffice/models/NguoiDungitem.dart';
+import 'package:app_eoffice/models/Nguoidungitem.dart';
 import 'package:app_eoffice/services/DonVi_Api.dart';
 import 'package:app_eoffice/services/NguoiDung_Api.dart';
 import 'package:app_eoffice/utils/Base.dart';
@@ -19,7 +19,7 @@ var dataquery = {
   "DonViID": '' + nguoidungsessionView.donviid.toString() + ''
 };
 String strLanhDaoTrinh = '';
-List<int> lstlanhdaotrinh = new List<int>();
+List<int> lstlanhdaotrinh = <int>[];
 
 class _MyComBo_Lanhdaotrinh extends State<MyComBo_Lanhdaotrinh> {
   NguoiDung_Api nndApi = new NguoiDung_Api();
