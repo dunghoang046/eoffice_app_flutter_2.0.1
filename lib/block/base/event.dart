@@ -16,6 +16,8 @@ class DeleteEvent extends ActionEvent {}
 
 class FinshEvent extends ActionEvent {}
 
+class RejectEvent extends ActionEvent {}
+
 class HoanThanhEvent extends ActionEvent {}
 
 class YKienEvent extends ActionEvent {}

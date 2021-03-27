@@ -7,7 +7,7 @@ NguoiDungItem nguoidungsession = new NguoiDungItem();
 
 // ignore: camel_case_types
 class Base_service {
-  final _baseUrl = 'http://192.168.202.21:8086//api';
+  final _baseUrl = 'http://192.168.43.4:8086//api';
   // final _baseUrl = 'http://192.168.202.11:8086//api';
   // final _baseUrl = 'http://192.168.43.4:8086//api';
   // final _baseUrl = ' https://jsonplaceholder.typicode.com/todos/1';

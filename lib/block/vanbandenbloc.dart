@@ -124,6 +124,16 @@ class BlocVanBanDenAction extends Bloc<ActionEvent, ActionState> {
         else
           yield DoneState();
       }
+      if (event is RejectEvent) {
+        await objapi.posttralai(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        if (isError)
+          yield ErrorState();
+        else
+          yield DoneState();
+      }
       if (event is ListEvent) {
         yield ViewState();
       }

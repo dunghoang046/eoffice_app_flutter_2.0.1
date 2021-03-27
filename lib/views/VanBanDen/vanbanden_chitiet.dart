@@ -1,7 +1,11 @@
+import 'package:app_eoffice/block/base/state.dart';
+import 'package:app_eoffice/block/vanbandenbloc.dart';
+import 'package:app_eoffice/views/VanBanDen/vanbanden_TraLai.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_TrangThaivb.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_trangthaicn.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:app_eoffice/main.dart';
 import 'package:app_eoffice/models/VanBanDenItem.dart';
@@ -177,12 +181,6 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
           child: Icon(Icons.sync, color: Colors.white),
           backgroundColor: Colors.deepOrange,
           onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => MyVanBanDenGuNhan(
-            //               id: widget.id,
-            //             )));
             SimpleRouter.forward(MyVanBanDenGuNhan(id: widget.id));
           },
           label: 'Gửi nhận ',
@@ -193,12 +191,6 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
           child: Icon(Icons.comment, color: Colors.white),
           backgroundColor: Colors.green,
           onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => MyVanBanDenYKien(
-            //               id: widget.id,
-            //             )));
             SimpleRouter.forward(MyVanBanDenYKien(id: widget.id));
           },
           label: 'Ý kiến',
@@ -236,75 +228,9 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
             child: Icon(Icons.keyboard_return, color: Colors.white),
             backgroundColor: Colors.deepOrange,
             onTap: () {
-              Alert(
-                context: context,
-                // type: AlertType.info,
-                style: alertStyle,
-                title: "Cập nhật trạng thái",
-                // desc: "Flutter is more awesome with RFlutter Alert.",
-                content: SingleChildScrollView(
-                  child: Theme(
-                    child: Column(
-                      children: [
-                        MyTextForm(noidung: _noidungtralai),
-                      ],
-                    ),
-                    data: ThemeData(
-                        buttonTheme:
-                            ButtonThemeData(textTheme: ButtonTextTheme.accent),
-                        accentColor: Colors.blue,
-                        primaryColor: Colors.blue),
-                  ),
-                ),
-                buttons: [
-                  DialogButton(
-                      onPressed: () {
-                        _clicktralai();
-                      },
-                      width: 100,
-                      color: Colors.blue,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.save,
-                            // size: 17,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'Trả lại',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: white, fontSize: 17),
-                          ),
-                        ],
-                      )),
-                  DialogButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.close,
-                          // size: 17,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          'Hủy',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: white),
-                        ),
-                      ],
-                    ),
-                    onPressed: () =>
-                        Navigator.of(context, rootNavigator: true).pop(),
-                    gradient: LinearGradient(colors: [
-                      Colors.red,
-                      Colors.red,
-                    ]),
-                  )
-                ],
-              ).show();
+              SimpleRouter.forward(MyTraLaiVanBanDen(
+                id: widget.id,
+              ));
             },
             label: 'Trả lại',
             labelStyle: TextStyle(fontWeight: FontWeight.w500),
@@ -330,7 +256,17 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
         ),
         backgroundColor: Color.fromARGB(255, 248, 144, 31),
       ),
-      body: contentbody(dataquery),
+      body: BlocBuilder<BlocVanBanDenAction, ActionState>(
+        buildWhen: (previousState, state) {
+          if (state is ViewState) {
+            loaddata();
+          }
+          return;
+        },
+        builder: (context, state) {
+          return contentbody(dataquery);
+        },
+      ),
       floatingActionButton: buildSpeedDial(),
     );
   }

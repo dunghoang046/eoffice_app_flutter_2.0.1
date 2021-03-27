@@ -106,9 +106,10 @@ class _Mylogin extends State<Mylogin> {
   Widget _FormLogin() {
     return BlocBuilder<BlocAuth, AuthState>(
       buildWhen: (previousState, state) {
-        if (state is LoadingState) {
+        if (state is LoadingState && basemessage.length > 0) {
           Toast.show(basemessage, context,
               duration: 3, gravity: Toast.TOP, backgroundColor: Colors.red);
+          basemessage = '';
         }
         if (state is LogedSate) {
           Navigator.of(context).pushAndRemoveUntil(
