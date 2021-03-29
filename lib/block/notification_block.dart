@@ -19,7 +19,7 @@ class NotificationBloc extends Blocdispose {
       _topStoriesStreamController.stream;
   var dataquery = {
     "CurrentPage": '1',
-    "RowPerPage": '10',
+    "RowPerPage": '20',
     "SearchIn": 'NoiDung',
     "Keyword": '',
     "Loai": '3',
@@ -44,7 +44,7 @@ class NotificationBloc extends Blocdispose {
       _topStoriesStreamController = new StreamController();
     dataquery = {
       "CurrentPage": "" + currentPage.toString() + "",
-      "RowPerPage": '10',
+      "RowPerPage": '20',
       "SearchIn": 'NoiDung',
       "Keyword": '' + keyword + '',
       "Loai": '' + loai.toString() + '',

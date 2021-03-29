@@ -96,7 +96,7 @@ class ButtonAction extends MaterialButton {
   final VoidCallback mOnPressed;
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(5, 10, 10, 5),
+        margin: EdgeInsets.fromLTRB(5, 10, 25, 5),
         child: MaterialButton(
             padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
             onPressed: () {

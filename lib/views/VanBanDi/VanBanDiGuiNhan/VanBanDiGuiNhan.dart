@@ -1,3 +1,6 @@
+import 'package:app_eoffice/block/base/event.dart';
+import 'package:app_eoffice/block/base/state.dart';
+import 'package:app_eoffice/block/vanbandi_block.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDiGuiNhanItem.dart';
 import 'package:app_eoffice/services/Vanbanden_api.dart';
@@ -5,6 +8,8 @@ import 'package:app_eoffice/services/vanbandi_api.dart';
 import 'package:app_eoffice/views/VanBanDi/VanBanDiGuiNhan/VanBanDi_formGuiNhan.dart';
 import 'package:app_eoffice/widget/Base_widget.dart';
 import 'package:app_eoffice/widget/vanbandi/VanBanDiGuiNhanItemList.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simple_router/simple_router.dart';
 
 class MyVanBanDiGuiNhan extends StatefulWidget {
   final int id;
@@ -19,12 +24,20 @@ class _MyVanBanDiGuiNhan extends State<MyVanBanDiGuiNhan> {
   Vanbandi_api objapi = new Vanbandi_api();
   @override
   void initState() {
+    BlocProvider.of<BlocVanBanDiAction>(context).add(NoEven());
+    load();
     super.initState();
   }
 
-  Widget contentbody(dataquery) => Center(
+  Future<List<VanBanDiGuiNhanItem>> lstthongtinguinhan;
+  void load() {
+    var dataquery = {"VanBanID": '' + widget.id.toString() + '', "lang": 'vi'};
+    lstthongtinguinhan = objapi.getvanbandiguinhan(dataquery);
+  }
+
+  Widget contentbody() => Center(
           child: FutureBuilder(
-        future: objapi.getvanbandiguinhan(dataquery),
+        future: lstthongtinguinhan,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -45,7 +58,6 @@ class _MyVanBanDiGuiNhan extends State<MyVanBanDiGuiNhan> {
         },
       ));
   Widget build(BuildContext context) {
-    var dataquery = {"VanBanID": '' + widget.id.toString() + '', "lang": 'vi'};
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
@@ -56,18 +68,24 @@ class _MyVanBanDiGuiNhan extends State<MyVanBanDiGuiNhan> {
         leading: new IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              SimpleRouter.back();
             }),
         backgroundColor: Color.fromARGB(255, 248, 144, 31),
       ),
-      body: contentbody(dataquery),
+      body: BlocBuilder<BlocVanBanDiAction, ActionState>(
+        buildWhen: (previousState, state) {
+          if (state is ViewState) {
+            load();
+          }
+          return;
+        },
+        builder: (context, state) {
+          return contentbody();
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MyVanBanDiGuiNhanForm(id: widget.id)),
-          );
+          SimpleRouter.forward(MyVanBanDiGuiNhanForm(id: widget.id));
         },
         child: Icon(Icons.add_comment),
       ),

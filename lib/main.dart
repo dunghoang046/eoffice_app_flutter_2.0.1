@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app_eoffice/block/CongViecBloc.dart';
 import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
+import 'package:app_eoffice/block/vanbandi_block.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/utils/quyenhan.dart';
 import 'package:app_eoffice/views/CongViec/CongViec.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BlocVanBanDenAction>(
           create: (context) => BlocVanBanDenAction(),
+        ),
+        BlocProvider<BlocVanBanDiAction>(
+          create: (context) => BlocVanBanDiAction(),
         ),
       ],
       child: MaterialApp(

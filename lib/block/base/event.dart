@@ -21,3 +21,7 @@ class RejectEvent extends ActionEvent {}
 class HoanThanhEvent extends ActionEvent {}
 
 class YKienEvent extends ActionEvent {}
+
+class ChuyenVanBanEvent extends ActionEvent {}
+
+class TrinhLDEvent extends ActionEvent {}

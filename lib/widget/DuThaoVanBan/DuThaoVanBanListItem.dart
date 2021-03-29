@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:date_format/date_format.dart';
 import 'package:app_eoffice/models/DuThaoVanBanItem.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/VanBanDuThao_ChiTiet.dart';
+import 'package:simple_router/simple_router.dart';
 
 class DuThaoVanBanListItem extends StatelessWidget {
   final DuThaoVanBanItem obj;
@@ -33,12 +34,9 @@ class DuThaoVanBanListItem extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
         child: ListTile(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MyDuThaoVanBanChiTiet(
-                            id: obj.id,
-                          )));
+              SimpleRouter.forward(MyDuThaoVanBanChiTiet(
+                id: obj.id,
+              ));
             },
             title: Text(obj.trichyeu != null ? obj.trichyeu : '',
                 style: TextStyle(

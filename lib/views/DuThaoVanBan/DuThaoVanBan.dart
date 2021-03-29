@@ -29,8 +29,8 @@ class MyDuThaoVanBanpage extends StatefulWidget {
 
 class _MyDuThaoVanBanpage extends State<MyDuThaoVanBanpage>
     with SingleTickerProviderStateMixin {
-  List<Tab> lsttab = new List<Tab>();
-  List<StatefulWidget> lsttabview = new List<StatefulWidget>();
+  List<Tab> lsttab = <Tab>[];
+  List<StatefulWidget> lsttabview = <StatefulWidget>[];
   @override
   void initState() {
     super.initState();

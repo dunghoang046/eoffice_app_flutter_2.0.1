@@ -11,6 +11,7 @@ import 'package:app_eoffice/widget/DuThaoVanBan/DuThaoVanBanViewPanel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:load/load.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:simple_router/simple_router.dart';
 
 class MyDuThaoVanBanChiTiet extends StatefulWidget {
   final int id;
@@ -77,7 +78,7 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
         leading: new IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              SimpleRouter.back();
             }),
         backgroundColor: Color.fromARGB(255, 248, 144, 31),
       ),
@@ -126,12 +127,9 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
               child: Icon(Icons.send, color: Colors.white),
               backgroundColor: Colors.blue,
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyDuThaoVanBanTrinh(
-                              id: widget.id,
-                            )));
+                SimpleRouter.forward(MyDuThaoVanBanTrinh(
+                  id: widget.id,
+                ));
               },
               label: 'Trình lãnh đạo',
               labelStyle:
@@ -388,11 +386,7 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
             child: Icon(Icons.comment, color: Colors.white),
             backgroundColor: Colors.blue,
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          MyDuThaoVanBanYKien(id: widget.id)));
+              SimpleRouter.forward(MyDuThaoVanBanYKien(id: widget.id));
             },
             label: 'Ý kiến',
             labelStyle:

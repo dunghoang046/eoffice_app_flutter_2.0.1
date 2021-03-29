@@ -10,6 +10,7 @@ class ViewVanBanDiPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
         decoration: BoxDecoration(
           border: Border(
             left: BorderSide(color: Colors.green, width: 5),
@@ -27,8 +28,8 @@ class ViewVanBanDiPanel extends StatelessWidget {
           //   color: Colors.red[500],
           // ),
         ),
-        padding: EdgeInsets.all(7),
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        // padding: EdgeInsets.all(7),
+        // margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[

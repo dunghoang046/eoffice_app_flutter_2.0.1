@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'package:app_eoffice/block/base/event.dart';
+import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/models/DuThaoVanBanItem.dart';
 import 'package:app_eoffice/services/VanBanDuThao_Api.dart';
+import 'package:app_eoffice/utils/Base.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'base_bloc.dart';
 
@@ -75,5 +79,42 @@ class DuThaoVanBanblock extends Blocdispose {
   @override
   void dispose() {
     _topStoriesStreamController.close();
+  }
+}
+
+DuThaoVanBan_api objapi = new DuThaoVanBan_api();
+
+class BlocDuThaoVanBanAction extends Bloc<ActionEvent, ActionState> {
+  BlocDuThaoVanBanAction() : super(DoneState());
+
+  @override
+  Stream<ActionState> mapEventToState(ActionEvent event) async* {
+    try {
+      bool isError = false;
+      if (event is TrinhLDEvent) {
+        yield LoadingState();
+        await objapi.posttrinhky(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        if (isError)
+          yield ErrorState();
+        else
+          yield DoneState();
+      }
+      if (event is YKienEvent) {
+        yield LoadingState();
+        await objapi.postykien(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        if (isError)
+          yield ErrorState();
+        else
+          yield DoneState();
+      }
+      if (event is NoEven) yield NoState();
+      if (event is ViewYKienEvent) yield ViewYKienState();
+    } catch (ex) {}
   }
 }

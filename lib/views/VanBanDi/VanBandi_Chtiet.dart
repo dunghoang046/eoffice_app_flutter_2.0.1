@@ -1,9 +1,10 @@
+import 'package:app_eoffice/widget/vanbandi/VanBanDi_View.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:app_eoffice/models/VanBanDiItem.dart';
 import 'package:app_eoffice/services/vanbandi_api.dart';
 import 'package:app_eoffice/views/VanBanDi/VanBanDiGuiNhan/VanBanDiGuiNhan.dart';
-import 'package:app_eoffice/widget/vanbandi/VanBanDi_View.dart';
+import 'package:simple_router/simple_router.dart';
 
 class MyVanVanDiChiTiet extends StatefulWidget {
   final int id;
@@ -33,11 +34,12 @@ class _MyVanVanDiChiTiet extends State<MyVanVanDiChiTiet> {
         leading: new IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              SimpleRouter.back();
             }),
         backgroundColor: Color.fromARGB(255, 248, 144, 31),
       ),
       body: contentbody(dataquery),
+      // body: Text('dd'),
       floatingActionButton: buildSpeedDial(),
     );
   }
@@ -49,8 +51,9 @@ class _MyVanVanDiChiTiet extends State<MyVanVanDiChiTiet> {
     }
   }
 
-  Widget contentbody(dataquery) => Center(
-          child: FutureBuilder(
+  Widget contentbody(dataquery) => Container(
+      margin: EdgeInsets.fromLTRB(5, 10, 5, 0),
+      child: FutureBuilder(
         future: obj,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
@@ -61,6 +64,7 @@ class _MyVanVanDiChiTiet extends State<MyVanVanDiChiTiet> {
           if (snapshot.hasData) {
             VanBanDiItem list = snapshot.data;
             return ViewVanBanDiPanel(obj: list);
+            // return Text('data');
           } else {
             return Center(
               child: CircularProgressIndicator(),
@@ -82,12 +86,7 @@ class _MyVanVanDiChiTiet extends State<MyVanVanDiChiTiet> {
             child: Icon(Icons.sync, color: Colors.white),
             backgroundColor: Colors.deepOrange,
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MyVanBanDiGuiNhan(
-                            id: widget.id,
-                          )));
+              SimpleRouter.forward(MyVanBanDiGuiNhan(id: widget.id));
             },
             label: 'Gửi nhận ',
             labelStyle: TextStyle(fontWeight: FontWeight.w500),

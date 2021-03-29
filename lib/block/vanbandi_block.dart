@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'package:app_eoffice/block/base/event.dart';
+import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/models/VanBanDiItem.dart';
 import 'package:app_eoffice/services/vanbandi_api.dart';
+import 'package:app_eoffice/utils/Base.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'base_bloc.dart';
 
@@ -65,7 +69,8 @@ class VanBanDiBloc extends Blocdispose {
       if (lst.length > 0) total = lst[0].total;
       _lstobject.addAll(lst);
       _currentStoryIndex = _lstobject.length;
-      _topStoriesStreamController.sink.add(_lstobject);
+      if (!_topStoriesStreamController.isClosed)
+        _topStoriesStreamController.sink.add(_lstobject);
       currentPage = currentPage + 1;
     }
   }
@@ -75,5 +80,30 @@ class VanBanDiBloc extends Blocdispose {
   @override
   void dispose() {
     _topStoriesStreamController.close();
+  }
+}
+
+Vanbandi_api objapi = new Vanbandi_api();
+
+class BlocVanBanDiAction extends Bloc<ActionEvent, ActionState> {
+  BlocVanBanDiAction() : super(DoneState());
+  @override
+  Stream<ActionState> mapEventToState(ActionEvent event) async* {
+    try {
+      bool isError = false;
+      if (event is ChuyenVanBanEvent) {
+        yield LoadingState();
+        await objapi.postchuyenvanban(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        if (isError)
+          yield ErrorState();
+        else
+          yield DoneState();
+        ;
+      }
+      if (event is NoEven) yield NoState();
+    } catch (ex) {}
   }
 }

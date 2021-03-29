@@ -68,7 +68,6 @@ class _MyCongViecChiTiet extends State<MyCongViecChiTiet> {
 
   @override
   Widget build(BuildContext context) {
-    var dataquery = {"ID": '' + widget.id.toString() + ''};
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
@@ -90,13 +89,13 @@ class _MyCongViecChiTiet extends State<MyCongViecChiTiet> {
         }
         return;
       }, builder: (context, state) {
-        return contentbody(dataquery);
+        return contentbody();
       }),
       floatingActionButton: buildSpeedDial(),
     );
   }
 
-  Widget contentbody(dataquery) => Center(
+  Widget contentbody() => Center(
           child: FutureBuilder(
         future: obj,
         builder: (BuildContext context, AsyncSnapshot snapshot) {

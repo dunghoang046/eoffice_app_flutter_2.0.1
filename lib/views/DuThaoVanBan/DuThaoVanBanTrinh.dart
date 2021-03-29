@@ -1,3 +1,7 @@
+import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
+import 'package:app_eoffice/block/base/event.dart';
+import 'package:app_eoffice/block/base/state.dart';
+import 'package:app_eoffice/components/components.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/LanhDaoTrinhDTItem.dart';
@@ -9,7 +13,9 @@ import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/ComBo_LanhDaoTrinh.dart';
 import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/Combo_LanhDaoLienQuan.dart';
 import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/Combo_PhongBanLienQuan.dart';
 import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/Combo_canbolienquan.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:load/load.dart';
+import 'package:simple_router/simple_router.dart';
 import 'package:toast/toast.dart';
 import 'package:intl/intl.dart';
 
@@ -55,147 +61,188 @@ class _MyDuThaoVanBanTrinh extends State<MyDuThaoVanBanTrinh> {
               leading: new IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () {
-                    Navigator.pop(context);
+                    SimpleRouter.back();
                   }),
+              actions: [_onLoginClick()],
               backgroundColor: Color.fromARGB(255, 248, 144, 31),
             ),
             body: SingleChildScrollView(
-                child: Theme(
-              child: Container(
-                margin: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey[300],
-                    width: 1,
+                child: BlocBuilder<BlocDuThaoVanBanAction, ActionState>(
+                    buildWhen: (previousState, state) {
+              if (state is DoneState) {
+                Toast.show(basemessage, context,
+                    duration: 2,
+                    gravity: Toast.TOP,
+                    backgroundColor: Colors.green);
+                BlocProvider.of<BlocDuThaoVanBanAction>(context)
+                    .add(ListEvent());
+                SimpleRouter.back();
+              }
+              if (state is ErrorState) {
+                Toast.show(basemessage, context,
+                    duration: 2,
+                    gravity: Toast.TOP,
+                    backgroundColor: Colors.red);
+              }
+              return;
+            }, builder: (context, state) {
+              return Theme(
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey[300],
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(0.0, 8.0),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        // offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(0.0, 8.0),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      // offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
+                  // color: Colors.white,
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  child: Form(
+                      child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      rowlabel('Ngày trình ký'),
+                      NgayTrinhKy(),
+                      rowlabelValidate('Lãnh đạo phê duyệt'),
+                      MyComBo_LanhdaoTrinhDT(
+                        lstnguoidung: objlanhdaotrinh,
+                      ),
+                      rowlabel('Lãnh đạo liên quan'),
+                      MyComBo_LanhdaoLienQuan(lstnguoidung: objlanhdaotrinh),
+                      rowlabel('Phòng ban liên quan'),
+                      MyComBo_PhongBanLienQuan(),
+                      rowlabel('Cán bộ liên quan'),
+                      MyComBo_CanBoLienQuan(),
+                      rowlabel('Nội dung'),
+                      MyTextForm(
+                        text_hind: 'Nội dung',
+                        noidung: _noidung,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                              child: MaterialButton(
+                                  padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                                  onPressed: () {
+                                    _clicktrinhld();
+                                  },
+                                  color: Colors.blue,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.save,
+                                        size: 17,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        'Phát hành',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: white),
+                                      ),
+                                    ],
+                                  ))),
+                          Container(
+                              margin: EdgeInsets.fromLTRB(15, 10, 0, 0),
+                              child: MaterialButton(
+                                  // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              MyDuThaoVanBanChiTiet(
+                                                  id: widget.id)),
+                                    );
+                                  },
+                                  color: Colors.red,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.close,
+                                        size: 17,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        'Hủy',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: white),
+                                      ),
+                                    ],
+                                  ))),
+                        ],
+                      )
+                    ],
+                  )),
                 ),
-                // color: Colors.white,
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: Form(
-                    child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    rowlabel('Ngày trình ký'),
-                    NgayTrinhKy(),
-                    rowlabelValidate('Lãnh đạo phê duyệt'),
-                    MyComBo_LanhdaoTrinhDT(
-                      lstnguoidung: objlanhdaotrinh,
-                    ),
-                    rowlabel('Lãnh đạo liên quan'),
-                    MyComBo_LanhdaoLienQuan(lstnguoidung: objlanhdaotrinh),
-                    rowlabel('Phòng ban liên quan'),
-                    MyComBo_PhongBanLienQuan(),
-                    rowlabel('Cán bộ liên quan'),
-                    MyComBo_CanBoLienQuan(),
-                    rowlabel('Nội dung'),
-                    MyTextForm(
-                      text_hind: 'Nội dung',
-                      noidung: _noidung,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                            margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                            child: MaterialButton(
-                                padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                                onPressed: () {
-                                  _clicktrinhld();
-                                },
-                                color: Colors.blue,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.save,
-                                      size: 17,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      'Phát hành',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: white),
-                                    ),
-                                  ],
-                                ))),
-                        Container(
-                            margin: EdgeInsets.fromLTRB(15, 10, 0, 0),
-                            child: MaterialButton(
-                                // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyDuThaoVanBanChiTiet(
-                                                id: widget.id)),
-                                  );
-                                },
-                                color: Colors.red,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.close,
-                                      size: 17,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      'Hủy',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: white),
-                                    ),
-                                  ],
-                                ))),
-                      ],
-                    )
-                  ],
-                )),
-              ),
-              data: ThemeData(
-                  buttonTheme:
-                      ButtonThemeData(textTheme: ButtonTextTheme.accent),
-                  accentColor: Colors.blue,
-                  primaryColor: Colors.blue),
-            ))));
+                data: ThemeData(
+                    buttonTheme:
+                        ButtonThemeData(textTheme: ButtonTextTheme.accent),
+                    accentColor: Colors.blue,
+                    primaryColor: Colors.blue),
+              );
+            }))));
+  }
+
+  Widget _onLoginClick() {
+    return BlocBuilder<BlocDuThaoVanBanAction, ActionState>(
+        builder: (context, state) {
+      if (state is LoadingState) {
+        return ButtonAction(
+          backgroundColor: Colors.blue,
+          labelColor: Colors.white,
+          label: 'Đang xử lý ...',
+          mOnPressed: () => {},
+        );
+      } else if (state is ErrorState) {
+        return ButtonAction(
+          backgroundColor: Colors.blue,
+          labelColor: Colors.white,
+          icons: Icons.save,
+          label: 'Trình lãnh đạo',
+          mOnPressed: () => {_clicktrinhld()},
+        );
+      } else {
+        return ButtonAction(
+          backgroundColor: Colors.blue,
+          labelColor: Colors.white,
+          icons: Icons.save,
+          label: 'Trình lãnh đạo',
+          mOnPressed: () => _clicktrinhld(),
+        );
+        // }
+      }
+    });
   }
 
   void _clicktrinhld() {
-    showLoadingDialog();
-    DuThaoVanBan_api vbapi = new DuThaoVanBan_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NguoiKyID": lanhdaotrinhid,
-      "LanhDaoLienQuan": lstlanhdaolienquan,
-      "PhongBanDonViLienQuan": lstphongbanlienquan,
-      "CanBoLienQuan": lstcanbolienquan,
-      "NoiDung": _noidung,
-      "NgayTrinhKy": _ngaytrinhky,
-    };
-    vbapi.posttrinhky(data).then((objdata) {
-      hideLoadingDialog();
-      if (objdata["Error"] == true)
-        Toast.show(objdata["Title"], context,
-            duration: Toast.LENGTH_SHORT,
-            gravity: Toast.TOP,
-            backgroundColor: Colors.red);
-      else {
-        Toast.show(objdata["Title"], context,
-            duration: 3, gravity: Toast.TOP, backgroundColor: Colors.green);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MyDuThaoVanBanChiTiet(id: widget.id)),
-        );
-      }
-    });
+    if ((lanhdaotrinhid == null || (lanhdaotrinhid.length <= 0))) {
+      Toast.show('Bạn chưa chọn lãnh đạo ', context,
+          duration: 2, gravity: Toast.TOP, backgroundColor: Colors.red);
+    } else {
+      var data = {
+        "VanBanID": widget.id,
+        "NguoiKyID": lanhdaotrinhid,
+        "LanhDaoLienQuan": lstlanhdaolienquan,
+        "PhongBanDonViLienQuan": lstphongbanlienquan,
+        "CanBoLienQuan": lstcanbolienquan,
+        "NoiDung": _noidung,
+        "NgayTrinhKy": _ngaytrinhky,
+      };
+      TrinhLDEvent yKienEvent = new TrinhLDEvent();
+      yKienEvent.data = data;
+      BlocProvider.of<BlocDuThaoVanBanAction>(context).add(yKienEvent);
+    }
   }
 }
 

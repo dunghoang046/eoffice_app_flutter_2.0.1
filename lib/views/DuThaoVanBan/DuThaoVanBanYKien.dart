@@ -1,10 +1,13 @@
+import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
+import 'package:app_eoffice/block/base/state.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDiYKienItem.dart';
 import 'package:app_eoffice/services/VanBanDuThao_Api.dart';
-import 'package:app_eoffice/views/DuThaoVanBan/VanBanDuThao_ChiTiet.dart';
 import 'package:app_eoffice/widget/Base_widget.dart';
 import 'package:app_eoffice/widget/DuThaoVanBan/DuThaoVanBanYKienItemList.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_FormYKien.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simple_router/simple_router.dart';
 
 class MyDuThaoVanBanYKien extends StatefulWidget {
   final int id;
@@ -13,16 +16,24 @@ class MyDuThaoVanBanYKien extends StatefulWidget {
   _MyDuThaoVanBanYKien createState() => new _MyDuThaoVanBanYKien();
 }
 
+Future<List<VanBanDiYKienItem>> lstykien;
+
 class _MyDuThaoVanBanYKien extends State<MyDuThaoVanBanYKien> {
   DuThaoVanBan_api objapi = new DuThaoVanBan_api();
   @override
   void initState() {
+    loadykien();
     super.initState();
   }
 
-  Widget contentbody(dataquery) => Center(
+  void loadykien() {
+    var dataquery = {"VanBanID": '' + widget.id.toString() + '', "lang": 'vi'};
+    lstykien = objapi.getykienbyvanban(dataquery);
+  }
+
+  Widget contentbody() => Center(
           child: FutureBuilder(
-        future: objapi.getykienbyvanban(dataquery),
+        future: lstykien,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -43,7 +54,6 @@ class _MyDuThaoVanBanYKien extends State<MyDuThaoVanBanYKien> {
         },
       ));
   Widget build(BuildContext context) {
-    var dataquery = {"VanBanID": '' + widget.id.toString() + '', "lang": 'vi'};
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
@@ -58,14 +68,18 @@ class _MyDuThaoVanBanYKien extends State<MyDuThaoVanBanYKien> {
             }),
         backgroundColor: Color.fromARGB(255, 248, 144, 31),
       ),
-      body: contentbody(dataquery),
+      body: BlocBuilder<BlocDuThaoVanBanAction, ActionState>(
+          buildWhen: (previousState, state) {
+        if (state is ViewYKienState) {
+          loadykien();
+        }
+        return;
+      }, builder: (context, state) {
+        return contentbody();
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MyDuThaoVanBanYKienForm(id: widget.id)),
-          );
+          SimpleRouter.forward(MyDuThaoVanBanYKienForm(id: widget.id));
         },
         child: Icon(Icons.add_comment),
       ),

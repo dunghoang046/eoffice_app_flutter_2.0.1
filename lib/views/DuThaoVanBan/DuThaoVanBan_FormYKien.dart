@@ -1,19 +1,16 @@
+import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
+import 'package:app_eoffice/block/base/event.dart';
+import 'package:app_eoffice/block/base/state.dart';
+import 'package:app_eoffice/components/components.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:app_eoffice/services/VanBanDuThao_Api.dart';
-import 'package:app_eoffice/services/vanbandi_api.dart';
 import 'package:app_eoffice/utils/Base.dart';
 import 'package:app_eoffice/utils/TextForm.dart';
-import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBanYKien.dart';
-import 'package:app_eoffice/views/DuThaoVanBan/VanBanDuThao_ChiTiet.dart';
-import 'package:app_eoffice/views/VanBanDen/vanbanden_ykien.dart';
 import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/Combo_PhongBanLienQuan.dart';
 import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/Combo_canbolienquan.dart';
 import 'package:app_eoffice/widget/vanbandi/VanBanDiGuiNhan/Combo_Nguoidung.dart';
-import 'package:app_eoffice/widget/vanbandi/VanBanDiGuiNhan/Combo_donvi.dart';
-import 'package:app_eoffice/widget/vanbandi/VanBanDiGuiNhan/Combo_nhomDonVi.dart';
-import 'package:app_eoffice/widget/vanbandi/VanBanDiGuiNhan/Combo_nhomNguoiDung.dart';
-import 'package:load/load.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simple_router/simple_router.dart';
 import 'package:toast/toast.dart';
 import 'package:intl/intl.dart';
 
@@ -35,6 +32,7 @@ class _MyDuThaoVanBanYKienForm extends State<MyDuThaoVanBanYKienForm> {
   void initState() {
     _noidung.text = '';
     _hanxuly.text = '';
+    BlocProvider.of<BlocDuThaoVanBanAction>(context).add(NoEven());
   }
 
   Widget build(BuildContext context) {
@@ -51,153 +49,158 @@ class _MyDuThaoVanBanYKienForm extends State<MyDuThaoVanBanYKienForm> {
               leading: new IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              MyDuThaoVanBanYKien(id: widget.id)),
-                    );
+                    SimpleRouter.back();
                   }),
+              actions: [_onLoginClick()],
               backgroundColor: Color.fromARGB(255, 248, 144, 31),
             ),
             body: SingleChildScrollView(
-                child: Theme(
-              child: Container(
-                margin: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey[300],
-                    width: 1,
+                child: BlocBuilder<BlocDuThaoVanBanAction, ActionState>(
+                    buildWhen: (previousState, state) {
+              if (state is DoneState) {
+                Toast.show(basemessage, context,
+                    duration: 2,
+                    gravity: Toast.TOP,
+                    backgroundColor: Colors.green);
+                BlocProvider.of<BlocDuThaoVanBanAction>(context)
+                    .add(ViewYKienEvent());
+                SimpleRouter.back();
+              }
+              if (state is ErrorState) {
+                Toast.show(basemessage, context,
+                    duration: 2,
+                    gravity: Toast.TOP,
+                    backgroundColor: Colors.red);
+              }
+              return;
+            }, builder: (context, state) {
+              return Theme(
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey[300],
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(0.0, 8.0),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        // offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(0.0, 8.0),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      // offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
+                  // color: Colors.white,
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  child: Form(
+                      child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      rowlabelValidate('Nội dung'),
+                      MyTextForm(
+                        text_hind: 'Nội dung',
+                        noidung: _noidung,
+                      ),
+                      rowlabel('Người nhận'),
+                      MyComBo_NguoiDung(),
+                      rowlabel('Cán bộ liên quan'),
+                      MyComBo_CanBoLienQuan(),
+                      rowlabel('Phòng ban liên quan'),
+                      MyComBo_PhongBanLienQuan(),
+                      rowlabel('Hạn xử lý'),
+                      HanXuLy(),
+                      Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.fromLTRB(15, 10, 0, 0),
+                              child: MaterialButton(
+                                  // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  onPressed: () {
+                                    SimpleRouter.back();
+                                  },
+                                  color: Colors.red,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.close,
+                                        size: 17,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        'Hủy',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: white),
+                                      ),
+                                    ],
+                                  ))),
+                        ],
+                      )
+                    ],
+                  )),
                 ),
-                // color: Colors.white,
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: Form(
-                    child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    rowlabelValidate('Nội dung'),
-                    MyTextForm(
-                      text_hind: 'Nội dung',
-                      noidung: _noidung,
-                    ),
-                    rowlabel('Người nhận'),
-                    MyComBo_NguoiDung(),
-                    rowlabel('Cán bộ liên quan'),
-                    MyComBo_CanBoLienQuan(),
-                    rowlabel('Phòng ban liên quan'),
-                    MyComBo_PhongBanLienQuan(),
-                    rowlabel('Hạn xử lý'),
-                    HanXuLy(),
-                    Row(
-                      children: [
-                        Container(
-                            margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                            child: MaterialButton(
-                                padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                                onPressed: () {
-                                  _clickykien();
-                                },
-                                color: Colors.blue,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.save,
-                                      size: 17,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      'Đồng ý',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: white),
-                                    ),
-                                  ],
-                                ))),
-                        Container(
-                            margin: EdgeInsets.fromLTRB(15, 10, 0, 0),
-                            child: MaterialButton(
-                                // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyDuThaoVanBanYKien(id: widget.id)),
-                                  );
-                                },
-                                color: Colors.red,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.close,
-                                      size: 17,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      'Hủy',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: white),
-                                    ),
-                                  ],
-                                ))),
-                      ],
-                    )
-                  ],
-                )),
-              ),
-              data: ThemeData(
-                  buttonTheme:
-                      ButtonThemeData(textTheme: ButtonTextTheme.accent),
-                  accentColor: Colors.blue,
-                  primaryColor: Colors.blue),
-            ))));
+                data: ThemeData(
+                    buttonTheme:
+                        ButtonThemeData(textTheme: ButtonTextTheme.accent),
+                    accentColor: Colors.blue,
+                    primaryColor: Colors.blue),
+              );
+            }))));
   }
 
-  bool _clickykien() {
-    showLoadingDialog();
-    DuThaoVanBan_api vbapi = new DuThaoVanBan_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NoiDung": _noidung.text,
-      "HanXuLy": _hanxuly.text,
-      "NguoiNhanVanBan": lstnguoidung,
-      "CanBoLienQuan": lstcanbolienquan,
-      "PhongBanDonViLienQuan": lstphongbanlienquan,
-    };
-    if (_noidung.text.length <= 0) {
-      Toast.show('Bạn chưa nhập nội dung', context,
-          duration: 4, gravity: Toast.TOP, backgroundColor: Colors.green);
-      hideLoadingDialog();
-      return true;
-    }
-    vbapi.postykien(data).then((objdata) {
-      hideLoadingDialog();
-      if (objdata["Error"] == true)
-        Toast.show(objdata["Title"], context,
-            duration: Toast.LENGTH_SHORT,
-            gravity: Toast.TOP,
-            backgroundColor: Colors.red);
-      else {
-        Toast.show(objdata["Title"], context,
-            duration: 3, gravity: Toast.TOP, backgroundColor: Colors.green);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MyDuThaoVanBanYKien(id: widget.id)),
+  Widget _onLoginClick() {
+    return BlocBuilder<BlocDuThaoVanBanAction, ActionState>(
+        builder: (context, state) {
+      if (state is LoadingState) {
+        return ButtonAction(
+          backgroundColor: Colors.blue,
+          labelColor: Colors.white,
+          label: 'Đang xử lý ...',
+          mOnPressed: () => {},
         );
+      } else if (state is ErrorState) {
+        return ButtonAction(
+          backgroundColor: Colors.blue,
+          labelColor: Colors.white,
+          icons: Icons.save,
+          label: 'Trình lãnh đạo',
+          mOnPressed: () => {_clickykien()},
+        );
+      } else {
+        return ButtonAction(
+          backgroundColor: Colors.blue,
+          labelColor: Colors.white,
+          icons: Icons.save,
+          label: 'Trình lãnh đạo',
+          mOnPressed: () => _clickykien(),
+        );
+        // }
       }
-      return true;
     });
+  }
+
+  void _clickykien() {
+    if ((lstnguoidung == null || (lstnguoidung.length <= 0)) &&
+        (_noidung.text == null || (_noidung.text.length <= 0)) &&
+        (lstnguoidung == null || (lstnguoidung.length <= 0)) &&
+        (lstphongbanlienquan == null || (lstphongbanlienquan.length <= 0))) {
+      Toast.show('Bạn chưa nhập thông tin  ', context,
+          duration: 2, gravity: Toast.TOP, backgroundColor: Colors.red);
+    } else {
+      var data = {
+        "VanBanID": widget.id,
+        "NoiDung": _noidung.text,
+        "HanXuLy": _hanxuly.text,
+        "NguoiNhanVanBan": lstnguoidung,
+        "CanBoLienQuan": lstcanbolienquan,
+        "PhongBanDonViLienQuan": lstphongbanlienquan,
+      };
+      YKienEvent yKienEvent = new YKienEvent();
+      yKienEvent.data = data;
+      BlocProvider.of<BlocDuThaoVanBanAction>(context).add(yKienEvent);
+    }
   }
 }
 
