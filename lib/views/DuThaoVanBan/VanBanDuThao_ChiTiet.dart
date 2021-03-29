@@ -1,3 +1,6 @@
+import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_Duyet.dart';
+import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_Phathanh.dart';
+import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanban_TuChoi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:app_eoffice/main.dart';
@@ -141,75 +144,9 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
               child: Icon(Icons.arrow_drop_up, color: Colors.white),
               backgroundColor: Colors.blue,
               onTap: () {
-                Alert(
-                  context: context,
-                  // type: AlertType.info,
-                  style: alertStyle,
-                  title: "Duyệt",
-                  // desc: "Flutter is more awesome with RFlutter Alert.",
-                  content: SingleChildScrollView(
-                    child: Theme(
-                      child: Column(
-                        children: [
-                          MyTextForm(noidung: _noidung),
-                        ],
-                      ),
-                      data: ThemeData(
-                          buttonTheme: ButtonThemeData(
-                              textTheme: ButtonTextTheme.accent),
-                          accentColor: Colors.blue,
-                          primaryColor: Colors.blue),
-                    ),
-                  ),
-                  buttons: [
-                    DialogButton(
-                        onPressed: () {
-                          _clickapproved();
-                        },
-                        width: 100,
-                        color: Colors.blue,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.save,
-                              // size: 17,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              'Đồng ý',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: white, fontSize: 17),
-                            ),
-                          ],
-                        )),
-                    DialogButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.close,
-                            // size: 17,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'Hủy',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: white),
-                          ),
-                        ],
-                      ),
-                      onPressed: () =>
-                          Navigator.of(context, rootNavigator: true).pop(),
-                      gradient: LinearGradient(colors: [
-                        Colors.red,
-                        Colors.red,
-                      ]),
-                    )
-                  ],
-                ).show();
+                SimpleRouter.forward(MyDuThaoVanBanDuyet(
+                  id: widget.id,
+                ));
               },
               label: 'Duyệt',
               labelStyle:
@@ -221,75 +158,9 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
               child: Icon(Icons.arrow_back, color: Colors.white),
               backgroundColor: Colors.red,
               onTap: () {
-                Alert(
-                  context: context,
-                  // type: AlertType.info,
-                  style: alertStyle,
-                  title: "Từ chối",
-                  // desc: "Flutter is more awesome with RFlutter Alert.",
-                  content: SingleChildScrollView(
-                    child: Theme(
-                      child: Column(
-                        children: [
-                          MyTextForm(noidung: _noidungtuchoi),
-                        ],
-                      ),
-                      data: ThemeData(
-                          buttonTheme: ButtonThemeData(
-                              textTheme: ButtonTextTheme.accent),
-                          accentColor: Colors.blue,
-                          primaryColor: Colors.blue),
-                    ),
-                  ),
-                  buttons: [
-                    DialogButton(
-                        onPressed: () {
-                          _clickreject();
-                        },
-                        width: 100,
-                        color: Colors.blue,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.save,
-                              // size: 17,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              'Đồng ý',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: white, fontSize: 17),
-                            ),
-                          ],
-                        )),
-                    DialogButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.close,
-                            // size: 17,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'Hủy',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: white),
-                          ),
-                        ],
-                      ),
-                      onPressed: () =>
-                          Navigator.of(context, rootNavigator: true).pop(),
-                      gradient: LinearGradient(colors: [
-                        Colors.red,
-                        Colors.red,
-                      ]),
-                    )
-                  ],
-                ).show();
+                SimpleRouter.forward(MyDuThaoVanBanTuCHoi(
+                  id: widget.id,
+                ));
               },
               label: 'Từ chối',
               labelStyle:
@@ -307,75 +178,9 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
               child: Icon(Icons.bookmark, color: Colors.white),
               backgroundColor: Colors.blue,
               onTap: () {
-                Alert(
-                  context: context,
-                  // type: AlertType.info,
-                  style: alertStyle,
-                  title: "Phát hành",
-                  // desc: "Flutter is more awesome with RFlutter Alert.",
-                  content: SingleChildScrollView(
-                    child: Theme(
-                      child: Column(
-                        children: [
-                          MyTextForm(noidung: _noidungphathanh),
-                        ],
-                      ),
-                      data: ThemeData(
-                          buttonTheme: ButtonThemeData(
-                              textTheme: ButtonTextTheme.accent),
-                          accentColor: Colors.blue,
-                          primaryColor: Colors.blue),
-                    ),
-                  ),
-                  buttons: [
-                    DialogButton(
-                        onPressed: () {
-                          _clickdistribute();
-                        },
-                        width: 100,
-                        color: Colors.blue,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.save,
-                              // size: 17,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              'Đồng ý',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: white, fontSize: 17),
-                            ),
-                          ],
-                        )),
-                    DialogButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.close,
-                            // size: 17,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'Hủy',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: white),
-                          ),
-                        ],
-                      ),
-                      onPressed: () =>
-                          Navigator.of(context, rootNavigator: true).pop(),
-                      gradient: LinearGradient(colors: [
-                        Colors.red,
-                        Colors.red,
-                      ]),
-                    )
-                  ],
-                ).show();
+                SimpleRouter.forward(MyDuThaoVanBanPhatHanh(
+                  id: widget.id,
+                ));
               },
               label: 'Chuyển phát hành',
               labelStyle:
@@ -394,106 +199,5 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
             labelBackgroundColor: Colors.blue,
           ),
         ]);
-  }
-
-// action duyệt
-  void _clickapproved() {
-    showLoadingDialog();
-    DuThaoVanBan_api objapi = new DuThaoVanBan_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NoiDung": _noidung.text,
-    };
-
-    objapi.postapproved(data).then((objdata) {
-      hideLoadingDialog();
-      if (objdata["Error"] == true)
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      else {
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        Navigator.of(context, rootNavigator: true).pop();
-      }
-    });
-  }
-
-  void _clickreject() {
-    showLoadingDialog();
-    DuThaoVanBan_api objapi = new DuThaoVanBan_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NoiDung": _noidungtuchoi.text,
-    };
-
-    objapi.postreject(data).then((objdata) {
-      hideLoadingDialog();
-      if (objdata["Error"] == true)
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      else {
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        Navigator.of(context, rootNavigator: true).pop();
-      }
-    });
-  }
-
-  void _clickdistribute() {
-    showLoadingDialog();
-    DuThaoVanBan_api objapi = new DuThaoVanBan_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NoiDung": _noidungphathanh.text,
-      "PhamViID": '2',
-    };
-
-    objapi.postreject(data).then((objdata) {
-      hideLoadingDialog();
-      if (objdata["Error"] == true)
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      else {
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        Navigator.of(context, rootNavigator: true).pop();
-      }
-    });
   }
 }

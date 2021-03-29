@@ -20,6 +20,7 @@ class DuThaoVanBanblock extends Blocdispose {
 
   StreamController<List<DuThaoVanBanItem>> _topStoriesStreamController =
       StreamController();
+  // ignore: close_sinks
   final _actionController = StreamController<bool>();
   Stream<List<DuThaoVanBanItem>> get topStories =>
       _topStoriesStreamController.stream;
@@ -69,7 +70,8 @@ class DuThaoVanBanblock extends Blocdispose {
       if (lst.length > 0) total = lst[0].total;
       _lstobject.addAll(lst);
       _currentStoryIndex = _lstobject.length;
-      _topStoriesStreamController.sink.add(_lstobject);
+      if (!_topStoriesStreamController.isClosed)
+        _topStoriesStreamController.sink.add(_lstobject);
       currentPage = currentPage + 1;
     }
   }
@@ -105,6 +107,39 @@ class BlocDuThaoVanBanAction extends Bloc<ActionEvent, ActionState> {
       if (event is YKienEvent) {
         yield LoadingState();
         await objapi.postykien(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        if (isError)
+          yield ErrorState();
+        else
+          yield DoneState();
+      }
+      if (event is PhatHanhEvent) {
+        yield LoadingState();
+        await objapi.postDistribute(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        if (isError)
+          yield ErrorState();
+        else
+          yield DoneState();
+      }
+      if (event is TuChoiEvent) {
+        yield LoadingState();
+        await objapi.postreject(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        if (isError)
+          yield ErrorState();
+        else
+          yield DoneState();
+      }
+      if (event is ApproverEvent) {
+        yield LoadingState();
+        await objapi.postapproved(event.data).then((objdata) {
           if (objdata["Error"] == true) isError = true;
           basemessage = objdata["Title"];
         });

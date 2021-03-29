@@ -59,36 +59,56 @@ class DuThaoVanBan_api {
 
 // post trình văn bản
   Future<dynamic> posttrinhky(dataquery) async {
-    var url = "/VanBanDuThao/TrinhKy";
-    var message = await base_service.post(dataquery, url);
-    return message;
+    try {
+      var url = "/VanBanDuThao/TrinhKy";
+      var message = await base_service.post(dataquery, url);
+      return message;
+    } catch (ex) {
+      return ex;
+    }
   }
 
 // duyệt dự thảo
   Future<dynamic> postapproved(dataquery) async {
-    var url = "/VanBanDuThao/Approved";
-    var message = await base_service.post(dataquery, url);
-    return message;
+    try {
+      var url = "/VanBanDuThao/Approved";
+      var message = await base_service.post(dataquery, url);
+      return message;
+    } catch (ex) {
+      return ex;
+    }
   }
 
   // từ chối dự thảo
   Future<dynamic> postreject(dataquery) async {
-    var url = "/VanBanDuThao/Approved";
-    var message = await base_service.post(dataquery, url);
-    return message;
+    try {
+      var url = "/VanBanDuThao/Approved";
+      var message = await base_service.post(dataquery, url);
+      return message;
+    } catch (ex) {
+      return ex;
+    }
   }
 
 // phát hành
   Future<dynamic> postDistribute(dataquery) async {
-    var url = "/VanBanDuThao/Distribute";
-    var message = await base_service.post(dataquery, url);
-    return message;
+    try {
+      var url = "/VanBanDuThao/Distribute";
+      var message = await base_service.post(dataquery, url);
+      return message;
+    } catch (ex) {
+      return ex;
+    }
   }
 
 // post trình văn bản
   Future<dynamic> postykien(dataquery) async {
-    var url = "/VanBanDuThao/ykien";
-    var message = await base_service.post(dataquery, url);
-    return message;
+    try {
+      var url = "/VanBanDuThao/ykien";
+      var message = await base_service.post(dataquery, url);
+      return message;
+    } catch (ex) {
+      return ex;
+    }
   }
 }

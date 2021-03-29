@@ -2,48 +2,52 @@ import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
 import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/components/components.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:app_eoffice/models/LanhDaoTrinhDTItem.dart';
+import 'package:app_eoffice/services/VanBanDuThao_Api.dart';
 import 'package:app_eoffice/utils/Base.dart';
 import 'package:app_eoffice/utils/TextForm.dart';
-import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/Combo_PhongBanLienQuan.dart';
-import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/Combo_canbolienquan.dart';
-import 'package:app_eoffice/widget/vanbandi/VanBanDiGuiNhan/Combo_Nguoidung.dart';
+import 'package:app_eoffice/views/DuThaoVanBan/VanBanDuThao_ChiTiet.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_router/simple_router.dart';
 import 'package:toast/toast.dart';
-import 'package:intl/intl.dart';
 
-class MyDuThaoVanBanYKienForm extends StatefulWidget {
+class MyDuThaoVanBanTuCHoi extends StatefulWidget {
   final int id;
-  MyDuThaoVanBanYKienForm({@required this.id});
+  MyDuThaoVanBanTuCHoi({@required this.id});
 
   @override
-  _MyDuThaoVanBanYKienForm createState() => new _MyDuThaoVanBanYKienForm();
+  _MyDuThaoVanBanTuCHoi createState() => new _MyDuThaoVanBanTuCHoi();
 }
 
+Future<LanhDaoTrinhDTItem> objlanhdaotrinh;
+DuThaoVanBan_api objapi = new DuThaoVanBan_api();
 TextEditingController _noidung = new TextEditingController();
+TextEditingController _ngaytrinhky = new TextEditingController();
 
-TextEditingController _hanxuly = new TextEditingController();
-
-class _MyDuThaoVanBanYKienForm extends State<MyDuThaoVanBanYKienForm> {
-  @override
+class _MyDuThaoVanBanTuCHoi extends State<MyDuThaoVanBanTuCHoi> {
   // ignore: must_call_super
   void initState() {
+    loaddata();
     _noidung.text = '';
-    _hanxuly.text = '';
-    BlocProvider.of<BlocDuThaoVanBanAction>(context).add(NoEven());
   }
 
+  void loaddata() async {
+    var dataquery = {"VanBanID": '' + widget.id.toString() + ''};
+    if (widget.id != null && widget.id > 0) {
+      objlanhdaotrinh = objapi.getlanhdaotrinh(dataquery);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
         child: Scaffold(
             backgroundColor: Colors.grey[350],
             appBar: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
               title: Text(
-                'Thêm ý kiến',
+                'Trình lãnh đạo',
                 style: TextStyle(color: Colors.white),
               ),
               leading: new IconButton(
@@ -63,7 +67,7 @@ class _MyDuThaoVanBanYKienForm extends State<MyDuThaoVanBanYKienForm> {
                     gravity: Toast.TOP,
                     backgroundColor: Colors.green);
                 BlocProvider.of<BlocDuThaoVanBanAction>(context)
-                    .add(ViewYKienEvent());
+                    .add(ListEvent());
                 SimpleRouter.back();
               }
               if (state is ErrorState) {
@@ -99,19 +103,10 @@ class _MyDuThaoVanBanYKienForm extends State<MyDuThaoVanBanYKienForm> {
                       child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      rowlabelValidate('Nội dung'),
                       MyTextForm(
                         text_hind: 'Nội dung',
                         noidung: _noidung,
                       ),
-                      rowlabel('Người nhận'),
-                      MyComBo_NguoiDung(),
-                      rowlabel('Cán bộ liên quan'),
-                      MyComBo_CanBoLienQuan(),
-                      rowlabel('Phòng ban liên quan'),
-                      MyComBo_PhongBanLienQuan(),
-                      rowlabel('Hạn xử lý'),
-                      HanXuLy(),
                       Row(
                         children: [
                           Container(
@@ -165,85 +160,34 @@ class _MyDuThaoVanBanYKienForm extends State<MyDuThaoVanBanYKienForm> {
           backgroundColor: Colors.blue,
           labelColor: Colors.white,
           icons: Icons.save,
-          label: 'Ý kiến',
-          mOnPressed: () => {_clickykien()},
+          label: 'Từ chối',
+          mOnPressed: () => {_clicktrinhld()},
         );
       } else {
         return ButtonAction(
           backgroundColor: Colors.blue,
           labelColor: Colors.white,
           icons: Icons.save,
-          label: 'Ý kiến',
-          mOnPressed: () => _clickykien(),
+          label: 'Từ chối',
+          mOnPressed: () => _clicktrinhld(),
         );
         // }
       }
     });
   }
 
-  void _clickykien() {
-    if ((lstnguoidung == null || (lstnguoidung.length <= 0)) &&
-        (_noidung.text == null || (_noidung.text.length <= 0)) &&
-        (lstnguoidung == null || (lstnguoidung.length <= 0)) &&
-        (lstphongbanlienquan == null || (lstphongbanlienquan.length <= 0))) {
-      Toast.show('Bạn chưa nhập thông tin  ', context,
+  void _clicktrinhld() {
+    if ((_noidung == null || (_noidung.text.length <= 0))) {
+      Toast.show('Bạn chưa nhập nội dung ', context,
           duration: 2, gravity: Toast.TOP, backgroundColor: Colors.red);
     } else {
       var data = {
         "VanBanID": widget.id,
-        "NoiDung": _noidung.text,
-        "HanXuLy": _hanxuly.text,
-        "NguoiNhanVanBan": lstnguoidung,
-        "CanBoLienQuan": lstcanbolienquan,
-        "PhongBanDonViLienQuan": lstphongbanlienquan,
+        "NoiDung": _noidung,
       };
-      YKienEvent yKienEvent = new YKienEvent();
+      TuChoiEvent yKienEvent = new TuChoiEvent();
       yKienEvent.data = data;
       BlocProvider.of<BlocDuThaoVanBanAction>(context).add(yKienEvent);
     }
-  }
-}
-
-class HanXuLy extends StatelessWidget {
-  final format = DateFormat("dd/MM/yyyy");
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      DateTimeField(
-        controller: _hanxuly,
-        decoration: InputDecoration(
-            // hintText: "Nội dung",
-            fillColor: Colors.white,
-            border: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-              borderSide: new BorderSide(color: Colors.black, width: 5),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(
-                color: Colors.grey[200],
-                width: 1.0,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(
-                color: Colors.grey[200],
-              ),
-            ),
-            labelText: 'Hạn xử lý'),
-        format: format,
-        onShowPicker: (context, currentValue) {
-          return showDatePicker(
-            context: context,
-            firstDate: DateTime(1900),
-            initialDate: currentValue ?? DateTime.now(),
-            lastDate: DateTime(2100),
-            // confirmText: 'Chọn',
-            // cancelText: 'Hủy'
-          );
-        },
-      ),
-    ]);
   }
 }

@@ -25,3 +25,9 @@ class YKienEvent extends ActionEvent {}
 class ChuyenVanBanEvent extends ActionEvent {}
 
 class TrinhLDEvent extends ActionEvent {}
+
+class PhatHanhEvent extends ActionEvent {}
+
+class TuChoiEvent extends ActionEvent {}
+
+class ApproverEvent extends ActionEvent {}

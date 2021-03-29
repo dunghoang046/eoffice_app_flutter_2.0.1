@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:app_eoffice/block/CongViecBloc.dart';
+import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
 import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
 import 'package:app_eoffice/block/vanbandi_block.dart';
@@ -46,6 +47,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BlocVanBanDiAction>(
           create: (context) => BlocVanBanDiAction(),
+        ),
+        BlocProvider<BlocDuThaoVanBanAction>(
+          create: (context) => BlocDuThaoVanBanAction(),
         ),
       ],
       child: MaterialApp(

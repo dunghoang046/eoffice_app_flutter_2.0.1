@@ -12,51 +12,57 @@ Widget lstmenu(BuildContext context) => Drawer(
         DrawerHeader(
           child: Text(
             '',
-            style: TextStyle(color: Colors.white, fontSize: 25),
+            style: TextStyle(color: Colors.blue[100], fontSize: 25),
           ),
           decoration: BoxDecoration(
-              color: Colors.yellow,
+              color: Colors.white,
               image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage('assets/images/logo.png'))),
+                  image: AssetImage('assets/images/logo_home.png'))),
         ),
-        ListTile(
-          leading: Icon(Icons.input),
-          title: Text('Thông báo'),
-          onTap: () => {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Mymain(
-                      datatabindex: 0,
-                    )))
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.verified_user),
-          title: Text('Văn bản đến'),
-          onTap: () => {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Mymain(
-                      datatabindex: 1,
-                    )))
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.settings),
-          title: Text('Văn bản đi'),
-          onTap: () => {Navigator.of(context).pop()},
-        ),
-        ListTile(
-          leading: Icon(Icons.border_color),
-          title: Text('Công việc'),
-          onTap: () => {Navigator.of(context).pop()},
-        ),
-        ListTile(
-          leading: Icon(Icons.exit_to_app),
-          title: Text('Đăng xuất'),
-          onTap: () => {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Mylogin()))
-          },
-        ),
+        Container(
+          color: Colors.blue[50],
+          child: Column(
+            children: [
+              ListTile(
+                leading: Icon(Icons.notification_important),
+                title: Text('Thông báo chung'),
+                onTap: () => {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Mymain(
+                            datatabindex: 0,
+                          )))
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text('Văn bản đến'),
+                onTap: () => {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Mymain(
+                            datatabindex: 1,
+                          )))
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Văn bản đi'),
+                onTap: () => {Navigator.of(context).pop()},
+              ),
+              ListTile(
+                leading: Icon(Icons.border_color),
+                title: Text('Công việc'),
+                onTap: () => {Navigator.of(context).pop()},
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Đăng xuất'),
+                onTap: () => {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Mylogin()))
+                },
+              ),
+            ],
+          ),
+        )
       ],
     ));
