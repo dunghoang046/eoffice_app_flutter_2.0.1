@@ -23,6 +23,8 @@ String keyword = '';
 int indexselect = 0;
 
 class MyDuThaoVanBanpage extends StatefulWidget {
+  GlobalKey<ScaffoldState> globalKey;
+  MyDuThaoVanBanpage({this.globalKey});
   @override
   _MyDuThaoVanBanpage createState() => _MyDuThaoVanBanpage();
 }
@@ -53,11 +55,16 @@ class _MyDuThaoVanBanpage extends State<MyDuThaoVanBanpage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: lstmenu(context),
+        // drawer: lstmenu(context),
         appBar: PreferredSize(
           child: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
               backgroundColor: colorbar,
+              leading: new IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {
+                    widget.globalKey.currentState.openDrawer();
+                  }),
               actions: <Widget>[
                 IconButton(
                   icon: cusIcon,

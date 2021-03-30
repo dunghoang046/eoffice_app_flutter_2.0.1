@@ -6,10 +6,12 @@ import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
 import 'package:app_eoffice/block/vanbandi_block.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
+import 'package:app_eoffice/utils/menu.dart';
 import 'package:app_eoffice/utils/quyenhan.dart';
 import 'package:app_eoffice/views/CongViec/CongViec.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan.dart';
 import 'package:app_eoffice/views/Notification/Notification.dart';
+import 'package:app_eoffice/views/Thongbao/Thongbao.dart';
 import 'package:app_eoffice/views/login.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/utils/Base.dart';
@@ -30,7 +32,7 @@ void main() => runApp(
         child: MyApp(),
       ),
     );
-final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -59,7 +61,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           navigatorKey: SimpleRouter.getKey(),
           title: 'Eoffice',
-          home: Mylogin()),
+          home: Mymain()),
     );
   }
 }
@@ -75,37 +77,19 @@ class Mymain extends StatefulWidget {
   _MyMain createState() => _MyMain();
 }
 
-var _pageOptions = <StatelessWidget>[];
+var _pageOptions = <StatefulWidget>[];
 bool isFlag = false;
 bool isHome = false;
-int tabIndex = 0;
 String titlehead = 'Trang chủ';
 
 class _MyMain extends State<Mymain> {
   @override
   void initState() {
-    _pageOptions = <StatelessWidget>[];
-    _pageOptions.add(Notificationpage());
+    // _pageOptions = <StatelessWidget>[];
+    _pageOptions.add(MyNotificationpage(globalKey: _scaffoldKey));
     super.initState();
     isHome = false;
-    setState(() {
-      if (widget.datatabindex >= 0) tabIndex = widget.datatabindex;
-      if (tabIndex == 0) isHome = true;
-      if (islogin == false || nguoidungsessionView == null) {
-      } else {
-        if (!checkquyen(
-                nguoidungsessionView.quyenhan, new QuyenHan().VanthuDonvi) &&
-            !checkquyen(
-                nguoidungsessionView.quyenhan, new QuyenHan().Vanthuphongban)) {
-          _pageOptions.add(VanBanDenpage());
-        } else {
-          _pageOptions.add(VanBanDenVanThupage());
-        }
-        _pageOptions.add(VanBanDipage());
-        _pageOptions.add(CongViecpage());
-        _pageOptions.add(DuThaoVanBanpage());
-      }
-    });
+    setState(() {});
   }
 
   void dispose() {
@@ -174,24 +158,135 @@ class _MyMain extends State<Mymain> {
           ],
         ),
       );
+  Widget lstmenuleft() => Drawer(
+          child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: Text(
+              '',
+              style: TextStyle(color: Colors.blue[100], fontSize: 25),
+            ),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                    image: AssetImage('assets/images/logo_home.png'))),
+          ),
+          Container(
+            color: Colors.blue[50],
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.notification_important),
+                  title: Text('Thông báo chung'),
+                  onTap: () {
+                    _scaffoldKey.currentState.openEndDrawer();
+                    SimpleRouter.forward(MyThognBaopage(
+                      globalKey: _scaffoldKey,
+                    ));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.verified_user),
+                  title: Text('Văn bản đến'),
+                  onTap: () {
+                    setState(() {
+                      tabIndex = 1;
+                      if (_scaffoldKey.currentState.isDrawerOpen) {
+                        _scaffoldKey.currentState.openEndDrawer();
+                      } else {
+                        _scaffoldKey.currentState.openDrawer();
+                      }
+                    });
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Văn bản đi'),
+                  onTap: () {
+                    setState(() {
+                      tabIndex = 2;
+                      if (_scaffoldKey.currentState.isDrawerOpen) {
+                        _scaffoldKey.currentState.openEndDrawer();
+                      } else {
+                        _scaffoldKey.currentState.openDrawer();
+                      }
+                    });
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.border_color),
+                  title: Text('Công việc'),
+                  onTap: () {
+                    setState(() {
+                      tabIndex = 3;
+                      if (_scaffoldKey.currentState.isDrawerOpen) {
+                        _scaffoldKey.currentState.openEndDrawer();
+                      } else {
+                        _scaffoldKey.currentState.openDrawer();
+                      }
+                    });
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('Đăng xuất'),
+                  onTap: () => {logout(context)},
+                ),
+              ],
+            ),
+          )
+        ],
+      ));
   Widget scaffold() =>
       BlocBuilder<BlocAuth, AuthState>(buildWhen: (previousState, state) {
         if (state is AuthErrorState) {
           Toast.show(basemessage, context,
               duration: 3, gravity: Toast.TOP, backgroundColor: Colors.red);
         }
-        if (state is AuthLogoutSate) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Mylogin()));
+        if (state is LogedSate) {
+          if (islogin) {
+            if (widget.datatabindex != null && widget.datatabindex >= 0)
+              tabIndex = widget.datatabindex;
+            if (tabIndex == 0) isHome = true;
+            if (islogin == false || nguoidungsessionView == null) {
+            } else {
+              if (!checkquyen(nguoidungsessionView.quyenhan,
+                      new QuyenHan().VanthuDonvi) &&
+                  !checkquyen(nguoidungsessionView.quyenhan,
+                      new QuyenHan().Vanthuphongban)) {
+                _pageOptions.add(MyVanBanDenpage(
+                  globalKey: _scaffoldKey,
+                ));
+              } else {
+                _pageOptions.add(MyVanBanDenVanThupage(
+                  globalKey: _scaffoldKey,
+                ));
+              }
+              _pageOptions.add(MyVanBanDipage(
+                globalKey: _scaffoldKey,
+              ));
+              _pageOptions.add(MyCongViecpage(
+                globalKey: _scaffoldKey,
+              ));
+              _pageOptions.add(MyDuThaoVanBanpage(
+                globalKey: _scaffoldKey,
+              ));
+            }
+          }
         }
         return;
       }, builder: (context, state) {
-        return WillPopScope(
-            child: Scaffold(
-                key: _scaffoldKey,
-                body: _pageOptions[tabIndex],
-                bottomNavigationBar: bottomNavimain()),
-            onWillPop: _onBackPressed);
+        if (state is LogedSate) {
+          return WillPopScope(
+              child: Scaffold(
+                  drawer: lstmenuleft(),
+                  key: _scaffoldKey,
+                  body: _pageOptions[tabIndex],
+                  bottomNavigationBar: bottomNavimain()),
+              onWillPop: _onBackPressed);
+        } else
+          return Mylogin();
       });
   Widget build(BuildContext context) {
     return SafeArea(child: scaffold());

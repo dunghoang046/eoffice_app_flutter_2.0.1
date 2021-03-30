@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:app_eoffice/block/vanbandi_block.dart';
-import 'package:app_eoffice/utils/menu.dart';
 import 'package:provider/provider.dart';
 import 'package:app_eoffice/services/Base_service.dart';
 
@@ -24,6 +23,8 @@ String keyword = '';
 int indexselect = 0;
 
 class MyVanBanDipage extends StatefulWidget {
+  GlobalKey<ScaffoldState> globalKey;
+  MyVanBanDipage({this.globalKey});
   @override
   _MyVanBanDipage createState() => _MyVanBanDipage();
 }
@@ -54,11 +55,19 @@ class _MyVanBanDipage extends State<MyVanBanDipage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: lstmenu(context),
         appBar: PreferredSize(
           child: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
               backgroundColor: colorbar,
+              leading: new IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {
+                    if (widget.globalKey.currentState.isDrawerOpen) {
+                      widget.globalKey.currentState.openEndDrawer();
+                    } else {
+                      widget.globalKey.currentState.openDrawer();
+                    }
+                  }),
               actions: <Widget>[
                 IconButton(
                   icon: cusIcon,

@@ -54,6 +54,7 @@ final TextEditingController _passwordController = TextEditingController();
 class _Mylogin extends State<Mylogin> {
   @override
   void initState() {
+    BlocProvider.of<BlocAuth>(context).add(LogoutEvent());
     super.initState();
   }
 
@@ -112,13 +113,13 @@ class _Mylogin extends State<Mylogin> {
           basemessage = '';
         }
         if (state is LogedSate) {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) => Mymain(
-                  datatabindex: 0,
-                ),
-              ),
-              (route) => false);
+          // Navigator.of(context).pushAndRemoveUntil(
+          //     MaterialPageRoute(
+          //       builder: (context) => Mymain(
+          //         datatabindex: 0,
+          //       ),
+          //     ),
+          //     (route) => false);
         }
         return;
       },

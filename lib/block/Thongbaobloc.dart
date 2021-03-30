@@ -1,21 +1,23 @@
 import 'dart:async';
+import 'package:app_eoffice/models/ThongBaoItem.dart';
 import 'package:app_eoffice/services/Notification_Api.dart';
 import 'package:app_eoffice/models/NotificationItem.dart';
+import 'package:app_eoffice/services/ThongBao_Api.dart';
 import 'base_bloc.dart';
 
-class NotificationBloc extends Blocdispose {
+class ThongBaoBloc extends Blocdispose {
   int currentPageNow = 1;
   int currentPage = 1;
   int total = 0;
-  var _lstobject = <NotificationItem>[];
-  final _repository = Notification_Api();
+  var _lstobject = <ThongBaoItem>[];
+  final _repository = ThongBao_Api();
 
   var _isLoadingMore = false;
   var _currentStoryIndex = 0;
 
-  StreamController<List<NotificationItem>> _topStoriesStreamController =
+  StreamController<List<ThongBaoItem>> _topStoriesStreamController =
       StreamController();
-  Stream<List<NotificationItem>> get topStories =>
+  Stream<List<ThongBaoItem>> get topStories =>
       _topStoriesStreamController.stream;
   var dataquery = {
     "CurrentPage": '1',
@@ -25,16 +27,17 @@ class NotificationBloc extends Blocdispose {
     "Loai": '3',
     "LoaiListID": '0'
   };
-  NotificationBloc(keyword, loai) {
+  ThongBaoBloc(keyword, loai) {
     _loadInitTopStories(keyword, loai);
   }
+
   void _loadInitTopStories(keyword, loai) async {
     loadMore(keyword, loai);
   }
 
   void loadtop(keyword, loai) async {
     _topStoriesStreamController = new StreamController();
-    _lstobject = <NotificationItem>[];
+    _lstobject = <ThongBaoItem>[];
     currentPage = 1;
     loadMore(keyword, loai);
   }
@@ -60,7 +63,8 @@ class NotificationBloc extends Blocdispose {
     if (currentPage == 1) _isLoadingMore = true;
     if (_isLoadingMore == true) {
       var lst;
-      lst = await _repository.getallnotification(dataquery, currentPage);
+      lst = await _repository.getallthongbao(dataquery, currentPage);
+
       if (lst.length > 0) total = lst[0].total;
       _lstobject.addAll(lst);
       _currentStoryIndex = _lstobject.length;

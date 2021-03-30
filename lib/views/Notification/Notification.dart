@@ -5,22 +5,26 @@ import 'package:app_eoffice/block/notification_block.dart';
 import 'package:app_eoffice/views/Notification/Notification_All.dart';
 import 'package:provider/provider.dart';
 import 'package:app_eoffice/services/Base_service.dart';
+import 'package:app_eoffice/main.dart';
 
 int currentPage = 0;
 int currentPageNow = 1;
 
-class Notificationpage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return MyNotificationpage();
-  }
-}
+// class Notificationpage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     // TODO: implement build
+//     return MyNotificationpage();
+//   }
+// }
 
 String keyword = '';
 int indexselect = 0;
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class MyNotificationpage extends StatefulWidget {
+  GlobalKey<ScaffoldState> globalKey;
+  MyNotificationpage({this.globalKey});
   @override
   _MyNotificationpage createState() => _MyNotificationpage();
 }
@@ -48,11 +52,15 @@ class _MyNotificationpage extends State<MyNotificationpage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: lstmenu(context),
         appBar: PreferredSize(
           child: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
               backgroundColor: Color.fromARGB(255, 248, 144, 31),
+              leading: new IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {
+                    widget.globalKey.currentState.openDrawer();
+                  }),
               actions: <Widget>[
                 IconButton(
                   icon: cusIcon,

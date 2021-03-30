@@ -5,16 +5,16 @@ import 'package:app_eoffice/services/Base_service.dart';
 import 'package:app_eoffice/utils/Base.dart';
 
 class BlocAuth extends Bloc<AuthEvent, AuthState> {
-  BlocAuth() : super(UnlogedState());
-  get initialState => UnlogedState();
+  BlocAuth() : super(AuthLogoutSate());
+  get initialState => AuthLogoutSate();
   final Base_service base_service = new Base_service();
-  bool _isLoged = false;
 
   static get loginItem => loginItem;
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     try {
+      bool _isLoged = false;
       if (event is LoginEvent) {
         yield LoadingState();
         var data = {

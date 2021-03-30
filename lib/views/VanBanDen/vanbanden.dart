@@ -9,18 +9,20 @@ import 'package:app_eoffice/services/Base_service.dart';
 int currentPage = 0;
 int currentPageNow = 1;
 
-class VanBanDenpage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return MyVanBanDenpage();
-  }
-}
+// class VanBanDenpage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     // TODO: implement build
+//     return MyVanBanDenpage();
+//   }
+// }
 
 String keyword = '';
 int indexselect = 0;
 
 class MyVanBanDenpage extends StatefulWidget {
+  GlobalKey<ScaffoldState> globalKey;
+  MyVanBanDenpage({this.globalKey});
   @override
   _MyVanBanDenpage createState() => _MyVanBanDenpage();
 }
@@ -55,11 +57,16 @@ class _MyVanBanDenpage extends State<MyVanBanDenpage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: lstmenu(context),
+        // drawer: lstmenu(context),
         appBar: PreferredSize(
           child: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
               backgroundColor: Color.fromARGB(255, 248, 144, 31),
+              leading: new IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {
+                    widget.globalKey.currentState.openDrawer();
+                  }),
               actions: <Widget>[
                 IconButton(
                   icon: cusIcon,

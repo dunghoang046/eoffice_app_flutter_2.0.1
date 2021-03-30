@@ -83,11 +83,11 @@ class VanBanDiItem {
       List<dynamic> vbData = map['LtsFileAttach'];
       lstfile = vbData.map((f) => FileAttachItem.fromMap(f)).toList();
     } else
-      lstfile = new List<FileAttachItem>();
+      lstfile = <FileAttachItem>[];
     if (map['LstDonVi'] != null && map['LstDonVi'].length > 0) {
       List<dynamic> vbData = map['LstDonVi'];
       lstdonvi = vbData.map((f) => DonViItem.fromMap(f)).toList();
     } else
-      lstdonvi = new List<DonViItem>();
+      lstdonvi = <DonViItem>[];
   }
 }

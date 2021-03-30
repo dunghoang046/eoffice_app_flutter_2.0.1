@@ -15,17 +15,19 @@ int currentPageNow = 1;
 bool isLoading = false;
 int indexselecttab = 0;
 
-class VanBanDenVanThupage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return MyVanBanDenVanThupage();
-  }
-}
+// class VanBanDenVanThupage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     // TODO: implement build
+//     return MyVanBanDenVanThupage();
+//   }
+// }
 
 String keyword = '';
 
 class MyVanBanDenVanThupage extends StatefulWidget {
+  GlobalKey<ScaffoldState> globalKey;
+  MyVanBanDenVanThupage({this.globalKey});
   @override
   _MyVanBanDenVanThupage createState() => _MyVanBanDenVanThupage();
 }
@@ -58,11 +60,16 @@ class _MyVanBanDenVanThupage extends State<MyVanBanDenVanThupage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: lstmenu(context),
+        // drawer: lstmenu(context),
         appBar: PreferredSize(
           child: AppBar(
               backgroundColor: colorbar,
               iconTheme: IconThemeData(color: Colors.white),
+              leading: new IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {
+                    widget.globalKey.currentState.openDrawer();
+                  }),
               actions: <Widget>[
                 IconButton(
                   icon: cusIcon,

@@ -1,7 +1,11 @@
 import 'dart:ui';
 
+import 'package:app_eoffice/block/login_bloc/Auth_event.dart';
+import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
+import 'package:app_eoffice/utils/Base.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/views/login.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../main.dart';
 
@@ -37,32 +41,55 @@ Widget lstmenu(BuildContext context) => Drawer(
                 leading: Icon(Icons.verified_user),
                 title: Text('Văn bản đến'),
                 onTap: () => {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Mymain(
-                            datatabindex: 1,
-                          )))
+                  // Navigator.of(context).pushAndRemoveUntil(
+                  //     MaterialPageRoute(
+                  //       builder: (context) => Mymain(
+                  //         datatabindex: 1,
+                  //       ),
+                  //     ),
+                  //     (route) => false)
                 },
               ),
               ListTile(
                 leading: Icon(Icons.settings),
                 title: Text('Văn bản đi'),
-                onTap: () => {Navigator.of(context).pop()},
+                onTap: () => {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Mymain(
+                            datatabindex: 2,
+                          )))
+                },
               ),
               ListTile(
                 leading: Icon(Icons.border_color),
                 title: Text('Công việc'),
-                onTap: () => {Navigator.of(context).pop()},
+                onTap: () => {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => Mymain(
+                          datatabindex: 3,
+                        ),
+                      ),
+                      (route) => false)
+                },
               ),
               ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Đăng xuất'),
-                onTap: () => {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Mylogin()))
-                },
+                onTap: () => {logout(context)},
               ),
             ],
           ),
         )
       ],
     ));
+
+void linktab(context) {
+  tabIndex = 2;
+  Navigator.push(
+      context, new MaterialPageRoute(builder: (context) => new MyApp()));
+}
+
+void logout(BuildContext context) {
+  BlocProvider.of<BlocAuth>(context).add(LogoutEvent());
+}

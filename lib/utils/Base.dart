@@ -10,6 +10,7 @@ bool ischeckurl = true;
 String keyword = '';
 String tokenview = '';
 String basemessage = '';
+int tabIndex = 0;
 NguoiDungItem nguoidungsessionView = new NguoiDungItem();
 
 checkinternet() async {

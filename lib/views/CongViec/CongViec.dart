@@ -26,6 +26,8 @@ int indexselect = 0;
 bool inter = true;
 
 class MyCongViecpage extends StatefulWidget {
+  GlobalKey<ScaffoldState> globalKey;
+  MyCongViecpage({this.globalKey});
   @override
   _MyCongViecpage createState() => _MyCongViecpage();
 }
@@ -60,11 +62,16 @@ class _MyCongViecpage extends State<MyCongViecpage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: lstmenu(context),
+      // drawer: lstmenu(context),
       appBar: PreferredSize(
         child: AppBar(
             iconTheme: IconThemeData(color: Colors.white),
             backgroundColor: colorbar,
+            leading: new IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {
+                  widget.globalKey.currentState.openDrawer();
+                }),
             actions: <Widget>[
               IconButton(
                 icon: cusIcon,
