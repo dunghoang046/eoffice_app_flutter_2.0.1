@@ -7,20 +7,13 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:app_eoffice/main.dart';
 import 'package:app_eoffice/models/VanBanDenItem.dart';
 import 'package:app_eoffice/services/Vanbanden_api.dart';
 import 'package:app_eoffice/utils/Base.dart';
-import 'package:app_eoffice/utils/TextForm.dart';
 import 'package:app_eoffice/views/VanBanDen/VanBandenguinhan/vanbanden_guinhan.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_ykien.dart';
 import 'package:app_eoffice/widget/vanbanden/view_chitiet.dart';
-import 'package:load/load.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:intl/intl.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:simple_router/simple_router.dart';
 
 class VanBanDenChiTiet extends StatelessWidget {
@@ -79,16 +72,8 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
     super.initState();
   }
 
-  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => Mymain(1)));
-    Navigator.of(context).pop();
-    print('Print chi tiết');
-    return true;
-  }
-
   bool isLoading = true;
   void dispose() {
-    BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
   }
 
@@ -272,110 +257,6 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
   }
 
   // ignore: unused_element
-  void _clickketthuc() {
-    showLoadingDialog();
-    Vanbanden_api vbdenapi = new Vanbanden_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NoiDung": _noidung.text,
-      "TrangThaiID": selectedValue,
-      "HanXuLy": _hanxuly.text
-    };
-    vbdenapi.postketthuc(data).then((objdata) {
-      hideLoadingDialog();
-      if (objdata["Error"] == true)
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            // toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      else {
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            // toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MyVanVanDenChiTiet(id: widget.id)),
-        );
-      }
-    });
-  }
-
-  void _clicktralai() {
-    showLoadingDialog();
-    Vanbanden_api vbdenapi = new Vanbanden_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NoiDung": _noidungtralai.text,
-    };
-
-    vbdenapi.posttralai(data).then((objdata) {
-      hideLoadingDialog();
-      if (objdata["Error"] == true)
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            // toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      else {
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            // toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        Navigator.of(context, rootNavigator: true).pop();
-      }
-    });
-  }
-
-  void _clicktrangthaicn() {
-    showLoadingDialog();
-    Vanbanden_api vbdenapi = new Vanbanden_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NoiDung": _noidungcn.text,
-      "TrangThaiID": selectedValue,
-      "HanXuLy": _hanxulycn.text
-    };
-    vbdenapi.postketthuc(data).then((objdata) {
-      hideLoadingDialog();
-      if (objdata["Error"] == true)
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            // toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      else {
-        Fluttertoast.showToast(
-            msg: objdata["Title"],
-            // toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            // timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        Navigator.of(context, rootNavigator: true).pop();
-      }
-    });
-  }
 }
 
 class NgayXuLyDateField extends StatelessWidget {

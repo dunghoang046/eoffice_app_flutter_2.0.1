@@ -40,6 +40,6 @@ class LichlamViecItem {
     ngaytao = map['NgayTao'];
     noidung = map['NoiDung'];
     tenphonghop = map['TenPhongHop'];
-    trangthaiid = map['TrangThaiID'];
+    // trangthaiid = map['TrangThaiID'];
   }
 }

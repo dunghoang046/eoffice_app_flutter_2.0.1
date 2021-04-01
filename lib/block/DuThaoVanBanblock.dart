@@ -21,7 +21,6 @@ class DuThaoVanBanblock extends Blocdispose {
   StreamController<List<DuThaoVanBanItem>> _topStoriesStreamController =
       StreamController();
   // ignore: close_sinks
-  final _actionController = StreamController<bool>();
   Stream<List<DuThaoVanBanItem>> get topStories =>
       _topStoriesStreamController.stream;
   var dataquery = {

@@ -10,7 +10,9 @@ import 'package:app_eoffice/utils/menu.dart';
 import 'package:app_eoffice/utils/quyenhan.dart';
 import 'package:app_eoffice/views/CongViec/CongViec.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan.dart';
+import 'package:app_eoffice/views/LichlamViec/LichlamViec.dart';
 import 'package:app_eoffice/views/Notification/Notification.dart';
+import 'package:app_eoffice/views/Setting/Settingfingerprint.dart';
 import 'package:app_eoffice/views/Thongbao/Thongbao.dart';
 import 'package:app_eoffice/views/login.dart';
 import 'package:flutter/material.dart';
@@ -187,6 +189,16 @@ class _MyMain extends State<Mymain> {
                   },
                 ),
                 ListTile(
+                  leading: Icon(Icons.notification_important),
+                  title: Text('Lịch làm việc'),
+                  onTap: () {
+                    _scaffoldKey.currentState.openEndDrawer();
+                    SimpleRouter.forward(MyLichlamViecpage(
+                      globalKey: _scaffoldKey,
+                    ));
+                  },
+                ),
+                ListTile(
                   leading: Icon(Icons.verified_user),
                   title: Text('Văn bản đến'),
                   onTap: () {
@@ -225,6 +237,16 @@ class _MyMain extends State<Mymain> {
                       } else {
                         _scaffoldKey.currentState.openDrawer();
                       }
+                    });
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Cài đặt'),
+                  onTap: () {
+                    setState(() {
+                      _scaffoldKey.currentState.openEndDrawer();
+                      SimpleRouter.forward(SettingfingerprintPage());
                     });
                   },
                 ),

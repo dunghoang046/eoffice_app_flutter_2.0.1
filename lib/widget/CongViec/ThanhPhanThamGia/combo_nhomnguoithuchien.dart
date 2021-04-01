@@ -57,7 +57,7 @@ class _MyComBo_NhomNguoiThucHien extends State<MyComBo_NhomNguoiThucHien> {
                     objnnth.obj.ltsUserGroupPerform != null &&
                     objnnth.obj.ltsUserGroupPerform.length > 0)
                 ? objnnth.obj.ltsUserGroupPerform.map((e) => e.id).toList()
-                : new List<int>();
+                : <int>[];
             if (objnnth.lstnhomnguoidung.length > 0) {
               List<DropdownMenuItem> lst = [];
               for (var i = 0; i < objnnth.lstnhomnguoidung.length; i++) {

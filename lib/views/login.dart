@@ -1,5 +1,6 @@
 import 'package:app_eoffice/models/loginItem.dart';
 import 'package:app_eoffice/components/components.dart';
+import 'package:app_eoffice/services/local_auth_api.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/services/Base_service.dart';
 import 'package:app_eoffice/utils/Base.dart';
@@ -11,9 +12,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
 import 'package:app_eoffice/block/login_bloc/Auth_event.dart';
 import 'package:app_eoffice/block/login_bloc/auth_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_router/simple_router.dart';
 import 'package:toast/toast.dart';
 
+SharedPreferences sharedPreferences;
 // void main() => runApp(
 //       LoadingProvider(
 //         themeData: LoadingThemeData(
@@ -54,8 +57,13 @@ final TextEditingController _passwordController = TextEditingController();
 class _Mylogin extends State<Mylogin> {
   @override
   void initState() {
+    _sharedPreferences();
     BlocProvider.of<BlocAuth>(context).add(LogoutEvent());
     super.initState();
+  }
+
+  _sharedPreferences() async {
+    sharedPreferences = await SharedPreferences.getInstance();
   }
 
   bool _isSelected = false;
@@ -112,15 +120,7 @@ class _Mylogin extends State<Mylogin> {
               duration: 3, gravity: Toast.TOP, backgroundColor: Colors.red);
           basemessage = '';
         }
-        if (state is LogedSate) {
-          // Navigator.of(context).pushAndRemoveUntil(
-          //     MaterialPageRoute(
-          //       builder: (context) => Mymain(
-          //         datatabindex: 0,
-          //       ),
-          //     ),
-          //     (route) => false);
-        }
+        if (state is LogedSate) {}
         return;
       },
       builder: (context, state) {
@@ -195,6 +195,20 @@ class _Mylogin extends State<Mylogin> {
                                         ],
                                       ),
                                       SizedBox(
+                                        height: ScreenUtil().setHeight(20),
+                                      ),
+                                      MaterialButton(
+                                        onPressed: () async {
+                                          var s =
+                                              await _checksettingFingerprint();
+                                        },
+                                        child: Icon(
+                                          Icons.fingerprint,
+                                          color: Colors.blue,
+                                          size: 70,
+                                        ),
+                                      ),
+                                      SizedBox(
                                         height: ScreenUtil().setHeight(300),
                                       )
                                     ],
@@ -210,10 +224,55 @@ class _Mylogin extends State<Mylogin> {
     );
   }
 
+  Future<bool> _checksettingFingerprint() async {
+    try {
+      var isvalue = false;
+      if (sharedPreferences.getBool("isFingerprint") != null)
+        isvalue = sharedPreferences.getBool("isFingerprint");
+      if (!isvalue || isvalue == null) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Thông báo'),
+                content: Text('Bạn chưa cài đặt đăng nhập bằng vân tay'),
+              );
+            });
+      } else {
+        final isAuthenticated = await LocalAuthApi.authenticate();
+        if (isAuthenticated) {
+          LoginItem objlogin = new LoginItem();
+          objlogin.checkFingerprint = "true";
+          objlogin.lang = "vi";
+          objlogin.userName = sharedPreferences.getString("username");
+          objlogin.password = sharedPreferences.getString("password");
+          LoginEvent loginevent = new LoginEvent();
+          loginevent.logindata = objlogin;
+          if (objlogin.userName == null || objlogin.password == null) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Thông báo'),
+                    content: Text('Thông tin chưa được thiết lập'),
+                  );
+                });
+          } else
+            BlocProvider.of<BlocAuth>(context).add(loginevent);
+        }
+      }
+    } catch (ex) {
+      return true;
+    }
+    return true;
+  }
+
   _login() async {
     if (_formKey.currentState.validate()) {
       String _username = _usernameController.text;
       String _password = _passwordController.text;
+      sharedPreferences.setString("username", _usernameController.text);
+      sharedPreferences.setString("password", _passwordController.text);
       LoginItem objlogin = new LoginItem();
       objlogin.checkFingerprint = "true";
       objlogin.lang = "vi";

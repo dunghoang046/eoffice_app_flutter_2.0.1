@@ -3,17 +3,13 @@ import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_Phathanh.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanban_TuChoi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:app_eoffice/main.dart';
 import 'package:app_eoffice/models/DuThaoVanBanItem.dart';
 import 'package:app_eoffice/services/VanBanDuThao_Api.dart';
 import 'package:app_eoffice/utils/Base.dart';
-import 'package:app_eoffice/utils/TextForm.dart';
+
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBanTrinh.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBanYKien.dart';
 import 'package:app_eoffice/widget/DuThaoVanBan/DuThaoVanBanViewPanel.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:load/load.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:simple_router/simple_router.dart';
 
 class MyDuThaoVanBanChiTiet extends StatefulWidget {

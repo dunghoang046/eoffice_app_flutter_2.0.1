@@ -1,17 +1,13 @@
-import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
-import 'package:app_eoffice/block/vanbandenbloc.dart';
-import 'package:app_eoffice/utils/Base.dart';
+import 'package:app_eoffice/block/vanbandi_block.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDenYkienItem.dart';
 import 'package:app_eoffice/services/Vanbanden_api.dart';
-import 'package:app_eoffice/views/VanBanDen/vanbanden_chitiet.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_formykien.dart';
 import 'package:app_eoffice/widget/Base_widget.dart';
 import 'package:app_eoffice/widget/vanbanden/ViewYkenVBDen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_router/simple_router.dart';
-import 'package:toast/toast.dart';
 
 class MyVanBanDenYKien extends StatefulWidget {
   final int id;
@@ -76,7 +72,8 @@ class _MyVanBanDenYKien extends State<MyVanBanDenYKien> {
             }),
         backgroundColor: Color.fromARGB(255, 248, 144, 31),
       ),
-      body: BlocBuilder(buildWhen: (pre, state) {
+      body:
+          BlocBuilder<BlocVanBanDiAction, ActionState>(buildWhen: (pre, state) {
         if (state is ViewYKienState) {
           loadykien();
         }

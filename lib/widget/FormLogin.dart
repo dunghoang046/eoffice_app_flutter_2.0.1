@@ -87,10 +87,23 @@ class _MyFormLogin extends State<MyFormLogin> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(
-                  "Quên mật khẩu",
-                  style: TextStyle(
-                      color: Colors.blue, fontSize: ScreenUtil().setSp(14)),
+                InkWell(
+                  child: Text(
+                    "Quên mật khẩu",
+                    style: TextStyle(
+                        color: Colors.blue, fontSize: ScreenUtil().setSp(14)),
+                  ),
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Thông báo'),
+                            content: Text(
+                                'Liên hệ với quản trị hệ thống để lấy lại mật khẩu'),
+                          );
+                        });
+                  },
                 )
               ],
             )
