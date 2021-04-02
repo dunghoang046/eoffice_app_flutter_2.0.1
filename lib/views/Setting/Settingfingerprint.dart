@@ -1,4 +1,3 @@
-import 'package:app_eoffice/services/Base_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_router/simple_router.dart';
@@ -20,6 +19,18 @@ class MySettingfingerprintPage extends StatefulWidget {
 }
 
 class _MySettingfingerprintPage extends State<MySettingfingerprintPage> {
+  @override
+  void initState() {
+    getselectvalue();
+    super.initState();
+  }
+
+  void getselectvalue() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getBool("isFingerprint") != null)
+      isSelected = sharedPreferences.getBool("isFingerprint");
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,7 +80,6 @@ class _MySettingfingerprintPage extends State<MySettingfingerprintPage> {
   }
 
   void onselect() async {
-    sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setBool("isFingerprint", isSelected);
   }
 }

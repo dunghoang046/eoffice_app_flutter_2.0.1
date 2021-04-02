@@ -23,7 +23,6 @@ import 'package:app_eoffice/views/VanBanDen/vanbanden_VanThu.dart';
 import 'package:app_eoffice/views/VanBanDi/vanbandi.dart';
 import 'package:load/load.dart';
 import 'package:simple_router/simple_router.dart';
-import 'package:toast/toast.dart';
 import 'package:app_eoffice/block/login_bloc/auth_state.dart';
 
 void main() => runApp(
@@ -262,10 +261,10 @@ class _MyMain extends State<Mymain> {
       ));
   Widget scaffold() =>
       BlocBuilder<BlocAuth, AuthState>(buildWhen: (previousState, state) {
-        if (state is AuthErrorState) {
-          Toast.show(basemessage, context,
-              duration: 3, gravity: Toast.TOP, backgroundColor: Colors.red);
-        }
+        // if (state is AuthErrorState) {
+        //   Toast.show(basemessage, context,
+        //       duration: 3, gravity: Toast.TOP, backgroundColor: Colors.red);
+        // }
         if (state is LogedSate) {
           if (islogin) {
             if (widget.datatabindex != null && widget.datatabindex >= 0)
