@@ -10,7 +10,6 @@ class Base_service {
   //final _baseUrl = 'http://192.168.202.21:8086//api';
   final _baseUrl = 'http://api.e-office.vn//api';
   // final _baseUrl = 'http://192.168.43.4:8086//api';
-  // final _baseUrl = ' https://jsonplaceholder.typicode.com/todos/1';
   static final Base_service _internal = Base_service.internal();
   factory Base_service() => _internal;
   Base_service.internal();
