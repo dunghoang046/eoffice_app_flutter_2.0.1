@@ -39,7 +39,8 @@ String yearselect = DateTime.now().year.toString();
 int endyear = DateTime.now().year;
 int selectedValue = 0;
 String weekselect = '0';
-List<DropdownMenuItem> lstdryear = [];
+// List<DropdownMenuItem> lstdryear = [];
+List<DropdownMenuItem<String>> lstdryear = [];
 
 class _MyLichlamViecpage extends State<MyLichlamViecpage>
     with SingleTickerProviderStateMixin {
@@ -64,7 +65,6 @@ class _MyLichlamViecpage extends State<MyLichlamViecpage>
         value: i.toString(),
       ));
     }
-
     searchYearWeekItem.year = yearcurrent;
     // searchYearWeekItem.week = int.parse(weekselect);
     searchYearWeekItem.week = 13;
@@ -95,14 +95,16 @@ class _MyLichlamViecpage extends State<MyLichlamViecpage>
         child: Scaffold(
             appBar: PreferredSize(
               child: AppBar(
-                  iconTheme: IconThemeData(color: Colors.white),
-                  backgroundColor: Color.fromARGB(255, 248, 144, 31),
-                  leading: new IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        SimpleRouter.back();
-                      }),
-                  title: cusSearchBar),
+                iconTheme: IconThemeData(color: Colors.white),
+                backgroundColor: Color.fromARGB(255, 248, 144, 31),
+                leading: new IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      SimpleRouter.back();
+                    }),
+                actions: [year()],
+                title: cusSearchBar,
+              ),
               preferredSize: Size.fromHeight(50),
             ),
             body: DefaultTabController(
@@ -113,7 +115,6 @@ class _MyLichlamViecpage extends State<MyLichlamViecpage>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        year(),
                         week(),
                         Expanded(
                           child: Provider<LichlamViecBloc>(
@@ -172,19 +173,26 @@ class _MyLichlamViecpage extends State<MyLichlamViecpage>
   }
 
   Widget year() {
-    return SearchableDropdown.single(
-      items: lstdryear,
-      value: yearselect,
-      hint: "Chọn năm",
-      searchHint: "Chọn năm",
-      onChanged: (value) {
-        setState(() {
-          yearselect = value;
-          searchYearWeekItem.year = int.parse(yearselect);
-        });
-      },
-      isExpanded: true,
-      // dialogBox: false,
+    return Container(
+      // color: Colors.yellow,
+      margin: EdgeInsets.fromLTRB(0, 0, 45, 0),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+            canvasColor: Colors.blue,
+            primaryColor: Colors.blue,
+            backgroundColor: Colors.black),
+        child: DropdownButton<String>(
+          value: yearselect,
+          items: lstdryear,
+          focusColor: Colors.black,
+          iconEnabledColor: Colors.white,
+          dropdownColor: Colors.blue,
+          style: TextStyle(color: Colors.white, fontSize: 18),
+          onChanged: (String value) {
+            setState(() => yearselect = value);
+          },
+        ),
+      ),
     );
   }
 }

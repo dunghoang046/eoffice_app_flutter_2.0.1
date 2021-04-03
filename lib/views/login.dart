@@ -12,8 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
 import 'package:app_eoffice/block/login_bloc/Auth_event.dart';
 import 'package:app_eoffice/block/login_bloc/auth_state.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:simple_router/simple_router.dart';
 import 'package:toast/toast.dart';
 
 SharedPreferences sharedPreferences;
@@ -115,12 +115,18 @@ class _Mylogin extends State<Mylogin> {
   Widget _FormLogin() {
     return BlocBuilder<BlocAuth, AuthState>(
       buildWhen: (previousState, state) {
-        if (state is LoadingState && basemessage.length > 0) {
+        if (state is AuLoadingState) {
+          loadding();
+        }
+        if (state is AuthErrorState && basemessage.length > 0) {
+          dismiss();
           Toast.show(basemessage, context,
               duration: 3, gravity: Toast.TOP, backgroundColor: Colors.red);
           basemessage = '';
         }
-        if (state is LogedSate) {}
+        if (state is LogedSate) {
+          dismiss();
+        }
         return;
       },
       builder: (context, state) {
@@ -199,8 +205,7 @@ class _Mylogin extends State<Mylogin> {
                                       ),
                                       MaterialButton(
                                         onPressed: () async {
-                                          var s =
-                                              await _checksettingFingerprint();
+                                          await _checksettingFingerprint();
                                         },
                                         child: Icon(
                                           Icons.fingerprint,
@@ -288,7 +293,7 @@ class _Mylogin extends State<Mylogin> {
   Widget _onLoginClick1() {
     // ignore: missing_return
     return BlocBuilder<BlocAuth, AuthState>(builder: (context, state) {
-      if (state is LoadingState) {
+      if (state is AuLoadingState) {
         return ButtonLogin(
           isLoading: true,
           backgroundColor: Colors.white,

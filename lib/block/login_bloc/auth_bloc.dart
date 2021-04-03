@@ -16,7 +16,7 @@ class BlocAuth extends Bloc<AuthEvent, AuthState> {
     try {
       bool _isLoged = false;
       if (event is LoginEvent) {
-        yield LoadingState();
+        yield AuLoadingState();
         var data = {
           "userName": event.logindata.userName,
           "password": event.logindata.password,

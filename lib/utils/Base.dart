@@ -2,8 +2,10 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/LookupItem.dart';
 import 'package:app_eoffice/models/Nguoidungitem.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:load/load.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter_file_preview/flutter_file_preview.dart';
 
 bool islogin = false;
 bool ischeckurl = true;
@@ -12,7 +14,7 @@ String tokenview = '';
 String basemessage = '';
 int tabIndex = 0;
 NguoiDungItem nguoidungsessionView = new NguoiDungItem();
-
+String strurlviewfile = "http://badinhedu.e-office.vn/";
 checkinternet() async {
   var connectivityResult = await (Connectivity().checkConnectivity());
   if (connectivityResult == ConnectivityResult.mobile ||
@@ -78,6 +80,46 @@ Widget rowlabelValidate(title) => Row(
         )
       ],
     );
+Future<void> loadding() async {
+  await EasyLoading.show(
+    status: 'Đang xử lý...',
+    maskType: EasyLoadingMaskType.custom,
+  );
+}
+
+Future<void> dismiss() async {
+  await EasyLoading.dismiss();
+}
+
+Widget containerRowViewfile(String value, String filelink) => Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.black26,
+          ),
+          // right: BorderSide(color: Colors.green, width: 6),
+        ),
+      ),
+      padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: InkWell(
+              child: RichText(
+                  softWrap: true,
+                  text: TextSpan(children: <TextSpan>[
+                    TextSpan(text: value, style: TextStyle(color: Colors.black))
+                  ])),
+              onTap: () {
+                var urlfile = strurlviewfile + filelink;
+                FlutterFilePreview.openFile(urlfile, title: value);
+              },
+            ),
+          )
+        ],
+      ),
+    );
+
 Widget buildRow() => Container(
       margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
       child: Image.asset("assets/images/logo.png"),

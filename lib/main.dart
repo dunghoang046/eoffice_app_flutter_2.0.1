@@ -21,18 +21,59 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_VanThu.dart';
 import 'package:app_eoffice/views/VanBanDi/vanbandi.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:load/load.dart';
 import 'package:simple_router/simple_router.dart';
 import 'package:app_eoffice/block/login_bloc/auth_state.dart';
 
-void main() => runApp(
-      LoadingProvider(
-        themeData: LoadingThemeData(
-            // tapDismiss: false,
-            ),
-        child: MyApp(),
+void main() {
+  runApp(
+    LoadingProvider(
+      themeData: LoadingThemeData(
+          // tapDismiss: false,
+          ),
+      child: MyApp(),
+    ),
+  );
+  configLoading();
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false
+    ..customAnimation = CustomAnimation();
+}
+
+class CustomAnimation extends EasyLoadingAnimation {
+  CustomAnimation();
+
+  @override
+  Widget buildWidget(
+    Widget child,
+    AnimationController controller,
+    AlignmentGeometry alignment,
+  ) {
+    return Opacity(
+      opacity: controller.value,
+      child: RotationTransition(
+        turns: controller,
+        child: child,
       ),
     );
+  }
+}
+
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class MyApp extends StatelessWidget {
@@ -62,6 +103,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           navigatorKey: SimpleRouter.getKey(),
           title: 'Eoffice',
+          builder: EasyLoading.init(),
           home: Mymain()),
     );
   }

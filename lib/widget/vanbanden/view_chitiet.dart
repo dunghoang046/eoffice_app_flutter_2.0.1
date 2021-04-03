@@ -1,7 +1,9 @@
+import 'package:app_eoffice/utils/Base.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDenItem.dart';
 
+// ignore: must_be_immutable
 class ViewVanBanPanel extends StatelessWidget {
   // Stream<List<VanBanDenItem>> lststream;
   VanBanDenItem obj;
@@ -23,9 +25,6 @@ class ViewVanBanPanel extends StatelessWidget {
             offset: Offset(0, 3), // changes position of shadow
           ),
         ],
-        // border: Border.all(
-        //   color: Colors.red[500],
-        // ),
       ),
       padding: EdgeInsets.all(7),
       margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -60,7 +59,7 @@ class ViewVanBanPanel extends StatelessWidget {
           if (obj.isxuly == true) containerRow('Trạng thái VB: ', 'Đã xử lý'),
           if (obj.lstfile.length > 0) containerRow('File đính kèm: ', ''),
           for (var i = 0; i < obj.lstfile.length; i++)
-            containerRow('', obj.lstfile[i].ten),
+            containerRowViewfile(obj.lstfile[i].ten, obj.lstfile[i].filelink),
         ],
       ),
     );

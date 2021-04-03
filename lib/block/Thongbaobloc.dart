@@ -20,7 +20,7 @@ class ThongBaoBloc extends Blocdispose {
   var dataquery = {
     "CurrentPage": '1',
     "RowPerPage": '20',
-    "SearchIn": 'NoiDung',
+    "SearchIn": 'MoTa',
     "Keyword": '',
     "Loai": '3',
     "LoaiListID": '0'
@@ -46,7 +46,7 @@ class ThongBaoBloc extends Blocdispose {
     dataquery = {
       "CurrentPage": "" + currentPage.toString() + "",
       "RowPerPage": '20',
-      "SearchIn": 'NoiDung',
+      "SearchIn": 'MoTa',
       "Keyword": '' + keyword + '',
       "Loai": '' + loai.toString() + '',
     };
