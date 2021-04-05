@@ -3,6 +3,7 @@ import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/components/components.dart';
 import 'package:app_eoffice/utils/Base.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
@@ -65,7 +66,7 @@ class _MyFormTrangThaiCongViec extends State<MyFormTrangThaiCongViec> {
                       onPressed: () {
                         SimpleRouter.back();
                       }),
-                  backgroundColor: Color.fromARGB(255, 248, 144, 31),
+                  backgroundColor: colorbartop,
                   actions: <Widget>[_onLoginClick1()],
                 ),
                 body: SingleChildScrollView(

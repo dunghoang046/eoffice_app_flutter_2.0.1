@@ -1,3 +1,4 @@
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/widget/vanbandi/VanBanDi_View.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -36,7 +37,7 @@ class _MyVanVanDiChiTiet extends State<MyVanVanDiChiTiet> {
             onPressed: () {
               SimpleRouter.back();
             }),
-        backgroundColor: Color.fromARGB(255, 248, 144, 31),
+        backgroundColor: colorbartop,
       ),
       body: contentbody(dataquery),
       // body: Text('dd'),

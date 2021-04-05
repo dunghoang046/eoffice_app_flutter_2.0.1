@@ -66,7 +66,7 @@ class _MyCongViecpage extends State<MyCongViecpage>
       appBar: PreferredSize(
         child: AppBar(
             iconTheme: IconThemeData(color: Colors.white),
-            backgroundColor: colorbar,
+            backgroundColor: colorbartop,
             leading: new IconButton(
                 icon: Icon(Icons.menu),
                 onPressed: () {

@@ -78,8 +78,9 @@ class _MyVanBanDenVanThupage extends State<MyVanBanDenVanThupage>
                       if (this.cusIcon.icon == Icons.search) {
                         this.cusIcon = Icon(Icons.cancel, color: Colors.white);
                         this.cusSearchBar = TextField(
-                          decoration:
-                              new InputDecoration(labelText: "Nhập từ khóa"),
+                          decoration: new InputDecoration(
+                              labelText: "Nhập từ khóa",
+                              labelStyle: TextStyle(color: Colors.white)),
                           textInputAction: TextInputAction.go,
                           onSubmitted: (String str) {
                             setState(() {

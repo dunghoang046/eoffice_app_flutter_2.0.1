@@ -1,5 +1,6 @@
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/block/vanbandi_block.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDenYkienItem.dart';
 import 'package:app_eoffice/services/Vanbanden_api.dart';
@@ -70,7 +71,7 @@ class _MyVanBanDenYKien extends State<MyVanBanDenYKien> {
             onPressed: () {
               SimpleRouter.back();
             }),
-        backgroundColor: Color.fromARGB(255, 248, 144, 31),
+        backgroundColor: colorbartop,
       ),
       body:
           BlocBuilder<BlocVanBanDiAction, ActionState>(buildWhen: (pre, state) {

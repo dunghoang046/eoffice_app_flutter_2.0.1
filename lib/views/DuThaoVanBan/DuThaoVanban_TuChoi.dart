@@ -2,6 +2,7 @@ import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
 import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/components/components.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/LanhDaoTrinhDTItem.dart';
 import 'package:app_eoffice/services/VanBanDuThao_Api.dart';
@@ -56,7 +57,7 @@ class _MyDuThaoVanBanTuCHoi extends State<MyDuThaoVanBanTuCHoi> {
                     SimpleRouter.back();
                   }),
               actions: [_onLoginClick()],
-              backgroundColor: Color.fromARGB(255, 248, 144, 31),
+              backgroundColor: colorbartop,
             ),
             body: SingleChildScrollView(
                 child: BlocBuilder<BlocDuThaoVanBanAction, ActionState>(

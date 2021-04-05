@@ -1,5 +1,6 @@
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_TraLai.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_TrangThaivb.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_trangthaicn.dart';
@@ -217,7 +218,7 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
           icon: Icon(Icons.arrow_back),
           onPressed: () => SimpleRouter.back(),
         ),
-        backgroundColor: Color.fromARGB(255, 248, 144, 31),
+        backgroundColor: colorbartop,
       ),
       body: BlocBuilder<BlocVanBanDenAction, ActionState>(
         buildWhen: (previousState, state) {

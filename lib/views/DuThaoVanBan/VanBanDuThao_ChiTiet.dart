@@ -1,3 +1,4 @@
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_Duyet.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_Phathanh.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanban_TuChoi.dart';
@@ -79,7 +80,7 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
             onPressed: () {
               SimpleRouter.back();
             }),
-        backgroundColor: Color.fromARGB(255, 248, 144, 31),
+        backgroundColor: colorbartop,
       ),
       body: contentbody(dataquery),
       floatingActionButton: buildSpeedDial(),

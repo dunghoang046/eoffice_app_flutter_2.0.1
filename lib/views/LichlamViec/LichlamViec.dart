@@ -2,6 +2,7 @@ import 'package:app_eoffice/block/LichlamViecbloc.dart';
 import 'package:app_eoffice/models/WeekItem.dart';
 import 'package:app_eoffice/models/YearWeekItem.dart';
 import 'package:app_eoffice/services/LichLamViec_Api.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/views/LichlamViec/LichlamViec_All.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -96,7 +97,7 @@ class _MyLichlamViecpage extends State<MyLichlamViecpage>
             appBar: PreferredSize(
               child: AppBar(
                 iconTheme: IconThemeData(color: Colors.white),
-                backgroundColor: Color.fromARGB(255, 248, 144, 31),
+                backgroundColor: colorbartop,
                 leading: new IconButton(
                     icon: Icon(Icons.arrow_back),
                     onPressed: () {

@@ -1,3 +1,4 @@
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/utils/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -55,7 +56,7 @@ class _MyNotificationpage extends State<MyNotificationpage>
         appBar: PreferredSize(
           child: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
-              backgroundColor: Color.fromARGB(255, 248, 144, 31),
+              backgroundColor: colorbartop,
               leading: new IconButton(
                   icon: Icon(Icons.menu),
                   onPressed: () {

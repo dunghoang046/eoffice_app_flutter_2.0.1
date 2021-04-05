@@ -3,6 +3,7 @@ import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
 import 'package:app_eoffice/components/components.dart';
 import 'package:app_eoffice/utils/Base.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,7 +72,7 @@ class _MyTrangThaiVanBanDen extends State<MyTrangThaiVanBanDen> {
                 onPressed: () {
                   SimpleRouter.back();
                 }),
-            backgroundColor: Color.fromARGB(255, 248, 144, 31),
+            backgroundColor: colorbartop,
             actions: <Widget>[_onLoginClick()],
           ),
           body: SingleChildScrollView(

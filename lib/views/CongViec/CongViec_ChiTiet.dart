@@ -1,6 +1,7 @@
 import 'package:app_eoffice/block/CongViecBloc.dart';
 import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/views/CongViec/CongViec_ThemMoi.dart';
 import 'package:app_eoffice/views/CongViec/congviec_Formtrangthai.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class _MyCongViecChiTiet extends State<MyCongViecChiTiet> {
             onPressed: () {
               SimpleRouter.back();
             }),
-        backgroundColor: Color.fromARGB(255, 248, 144, 31),
+        backgroundColor: colorbartop,
       ),
       body: BlocBuilder<BlocCongViecAction, ActionState>(
           buildWhen: (previousState, state) {

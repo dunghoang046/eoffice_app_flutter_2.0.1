@@ -110,9 +110,9 @@ Widget containerRowViewfile(String value, String filelink) => Container(
                   text: TextSpan(children: <TextSpan>[
                     TextSpan(text: value, style: TextStyle(color: Colors.black))
                   ])),
-              onTap: () {
+              onTap: () async {
                 var urlfile = strurlviewfile + filelink;
-                FlutterFilePreview.openFile(urlfile, title: value);
+                await FlutterFilePreview.openFile(urlfile, title: value);
               },
             ),
           )

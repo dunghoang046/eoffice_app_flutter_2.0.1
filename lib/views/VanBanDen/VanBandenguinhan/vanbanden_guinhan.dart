@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDenGuiNhanItem.dart';
 import 'package:app_eoffice/services/Vanbanden_api.dart';
-import 'package:app_eoffice/views/VanBanDen/vanbanden_chitiet.dart';
 import 'package:app_eoffice/widget/Base_widget.dart';
 import 'package:app_eoffice/widget/vanbanden/VanBanDenGuiNhanItemList.dart';
 import 'package:simple_router/simple_router.dart';

@@ -1,3 +1,4 @@
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_router/simple_router.dart';
@@ -43,6 +44,7 @@ class _MySettingfingerprintPage extends State<MySettingfingerprintPage> {
                   onPressed: () {
                     SimpleRouter.back();
                   }),
+              backgroundColor: colorbartop,
             ),
             body: SingleChildScrollView(
                 child: Container(

@@ -2,6 +2,7 @@ import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
 import 'package:app_eoffice/components/components.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -88,7 +89,7 @@ class _MyVanBanDenYKienForm extends State<MyVanBanDenYKienForm> {
                 SimpleRouter.back();
               }),
           actions: [_onLoginClick()],
-          backgroundColor: Color.fromARGB(255, 248, 144, 31),
+          backgroundColor: colorbartop,
         ),
         body: SingleChildScrollView(
             child: Theme(

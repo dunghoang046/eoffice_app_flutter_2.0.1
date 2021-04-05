@@ -1,4 +1,5 @@
 import 'package:app_eoffice/block/Thongbaobloc.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/views/Thongbao/Thongbao_All.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -54,7 +55,7 @@ class _MyThognBaopage extends State<MyThognBaopage>
             appBar: PreferredSize(
               child: AppBar(
                   iconTheme: IconThemeData(color: Colors.white),
-                  backgroundColor: Color.fromARGB(255, 248, 144, 31),
+                  backgroundColor: colorbartop,
                   leading: new IconButton(
                       icon: Icon(Icons.arrow_back),
                       onPressed: () {
@@ -71,7 +72,12 @@ class _MyThognBaopage extends State<MyThognBaopage>
                                 Icon(Icons.cancel, color: Colors.white);
                             this.cusSearchBar = TextField(
                               decoration: new InputDecoration(
-                                  labelText: "Nhập từ khóa"),
+                                  labelText: "Nhập từ khóa",
+                                  focusColor: Colors.white,
+                                  hintStyle: TextStyle(color: Colors.white),
+                                  fillColor: Colors.white,
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  hoverColor: Colors.white),
                               textInputAction: TextInputAction.go,
                               onSubmitted: (String str) {
                                 setState(() {

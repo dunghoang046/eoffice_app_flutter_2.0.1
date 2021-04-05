@@ -2,6 +2,7 @@ import 'package:app_eoffice/block/CongViecBloc.dart';
 import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/components/components.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/widget/CongViec/ThanhPhanThamGia/select_donvi.dart';
 import 'package:app_eoffice/widget/CongViec/ThanhPhanThamGia/select_nguoidung.dart';
 import 'package:app_eoffice/widget/CongViec/ThanhPhanThamGia/select_nhomnguoidung.dart';
@@ -10,7 +11,6 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/DonViItem.dart';
 import 'package:app_eoffice/models/ModelForm/DanhMucCongViecItem.dart';
-import 'package:app_eoffice/models/ModelForm/NhomNguoiDungThucHienCongViecItem.dart';
 import 'package:app_eoffice/models/NguoiDungitem.dart';
 import 'package:app_eoffice/models/NhomNguoiDungItem.dart';
 import 'package:app_eoffice/services/CongViec_Api.dart';
@@ -116,7 +116,7 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
                     onPressed: () {
                       Navigator.pop(context);
                     }),
-                backgroundColor: Color.fromARGB(255, 248, 144, 31),
+                backgroundColor: colorbartop,
                 actions: <Widget>[_onLoginClick1()],
               ),
               body: SingleChildScrollView(

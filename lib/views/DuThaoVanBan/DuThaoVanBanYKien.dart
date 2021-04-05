@@ -1,5 +1,6 @@
 import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
 import 'package:app_eoffice/block/base/state.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDiYKienItem.dart';
 import 'package:app_eoffice/services/VanBanDuThao_Api.dart';
@@ -66,7 +67,7 @@ class _MyDuThaoVanBanYKien extends State<MyDuThaoVanBanYKien> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        backgroundColor: Color.fromARGB(255, 248, 144, 31),
+        backgroundColor: colorbartop,
       ),
       body: BlocBuilder<BlocDuThaoVanBanAction, ActionState>(
           buildWhen: (previousState, state) {
