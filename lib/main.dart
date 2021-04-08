@@ -109,10 +109,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Widget scaffoldloading() => Scaffold(
-      body: Mylogin(),
-    );
-
 class Mymain extends StatefulWidget {
   final int datatabindex;
   @override

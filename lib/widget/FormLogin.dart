@@ -1,7 +1,12 @@
+import 'package:app_eoffice/block/login_bloc/Auth_event.dart';
+import 'package:app_eoffice/models/loginItem.dart';
+import 'package:app_eoffice/utils/Base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 bool showPassword = true;
+String _username = '';
 
 class FormLogin extends StatelessWidget {
   @override
@@ -18,7 +23,22 @@ class MyFormLogin extends StatefulWidget {
   _MyFormLogin createState() => new _MyFormLogin();
 }
 
+SharedPreferences sharedPreferences;
+bool isloadlogin = true;
+
 class _MyFormLogin extends State<MyFormLogin> {
+  @override
+  void initState() {
+    isloadlogin = true;
+    loadlogin();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -43,19 +63,7 @@ class _MyFormLogin extends State<MyFormLogin> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("Tên đăng nhập",
-                style: TextStyle(fontSize: ScreenUtil().setSp(15))),
-            TextFormField(
-                controller: widget.username,
-                decoration: InputDecoration(
-                    hintText: "Tên đăng nhập",
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
-                // ignore: missing_return
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Vui lòng nhập tên đăng nhập';
-                  }
-                }),
+            tendangnhap(),
             SizedBox(
               height: ScreenUtil().setHeight(20),
             ),
@@ -85,25 +93,55 @@ class _MyFormLogin extends State<MyFormLogin> {
               height: ScreenUtil().setHeight(15),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                InkWell(
-                  child: Text(
-                    "Quên mật khẩu",
-                    style: TextStyle(
-                        color: Colors.blue, fontSize: ScreenUtil().setSp(14)),
+                if (isloadlogin != true)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        child: Text(
+                          "Không phải tôi",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: ScreenUtil().setSp(12)),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            isloadlogin = true;
+                            isSelectedremember = false;
+                          });
+                        },
+                      ),
+                    ],
                   ),
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Thông báo'),
-                            content: Text(
-                                'Liên hệ với quản trị hệ thống để lấy lại mật khẩu'),
-                          );
-                        });
-                  },
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      child: Text(
+                        "Quên mật khẩu",
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                            fontSize: ScreenUtil().setSp(13)),
+                      ),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Thông báo'),
+                                content: Text(
+                                    'Liên hệ với quản trị hệ thống để lấy lại mật khẩu'),
+                              );
+                            });
+                      },
+                    )
+                  ],
                 )
               ],
             )
@@ -111,6 +149,52 @@ class _MyFormLogin extends State<MyFormLogin> {
         ),
       ),
     );
+  }
+
+  loadlogin() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    String strurrn = sharedPreferences.getString("username");
+    setState(() {
+      if (strurrn == null && strurrn.length <= 0)
+        isloadlogin = true;
+      else {
+        isloadlogin = false;
+        _username = strurrn;
+      }
+    });
+  }
+
+  tendangnhap() {
+    if (isloadlogin) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Tên đăng nhập",
+              style: TextStyle(fontSize: ScreenUtil().setSp(15))),
+          TextFormField(
+              controller: widget.username,
+              decoration: InputDecoration(
+                  hintText: "Tên đăng nhập",
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+              // ignore: missing_return
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Vui lòng nhập tên đăng nhập';
+                }
+              })
+        ],
+      );
+    } else {
+      return RichText(
+          text: TextSpan(children: <TextSpan>[
+        TextSpan(
+            text: 'Xin chào, ',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+        TextSpan(
+            text: _username,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red))
+      ]));
+    }
   }
 
   handleShowPass() {

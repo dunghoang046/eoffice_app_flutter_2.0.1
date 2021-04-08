@@ -91,5 +91,6 @@ void linktab(context) {
 }
 
 void logout(BuildContext context) {
+  isautologin = false;
   BlocProvider.of<BlocAuth>(context).add(LogoutEvent());
 }

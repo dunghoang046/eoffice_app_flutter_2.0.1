@@ -5,7 +5,7 @@ import 'package:app_eoffice/models/Nguoidungitem.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:load/load.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:flutter_file_preview/flutter_file_preview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 bool islogin = false;
 bool ischeckurl = true;
@@ -13,6 +13,8 @@ String keyword = '';
 String tokenview = '';
 String basemessage = '';
 int tabIndex = 0;
+bool isautologin = true;
+bool isSelectedremember = false;
 NguoiDungItem nguoidungsessionView = new NguoiDungItem();
 String strurlviewfile = "http://badinhedu.e-office.vn/";
 checkinternet() async {
@@ -111,15 +113,17 @@ Widget containerRowViewfile(String value, String filelink) => Container(
                     TextSpan(text: value, style: TextStyle(color: Colors.black))
                   ])),
               onTap: () async {
-                var urlfile = strurlviewfile + filelink;
-                await FlutterFilePreview.openFile(urlfile, title: value);
+                var urlfile =
+                    strurlviewfile + "view_file.aspx?FileID=" + filelink;
+                _launchURL(urlfile);
               },
             ),
           )
         ],
       ),
     );
-
+void _launchURL(_url) async =>
+    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 Widget buildRow() => Container(
       margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
       child: Image.asset("assets/images/logo.png"),

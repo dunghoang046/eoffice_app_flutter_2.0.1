@@ -4,49 +4,20 @@ import 'package:app_eoffice/services/local_auth_api.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/services/Base_service.dart';
 import 'package:app_eoffice/utils/Base.dart';
-import 'package:app_eoffice/main.dart';
-import 'package:load/load.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:app_eoffice/widget/FormLogin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
 import 'package:app_eoffice/block/login_bloc/Auth_event.dart';
 import 'package:app_eoffice/block/login_bloc/auth_state.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 SharedPreferences sharedPreferences;
-// void main() => runApp(
-//       LoadingProvider(
-//         themeData: LoadingThemeData(
-//             // tapDismiss: false,
-//             ),
-//         child: Login(),
-//       ),
-//     );
-
-// class Login extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//         debugShowCheckedModeBanner: false,
-//         navigatorKey: SimpleRouter.getKey(),
-//         title: 'Đăng nhập',
-//         theme: ThemeData(
-//           primaryColor: Colors.blue,
-//         ),
-//         home: MultiBlocProvider(
-//           providers: [
-//             BlocProvider<BlocAuth>(
-//                 create: (BuildContext context) => BlocAuth()),
-//           ],
-//           child: Mylogin(),
-//         ));
-//   }
-// }
 
 class Mylogin extends StatefulWidget {
+  // final int state;
+  // Mylogin({this.state});
   _Mylogin createState() => _Mylogin();
 }
 
@@ -58,20 +29,38 @@ class _Mylogin extends State<Mylogin> {
   @override
   void initState() {
     _sharedPreferences();
+    isSelectedremember = false;
     BlocProvider.of<BlocAuth>(context).add(LogoutEvent());
+    loadlogin();
+
     super.initState();
+  }
+
+  loadlogin() {
+    if (sharedPreferences.getBool("isSelectedremember") != null)
+      isSelectedremember = sharedPreferences.getBool("isSelectedremember");
+    if (isSelectedremember == true && isautologin) {
+      LoginItem objlogin = new LoginItem();
+      objlogin.checkFingerprint = "true";
+      objlogin.lang = "vi";
+      objlogin.userName = sharedPreferences.getString("username");
+      objlogin.password = sharedPreferences.getString("password");
+      LoginEvent loginevent = new LoginEvent();
+      loginevent.logindata = objlogin;
+      // ignore: await_only_futures
+      BlocProvider.of<BlocAuth>(context).add(loginevent);
+    }
   }
 
   _sharedPreferences() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  bool _isSelected = false;
-
   // ignore: must_call_super
   void _radio() {
     setState(() {
-      _isSelected = !_isSelected;
+      isSelectedremember = !isSelectedremember;
+      sharedPreferences.setBool("isSelectedremember", isSelectedremember);
     });
   }
 
@@ -187,14 +176,17 @@ class _Mylogin extends State<Mylogin> {
                                               ),
                                               GestureDetector(
                                                 onTap: _radio,
-                                                child: radioButton(_isSelected),
+                                                child: radioButton(
+                                                    isSelectedremember),
                                               ),
                                               SizedBox(
                                                 width: 8.0,
                                               ),
-                                              Text("Ghi nhớ đăng nhập",
-                                                  style:
-                                                      TextStyle(fontSize: 12))
+                                              InkWell(
+                                                child: Text("Ghi nhớ đăng nhập",
+                                                    style: TextStyle(
+                                                        fontSize: 12)),
+                                              )
                                             ],
                                           ),
                                           _onLoginClick1()
@@ -276,8 +268,16 @@ class _Mylogin extends State<Mylogin> {
     if (_formKey.currentState.validate()) {
       String _username = _usernameController.text;
       String _password = _passwordController.text;
-      sharedPreferences.setString("username", _usernameController.text);
+
       sharedPreferences.setString("password", _passwordController.text);
+      if ((_username == null || (_username != null && _username.length <= 0)) &&
+          sharedPreferences.getString("username") != null) {
+        _username = sharedPreferences.getString("username");
+        sharedPreferences.setString("username", _username);
+      } else
+        sharedPreferences.setString("username", _usernameController.text);
+      sharedPreferences.setBool("isSelectedremember", isSelectedremember);
+
       LoginItem objlogin = new LoginItem();
       objlogin.checkFingerprint = "true";
       objlogin.lang = "vi";
