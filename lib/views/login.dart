@@ -28,7 +28,7 @@ final TextEditingController _passwordController = TextEditingController();
 class _Mylogin extends State<Mylogin> {
   @override
   void initState() {
-    _sharedPreferences();
+    // _sharedPreferences();
     isSelectedremember = false;
     BlocProvider.of<BlocAuth>(context).add(LogoutEvent());
     loadlogin();
@@ -36,8 +36,10 @@ class _Mylogin extends State<Mylogin> {
     super.initState();
   }
 
-  loadlogin() {
-    if (sharedPreferences.getBool("isSelectedremember") != null)
+  loadlogin() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences != null &&
+        sharedPreferences.getBool("isSelectedremember") != null)
       isSelectedremember = sharedPreferences.getBool("isSelectedremember");
     if (isSelectedremember == true && isautologin) {
       LoginItem objlogin = new LoginItem();

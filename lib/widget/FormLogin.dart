@@ -153,9 +153,13 @@ class _MyFormLogin extends State<MyFormLogin> {
 
   loadlogin() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    String strurrn = sharedPreferences.getString("username");
+    String strurrn = '';
+
+    strurrn = sharedPreferences.getString("username") != null
+        ? sharedPreferences.getString("username")
+        : '';
     setState(() {
-      if (strurrn == null && strurrn.length <= 0)
+      if (strurrn == null || (strurrn != null && strurrn.length <= 0))
         isloadlogin = true;
       else {
         isloadlogin = false;
