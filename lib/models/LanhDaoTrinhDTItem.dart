@@ -12,11 +12,11 @@ class LanhDaoTrinhDTItem {
       List<dynamic> vbData = map['LstLanhDao'];
       lstlanhdao = vbData.map((f) => NguoiDungItem.fromMap(f)).toList();
     } else
-      lstlanhdao = new List<NguoiDungItem>();
+      lstlanhdao = <NguoiDungItem>[];
     if (map['LstLanhdaokhac'] != null && map['LstLanhdaokhac'].length > 0) {
       List<dynamic> vbData = map['LstLanhdaokhac'];
       lstlanhdaokhac = vbData.map((f) => NguoiDungItem.fromMap(f)).toList();
     } else
-      lstlanhdaokhac = new List<NguoiDungItem>();
+      lstlanhdaokhac = <NguoiDungItem>[];
   }
 }
