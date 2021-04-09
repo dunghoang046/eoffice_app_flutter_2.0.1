@@ -54,10 +54,6 @@ class _Mylogin extends State<Mylogin> {
     }
   }
 
-  _sharedPreferences() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-  }
-
   // ignore: must_call_super
   void _radio() {
     setState(() {
