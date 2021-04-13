@@ -24,18 +24,19 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_localizations: # Add this line
-    sdk: flutter  
+    sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  dio: ^3.0.10
+  
+  cupertino_icons: ^1.0.2  
+  file_picker: ^3.0.1
+  dio: ^4.0.0
   flutter_screenutil: ^4.0.3+3
   load: ^1.0.0
   rflutter_alert: ^2.0.2
   connectivity: ^3.0.2
-  basic_utils: ^2.7.1
   flutter_slidable: ^0.5.7
   date_format: ^2.0.2
   provider: ^5.0.0
@@ -52,21 +53,28 @@ dependencies:
   url_launcher: ^6.0.2
   syncfusion_flutter_calendar: ^18.4.30
   week_of_year: ^2.0.0
+  # flutter_plugin_android_lifecycle: ^1.0.6
+  
   local_auth: ^1.1.1
   shared_preferences: ^2.0.5
   custom_switch_button: ^0.5.0
-  flutter_easyloading: ^3.0.0  
-  flutter_launcher_icons: "^0.8.1"
-  change_app_package_name: ^1.0.0   
+  flutter_easyloading: ^3.0.0
+  flutter_launcher_icons: ^0.7.5
+  image: ^2.1.1
+  change_app_package_name: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
 flutter_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
-  image_path: "assets/icon/icon_app.png"
+  image_path_android: assets/icon/icon.png
+  image_path_ios: assets/icon/icon.png
+  adaptive_icon_background: assets/icon/app_bk.png
+  adaptive_icon_foreground: assets/icon/icon-foreground_2.png
+  
+  # image_path_ios: "assets/icon/icon_bk.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -79,6 +87,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+   - assets/
    - assets/images/
    - assets/icon/
 

@@ -1,4 +1,4 @@
-package com.example.app_eoffice
+package com.tinduc.app_eoffice
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.plugins.GeneratedPluginRegistrant

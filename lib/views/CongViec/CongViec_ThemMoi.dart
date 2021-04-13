@@ -8,6 +8,7 @@ import 'package:app_eoffice/widget/CongViec/ThanhPhanThamGia/select_nguoidung.da
 import 'package:app_eoffice/widget/CongViec/ThanhPhanThamGia/select_nhomnguoidung.dart';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/DonViItem.dart';
 import 'package:app_eoffice/models/ModelForm/DanhMucCongViecItem.dart';
@@ -18,16 +19,22 @@ import 'package:app_eoffice/utils/Base.dart';
 import 'package:app_eoffice/utils/TextForm.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/VanBanDuThao_ChiTiet.dart';
 import 'package:app_eoffice/widget/CongViec/ThemMoi/combo_DanhMuc.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toast/toast.dart';
 import 'package:intl/intl.dart';
 import 'package:app_eoffice/models/WorkTaskItem.dart';
 import 'package:date_format/date_format.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:app_eoffice/models/FileAttachItem.Dart';
+
+dynamic lstfile;
 
 class MyThemMoiCongViec extends StatefulWidget {
   final int id;
   final parentID;
   final List<int> lstselect;
+
   MyThemMoiCongViec({@required this.id, this.lstselect, this.parentID});
 
   @override
@@ -50,6 +57,7 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
   // ignore: must_call_super
   void initState() {
     loaddata();
+
     if (widget.id <= 0) {
       _noidung.text = '';
       _mota.text = '';
@@ -60,6 +68,8 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
     BlocProvider.of<BlocCongViecAction>(context).add(ListEvent());
   }
 
+  String filename = '';
+  String progress = '';
   final _formKeyadd = GlobalKey<FormState>();
   Future<DanhMucCongViecItem> getdanhmuc() async {
     var dataquery = {"ID": '' + widget.id.toString() + ''};
@@ -84,6 +94,48 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
       if (objcvadd.endDate != null)
         _ngayketthuc.text = formatDate(
             DateTime.parse(objcvadd.endDate), [dd, '/', mm, '/', yyyy]);
+    }
+  }
+
+  FilePickerResult selectedfile;
+  selectFile() async {
+    selectedfile = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: false,
+      allowedExtensions: ['jpg', 'pdf', 'doc'],
+    );
+    if (selectedfile != null) {
+      PlatformFile file = selectedfile.files.first;
+      filename = file.name;
+      FormData formdata = FormData.fromMap({
+        'files': [
+          for (var i = 0; i < selectedfile.files.length; i++)
+            {
+              MultipartFile.fromFileSync(selectedfile.files[i].path,
+                  filename: selectedfile.files[i].name),
+            }
+        ]
+      });
+      String uploadurl =
+          "http://192.168.1.233:8086//api/CongViec/UploadJsonFile?DonViID=1";
+      Dio dio = new Dio();
+      var response = await dio.post(
+        uploadurl,
+        data: formdata,
+        onSendProgress: (int sent, int total) {
+          setState(() {});
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var vbData = response.data['Data'];
+        var lstfileatt = vbData.map((f) => FileAttachItem.fromMap(f)).toList();
+        lstfile = lstfileatt;
+      } else {
+        print("Error during connection to server.");
+      }
+    } else {
+      // User canceled the picker
     }
   }
 
@@ -175,31 +227,21 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
                             noidung: _mota,
                             isvalidate: false,
                           ),
+                          Container(
+                              // ignore: deprecated_member_use
+                              child: RaisedButton.icon(
+                            onPressed: () {
+                              selectFile();
+                            },
+                            icon: Icon(Icons.folder_open),
+                            label: Text("Chọn file"),
+                            color: Colors.redAccent,
+                            colorBrightness: Brightness.dark,
+                          )),
+                          Text(filename),
+                          // Text(result.files.first),
                           Row(
                             children: [
-                              Container(
-                                  margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                                  child: MaterialButton(
-                                      padding:
-                                          EdgeInsets.fromLTRB(5, 10, 5, 10),
-                                      onPressed: () {
-                                        _click_add();
-                                      },
-                                      color: Colors.blue,
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.save,
-                                            size: 17,
-                                            color: Colors.white,
-                                          ),
-                                          Text(
-                                            'Cập nhật',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(color: white),
-                                          ),
-                                        ],
-                                      ))),
                               Container(
                                   margin: EdgeInsets.fromLTRB(15, 10, 0, 0),
                                   child: MaterialButton(
@@ -292,6 +334,7 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
         "ParentID": widget.parentID,
         "DanhMucGiaTriID":
             lstdanhmucgiatri.length > 0 ? lstdanhmucgiatri.join(',') : '',
+        "lstfile": lstfile
       };
       AddEvent addEvent = new AddEvent();
       addEvent.data = data;
