@@ -29,13 +29,6 @@ class _MyVanBanDiAllpage extends State<MyVanBanDiAllpage>
     _scrollController.addListener(_loadMoreTopStoriesIfNeed);
   }
 
-  // @override
-  // void dispose() {
-  //   _scrollController.dispose();
-  //   widget.requestblock.dispose();
-  //   super.dispose();
-  // }
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -44,10 +37,25 @@ class _MyVanBanDiAllpage extends State<MyVanBanDiAllpage>
 
   @override
   Widget build(BuildContext context) {
-    return VanBanDiPanel(
-      vanBanDiBloc: widget.requestblock,
-      scrollController_rq: _scrollController,
-    );
+    return RefreshIndicator(
+        onRefresh: loadtop,
+        child: VanBanDiPanel(
+          vanBanDiBloc: widget.requestblock,
+          scrollController_rq: _scrollController,
+        ));
+  }
+
+  Future<Null> loadtop() async {
+    if (_scrollController.position.atEdge) {
+      if (_scrollController.position.pixels <=
+          _scrollController.position.minScrollExtent) {
+        setState(() {
+          widget.requestblock.loadtop(
+              widget.requestkeyword != null ? widget.requestkeyword : '', 0);
+        });
+      }
+    }
+    return null;
   }
 
   void _loadMoreTopStoriesIfNeed() async {

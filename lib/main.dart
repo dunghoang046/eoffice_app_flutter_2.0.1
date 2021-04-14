@@ -22,6 +22,7 @@ import 'package:app_eoffice/views/VanBanDen/vanbanden.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_VanThu.dart';
 import 'package:app_eoffice/views/VanBanDi/vanbandi.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:load/load.dart';
 import 'package:simple_router/simple_router.dart';
 import 'package:app_eoffice/block/login_bloc/auth_state.dart';
@@ -299,10 +300,6 @@ class _MyMain extends State<Mymain> {
       ));
   Widget scaffold() =>
       BlocBuilder<BlocAuth, AuthState>(buildWhen: (previousState, state) {
-        // if (state is AuthErrorState) {
-        //   Toast.show(basemessage, context,
-        //       duration: 3, gravity: Toast.TOP, backgroundColor: Colors.red);
-        // }
         if (state is LogedSate) {
           if (islogin) {
             if (widget.datatabindex != null && widget.datatabindex >= 0)
@@ -337,13 +334,18 @@ class _MyMain extends State<Mymain> {
         return;
       }, builder: (context, state) {
         if (state is LogedSate) {
-          return WillPopScope(
-              child: Scaffold(
-                  drawer: lstmenuleft(),
-                  key: _scaffoldKey,
-                  body: _pageOptions[tabIndex],
-                  bottomNavigationBar: bottomNavimain()),
-              onWillPop: _onBackPressed);
+          return KeyboardDismisser(
+              gestures: [
+                GestureType.onTap,
+                GestureType.onPanUpdateDownDirection,
+              ],
+              child: WillPopScope(
+                  child: Scaffold(
+                      drawer: lstmenuleft(),
+                      key: _scaffoldKey,
+                      body: _pageOptions[tabIndex],
+                      bottomNavigationBar: bottomNavimain()),
+                  onWillPop: _onBackPressed));
         } else
           return Mylogin();
       });

@@ -21,6 +21,8 @@ import 'package:app_eoffice/views/DuThaoVanBan/VanBanDuThao_ChiTiet.dart';
 import 'package:app_eoffice/widget/CongViec/ThemMoi/combo_DanhMuc.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:simple_router/simple_router.dart';
 import 'package:toast/toast.dart';
 import 'package:intl/intl.dart';
 import 'package:app_eoffice/models/WorkTaskItem.dart';
@@ -107,17 +109,21 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
   selectFile() async {
     selectedfile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowMultiple: false,
-      allowedExtensions: ['jpg', 'pdf', 'doc'],
+      allowMultiple: true,
+      allowedExtensions: ['jpg', 'pdf', 'doc', 'docx', 'xlsx', 'xls'],
     );
     if (selectedfile != null) {
       PlatformFile file = selectedfile.files.first;
       filename = file.name;
-      FormData formdatafile = FormData.fromMap({
-        'files': [
-          MultipartFile.fromFileSync(file.path, filename: file.name),
-        ]
-      });
+      List<MultipartFile> lstfiles = <MultipartFile>[];
+      for (var i = 0; i < selectedfile.files.length; i++) {
+        lstfiles.add(
+          MultipartFile.fromFileSync(selectedfile.files[i].path,
+              filename: selectedfile.files[i].name),
+        );
+      }
+
+      FormData formdatafile = FormData.fromMap({'files': lstfiles});
       String uploadurl = new Base_service().baseUrl +
           "/CongViec/UploadJsonFile?DonViID=" +
           nguoidungsessionView.donviid.toString();
@@ -137,7 +143,7 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
           lstfiledinhkem.addAll(lst);
         });
       } else {
-        print("Error during connection to server.");
+        print("Có lỗi xảy ra do server");
       }
     } else {
       // User canceled the picker
@@ -152,6 +158,8 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
       if (state is DoneState) {
         Toast.show(basemessage, context,
             duration: 2, gravity: Toast.TOP, backgroundColor: Colors.green);
+        BlocProvider.of<BlocCongViecAction>(context).add(ListEvent());
+        SimpleRouter.back();
       }
       if (state is ErrorState) {
         Toast.show(basemessage, context,
@@ -159,155 +167,125 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
       }
       return;
     }, builder: (context, state) {
-      return Container(
-          child: Scaffold(
-              backgroundColor: Colors.grey[350],
-              appBar: AppBar(
-                iconTheme: IconThemeData(color: Colors.white),
-                title: Text(
-                  widget.id > 0 ? 'Cập nhật công việc' : 'Thêm mới công việc',
-                  style: TextStyle(color: Colors.white),
-                ),
-                leading: new IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-                backgroundColor: colorbartop,
-                actions: <Widget>[_onLoginClick1()],
-              ),
-              body: SingleChildScrollView(
-                  child: Theme(
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey[300],
-                      width: 1,
+      return KeyboardDismisser(
+          child: SafeArea(
+              child: Scaffold(
+                  backgroundColor: Colors.grey[350],
+                  appBar: AppBar(
+                    iconTheme: IconThemeData(color: Colors.white),
+                    title: Text(
+                      widget.id > 0
+                          ? 'Cập nhật công việc'
+                          : 'Thêm mới công việc',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.white,
-                        offset: Offset(0.0, 8.0),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        // offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
+                    leading: new IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          SimpleRouter.back();
+                        }),
+                    backgroundColor: colorbartop,
+                    actions: <Widget>[_onLoginClick1()],
                   ),
-                  // color: Colors.white,
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  child: Form(
-                      key: _formKeyadd,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          rowlabel('Tên công việc'),
-                          MyTextForm(
-                            text_hind: 'Tên công việc',
-                            noidung: _noidung,
-                            isvalidate: true,
+                  body: SingleChildScrollView(
+                      child: Theme(
+                    child: Container(
+                      margin: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey[300],
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white,
+                            offset: Offset(0.0, 8.0),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            // offset: Offset(0, 3), // changes position of shadow
                           ),
-                          rowlabel('Bắt đầu'),
-                          NgayBatDau(),
-                          rowlabel('Kết thúc'),
-                          NgayKetThuc(),
-                          Myselect_NhomNguoiDung(obj, widget.id),
-                          Myselect_DonVi(
-                            objword: obj,
-                            id: widget.id,
-                          ),
-                          MySelect_NguoiDung(obj, widget.id),
-                          MyComBo_Danhmuc(lstdm: getdanhmuc()),
-                          rowlabel('Tags'),
-                          MyTextForm(
-                            text_hind: 'Tags',
-                            noidung: _tags,
-                            isvalidate: false,
-                          ),
-                          rowlabel('Mô tả'),
-                          MyTextForm(
-                            text_hind: 'Mô tả',
-                            noidung: _mota,
-                            isvalidate: false,
-                          ),
-
-                          // ignore: deprecated_member_use
-                          RaisedButton.icon(
-                            onPressed: () {
-                              selectFile();
-                            },
-                            icon: Icon(
-                              Icons.folder_open,
-                              color: Colors.white,
-                            ),
-                            label: Text(
-                              "Chọn file",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            color: Colors.red,
-                            // colorBrightness: Brightness.light,
-                          ),
-                          if (lstfiledinhkem != null)
-                            for (int i = 0; i < lstfiledinhkem.length; i++)
-                              InkWell(
-                                child: Row(
-                                  children: [
-                                    Text(lstfiledinhkem[i].ten),
-                                    Icon(Icons.delete)
-                                  ],
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    lstfiledinhkem.removeAt(i);
-                                  });
-                                },
-                              ),
-                          // Row(
-                          //   children: [
-                          //     Container(
-                          //         margin: EdgeInsets.fromLTRB(15, 10, 0, 0),
-                          //         child: MaterialButton(
-                          //             // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                          //             onPressed: () {
-                          //               Navigator.push(
-                          //                 context,
-                          //                 MaterialPageRoute(
-                          //                     builder: (context) =>
-                          //                         MyDuThaoVanBanChiTiet(
-                          //                             id: widget.id)),
-                          //               );
-                          //             },
-                          //             color: Colors.red,
-                          //             child: Row(
-                          //               children: [
-                          //                 Icon(
-                          //                   Icons.close,
-                          //                   size: 17,
-                          //                   color: Colors.white,
-                          //                 ),
-                          //                 Text(
-                          //                   'Hủy',
-                          //                   textAlign: TextAlign.center,
-                          //                   style: TextStyle(color: white),
-                          //                 ),
-                          //               ],
-                          //             )
-                          //             )),
-                          //   ],
-                          // )
                         ],
-                      )),
-                ),
-                data: ThemeData(
-                    buttonTheme:
-                        ButtonThemeData(textTheme: ButtonTextTheme.accent),
-                    accentColor: Colors.blue,
-                    primaryColor: Colors.blue),
-              ))));
+                      ),
+                      // color: Colors.white,
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      child: Form(
+                          key: _formKeyadd,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              rowlabel('Tên công việc'),
+                              MyTextForm(
+                                text_hind: 'Tên công việc',
+                                noidung: _noidung,
+                                isvalidate: true,
+                              ),
+                              rowlabel('Bắt đầu'),
+                              NgayBatDau(),
+                              rowlabel('Kết thúc'),
+                              NgayKetThuc(),
+                              Myselect_NhomNguoiDung(obj, widget.id),
+                              Myselect_DonVi(
+                                objword: obj,
+                                id: widget.id,
+                              ),
+                              MySelect_NguoiDung(obj, widget.id),
+                              MyComBo_Danhmuc(lstdm: getdanhmuc()),
+                              rowlabel('Tags'),
+                              MyTextForm(
+                                text_hind: 'Tags',
+                                noidung: _tags,
+                                isvalidate: false,
+                              ),
+                              rowlabel('Mô tả'),
+                              MyTextForm(
+                                text_hind: 'Mô tả',
+                                noidung: _mota,
+                                isvalidate: false,
+                              ),
+
+                              // ignore: deprecated_member_use
+                              RaisedButton.icon(
+                                onPressed: () {
+                                  selectFile();
+                                },
+                                icon: Icon(
+                                  Icons.folder_open,
+                                  color: Colors.white,
+                                ),
+                                label: Text(
+                                  "Chọn file",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                color: Colors.red,
+                                // colorBrightness: Brightness.light,
+                              ),
+                              if (lstfiledinhkem != null)
+                                for (int i = 0; i < lstfiledinhkem.length; i++)
+                                  InkWell(
+                                    child: Row(
+                                      children: [
+                                        Text(lstfiledinhkem[i].ten),
+                                        Icon(Icons.delete)
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        lstfiledinhkem.removeAt(i);
+                                      });
+                                    },
+                                  ),
+                            ],
+                          )),
+                    ),
+                    data: ThemeData(
+                        buttonTheme:
+                            ButtonThemeData(textTheme: ButtonTextTheme.accent),
+                        accentColor: Colors.blue,
+                        primaryColor: Colors.blue),
+                  )))));
     }));
   }
 

@@ -33,13 +33,6 @@ class _MyNotificationAllpage extends State<MyNotificationAllpage>
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   _scrollController.removeListener(() {});
-  //   widget.requestblock.dispose();
-  //   super.dispose();
-  // }
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

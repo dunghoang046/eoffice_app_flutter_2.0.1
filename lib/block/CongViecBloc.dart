@@ -63,7 +63,7 @@ class CongViecblock extends Blocdispose {
     dataquery = {
       "CurrentPage": "" + currentPage.toString() + "",
       "RowPerPage": '10',
-      "SearchIn": 'SoKyHieu,TrichYeu',
+      "SearchIn": 'Title,Description',
       "Keyword": '' + keyword + '',
     };
 

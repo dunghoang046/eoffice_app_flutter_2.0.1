@@ -7,9 +7,9 @@ NguoiDungItem nguoidungsession = new NguoiDungItem();
 
 // ignore: camel_case_types
 class Base_service {
-  final baseUrl = 'http://192.168.0.102:8086//api';
+  // final baseUrl = 'http://192.168.0.102:8086//api';
   // final _baseUrl = 'http://api.e-office.vn//api';
-  // final baseUrl = 'http://api.e-office.vn//api';
+  final baseUrl = 'http://api.e-office.vn//api';
   // final _baseUrl = 'http://192.168.43.4:8086//api';
   static final Base_service _internal = Base_service.internal();
   factory Base_service() => _internal;

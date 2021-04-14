@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:app_eoffice/block/CongViecBloc.dart';
-import 'package:app_eoffice/main.dart';
 import 'package:app_eoffice/models/WorkTaskItem.dart';
 import 'package:app_eoffice/views/CongViec/CongViec_ChiTiet.dart';
 import 'package:app_eoffice/views/CongViec/CongViec_ThemMoi.dart';

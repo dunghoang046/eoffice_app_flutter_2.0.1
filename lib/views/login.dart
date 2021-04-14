@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
 import 'package:app_eoffice/block/login_bloc/Auth_event.dart';
 import 'package:app_eoffice/block/login_bloc/auth_state.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
@@ -118,8 +119,9 @@ class _Mylogin extends State<Mylogin> {
       },
       builder: (context, state) {
         return ScreenUtilInit(
-            builder: () => SafeArea(
-                    child: Scaffold(
+            builder: () => KeyboardDismisser(
+                    child: SafeArea(
+                        child: Scaffold(
                   resizeToAvoidBottomInset: false,
                   // key: _scaffoldKey,
                   backgroundColor: Colors.white,
@@ -214,7 +216,7 @@ class _Mylogin extends State<Mylogin> {
                       )
                     ],
                   ),
-                )));
+                ))));
       },
     );
   }

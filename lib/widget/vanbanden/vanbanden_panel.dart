@@ -3,6 +3,7 @@ import 'package:app_eoffice/block/vanbandenbloc.dart';
 import 'package:app_eoffice/models/VanBanDenItem.dart';
 import 'package:app_eoffice/widget/vanbanden/vanbanden_list_item.dart';
 import 'package:app_eoffice/widget/Base_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class VanBanDenPanel extends StatefulWidget {
   VanBanDenBloc vanBanDenBloc;
@@ -10,6 +11,8 @@ class VanBanDenPanel extends StatefulWidget {
   VanBanDenPanel({@required this.vanBanDenBloc, this.scrollController_rq});
   _VanBanDenPanel createState() => _VanBanDenPanel();
 }
+
+RefreshController _refreshController = RefreshController(initialRefresh: false);
 
 class _VanBanDenPanel extends State<VanBanDenPanel>
     with SingleTickerProviderStateMixin {
@@ -22,23 +25,31 @@ class _VanBanDenPanel extends State<VanBanDenPanel>
   }
 
   Widget _buildView({List<VanBanDenItem> topStories}) {
-    return ListView.builder(
-      controller: widget.scrollController_rq,
-      itemCount: widget.vanBanDenBloc.hasMoreStories()
-          ? topStories.length + 1
-          : topStories.length,
-      itemBuilder: (BuildContext context, int index) {
-        if (index == topStories.length) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(child: CircularProgressIndicator()),
-          );
-        }
-        return VanBanDenListItem(
-          obj: topStories[index],
-        );
-      },
-    );
+    return SmartRefresher(
+        controller: _refreshController,
+        header: ClassicHeader(
+          idleText: 'Đang tải dữ liệu',
+          completeText: 'Tải dữ liệu thành công',
+          refreshingText: 'Đang tải',
+          releaseText: 'Đang tải lại',
+        ),
+        child: ListView.builder(
+          controller: widget.scrollController_rq,
+          itemCount: widget.vanBanDenBloc.hasMoreStories()
+              ? topStories.length + 1
+              : topStories.length,
+          itemBuilder: (BuildContext context, int index) {
+            if (index == topStories.length) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+            return VanBanDenListItem(
+              obj: topStories[index],
+            );
+          },
+        ));
   }
 
   @override

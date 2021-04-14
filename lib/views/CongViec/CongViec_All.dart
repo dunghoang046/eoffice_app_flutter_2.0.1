@@ -1,9 +1,11 @@
+import 'package:app_eoffice/block/base/state.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/block/CongViecBloc.dart';
 import 'package:app_eoffice/main.dart';
 import 'package:app_eoffice/widget/CongViec/CongViecpanel.dart';
 import 'package:app_eoffice/widget/NoInternetConnection.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:app_eoffice/utils/Base.dart';
 
@@ -76,10 +78,18 @@ class _MyCongViecAllpage extends State<MyCongViecAllpage>
                 );
               }
               if (snapshot.hasData && snapshot.data) {
-                return CongViecpanel(
-                  congviecBloc: widget.requestblock,
-                  scrollController_rq: _scrollController,
-                );
+                return BlocBuilder<BlocCongViecAction, ActionState>(
+                    // ignore: missing_return
+                    buildWhen: (previousState, state) {
+                  if (state is ViewState) {
+                    loadtop();
+                  }
+                }, builder: (context, state) {
+                  return CongViecpanel(
+                    congviecBloc: widget.requestblock,
+                    scrollController_rq: _scrollController,
+                  );
+                });
               } else {
                 return Center(
                   child: NoInternetConnection(action: loadrefresh),
