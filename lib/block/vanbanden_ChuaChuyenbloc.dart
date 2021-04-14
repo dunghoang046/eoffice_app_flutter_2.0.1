@@ -67,7 +67,8 @@ class VanBanDenChuaChuyenBloc extends Blocdispose {
       if (lst.length > 0) total = lst[0].total;
       _lstobject.addAll(lst);
       _currentStoryIndex = _lstobject.length;
-      _topStories_cxlStreamController.sink.add(_lstobject);
+      if (!_topStories_cxlStreamController.isClosed)
+        _topStories_cxlStreamController.sink.add(_lstobject);
       currentPage = currentPage + 1;
     }
   }

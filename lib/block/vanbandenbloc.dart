@@ -71,7 +71,8 @@ class VanBanDenBloc extends Blocdispose {
       if (lst.length > 0) total = lst[0].total;
       _lstobject.addAll(lst);
       _currentStoryIndex = _lstobject.length;
-      _topStoriesStreamController.sink.add(_lstobject);
+      if (!_topStoriesStreamController.isClosed)
+        _topStoriesStreamController.sink.add(_lstobject);
       currentPage = currentPage + 1;
     }
   }

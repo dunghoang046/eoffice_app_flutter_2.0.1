@@ -2,7 +2,7 @@ import 'package:app_eoffice/models/DanhMucGiaTriItem.dart';
 import 'package:app_eoffice/models/UserDonViItem.dart';
 import 'package:app_eoffice/models/UserItem.dart';
 import 'package:app_eoffice/models/UserNhomNguoiDungItem.dart';
-import 'FileAttachItem.dart';
+import 'package:app_eoffice/models/FileAttachItem.Dart';
 
 class WorkTaskItem {
   int id;

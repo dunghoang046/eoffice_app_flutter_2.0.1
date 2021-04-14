@@ -82,7 +82,8 @@ class CongViecblock extends Blocdispose {
         if (lst.length > 0) total = lst[0].totalRecord;
         _lstobject.addAll(lst);
         currentStoryIndex = totaldelete + _lstobject.length;
-        topStoriesStreamController.sink.add(_lstobject);
+        if (!topStoriesStreamController.isClosed)
+          topStoriesStreamController.sink.add(_lstobject);
         currentPage = currentPage + 1;
       } catch (e) {
         throw Exception('Failed to get data');
@@ -122,6 +123,12 @@ class BlocCongViecAction extends Bloc<ActionEvent, ActionState> {
       }
       if (event is ListEvent) {
         yield ViewState();
+      }
+      if (event is UploadfileEvent) {
+        await objapi.postuploadfile(event.data, event.donviid).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          // lstfile = objdata["Data"];
+        });
       }
       if (event is FinshEvent) {
         await objapi.postfinsh(event.data).then((objdata) {

@@ -12,6 +12,7 @@ bool ischeckurl = true;
 String keyword = '';
 String tokenview = '';
 String basemessage = '';
+// dynamic lstfile;
 int tabIndex = 0;
 bool isautologin = true;
 bool isSelectedremember = false;

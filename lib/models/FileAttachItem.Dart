@@ -10,4 +10,13 @@ class FileAttachItem {
     filelink = map['FileLink'];
     isFileScan = map['IsFileScan'];
   }
+
+
+
+  Map<String, dynamic> toJson() => {
+    'ID': id,
+    'Ten':ten,
+    'FileLink':filelink,
+    'IsFileScan':isFileScan
+  };
 }

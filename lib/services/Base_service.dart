@@ -7,8 +7,9 @@ NguoiDungItem nguoidungsession = new NguoiDungItem();
 
 // ignore: camel_case_types
 class Base_service {
-  //final _baseUrl = 'http://192.168.202.21:8086//api';
-  final _baseUrl = 'http://api.e-office.vn//api';
+  final baseUrl = 'http://192.168.0.102:8086//api';
+  // final _baseUrl = 'http://api.e-office.vn//api';
+  // final baseUrl = 'http://api.e-office.vn//api';
   // final _baseUrl = 'http://192.168.43.4:8086//api';
   static final Base_service _internal = Base_service.internal();
   factory Base_service() => _internal;
@@ -19,7 +20,7 @@ class Base_service {
     Dio dio = new Dio();
     NguoiDungItem user;
     try {
-      var response = await dio.post('$_baseUrl/NguoiDung/Login', data: data1);
+      var response = await dio.post('$baseUrl/NguoiDung/Login', data: data1);
       if (response.statusCode == 200) {
         if (response.data != null &&
             response.data['Data'] != null &&
@@ -47,7 +48,7 @@ class Base_service {
     }
     var objdata;
     try {
-      var response = await dio.get('$_baseUrl/$urlapi',
+      var response = await dio.get('$baseUrl/$urlapi',
           queryParameters: data,
           options: Options(headers: {
             'Authorization': '$token',
@@ -67,7 +68,7 @@ class Base_service {
 
   dynamic post(data, urlapi) async {
     Dio dio = new Dio();
-    var response = await dio.post('$_baseUrl/$urlapi',
+    var response = await dio.post('$baseUrl/$urlapi',
         data: data,
         options: Options(headers: {
           'Authorization': '$token',

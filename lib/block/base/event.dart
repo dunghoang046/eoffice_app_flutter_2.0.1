@@ -1,5 +1,6 @@
 abstract class ActionEvent {
   dynamic data;
+  dynamic donviid;
 }
 
 class NoEven extends ActionEvent {}
@@ -31,3 +32,5 @@ class PhatHanhEvent extends ActionEvent {}
 class TuChoiEvent extends ActionEvent {}
 
 class ApproverEvent extends ActionEvent {}
+
+class UploadfileEvent extends ActionEvent {}

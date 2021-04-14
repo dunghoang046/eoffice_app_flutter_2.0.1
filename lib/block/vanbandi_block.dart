@@ -40,7 +40,7 @@ class VanBanDiBloc extends Blocdispose {
 
   void loadtop(keyword, type) async {
     _topStoriesStreamController = new StreamController();
-    _lstobject = new List<VanBanDiItem>();
+    _lstobject = <VanBanDiItem>[];
     currentPage = 1;
     loadMore(keyword, type);
   }

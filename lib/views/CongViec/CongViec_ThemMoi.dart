@@ -27,6 +27,7 @@ import 'package:app_eoffice/models/WorkTaskItem.dart';
 import 'package:date_format/date_format.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:app_eoffice/models/FileAttachItem.Dart';
+import 'package:app_eoffice/services/Base_service.dart';
 
 dynamic lstfile;
 
@@ -56,6 +57,7 @@ WorkTaskItem objcvadd = new WorkTaskItem();
 class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
   // ignore: must_call_super
   void initState() {
+    lstfiledinhkem = new List<FileAttachItem>();
     loaddata();
 
     if (widget.id <= 0) {
@@ -70,6 +72,7 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
 
   String filename = '';
   String progress = '';
+  List<FileAttachItem> lstfiledinhkem;
   final _formKeyadd = GlobalKey<FormState>();
   Future<DanhMucCongViecItem> getdanhmuc() async {
     var dataquery = {"ID": '' + widget.id.toString() + ''};
@@ -88,6 +91,9 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
       obj = objapi.getbyId(dataquery);
       objcvadd = await objapi.getbyId(dataquery);
       _noidung.text = objcvadd.title;
+      setState(() {
+        lstfiledinhkem = objcvadd.lstfile;
+      });
       if (objcvadd.startDate != null)
         _ngaybatdau.text = formatDate(
             DateTime.parse(objcvadd.startDate), [dd, '/', mm, '/', yyyy]);
@@ -107,30 +113,29 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
     if (selectedfile != null) {
       PlatformFile file = selectedfile.files.first;
       filename = file.name;
-      FormData formdata = FormData.fromMap({
+      FormData formdatafile = FormData.fromMap({
         'files': [
-          for (var i = 0; i < selectedfile.files.length; i++)
-            {
-              MultipartFile.fromFileSync(selectedfile.files[i].path,
-                  filename: selectedfile.files[i].name),
-            }
+          MultipartFile.fromFileSync(file.path, filename: file.name),
         ]
       });
-      String uploadurl =
-          "http://192.168.1.233:8086//api/CongViec/UploadJsonFile?DonViID=1";
+      String uploadurl = new Base_service().baseUrl +
+          "/CongViec/UploadJsonFile?DonViID=" +
+          nguoidungsessionView.donviid.toString();
       Dio dio = new Dio();
       var response = await dio.post(
         uploadurl,
-        data: formdata,
+        data: formdatafile,
         onSendProgress: (int sent, int total) {
           setState(() {});
         },
       );
 
       if (response.statusCode == 200) {
-        var vbData = response.data['Data'];
-        var lstfileatt = vbData.map((f) => FileAttachItem.fromMap(f)).toList();
-        lstfile = lstfileatt;
+        List<dynamic> vbData = response.data['Data'];
+        var lst = vbData.map((f) => FileAttachItem.fromMap(f)).toList();
+        setState(() {
+          lstfiledinhkem.addAll(lst);
+        });
       } else {
         print("Error during connection to server.");
       }
@@ -197,6 +202,8 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
                       key: _formKeyadd,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           rowlabel('Tên công việc'),
                           MyTextForm(
@@ -214,7 +221,7 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
                             id: widget.id,
                           ),
                           MySelect_NguoiDung(obj, widget.id),
-                          // MyComBo_Danhmuc(lstdm: getdanhmuc()),
+                          MyComBo_Danhmuc(lstdm: getdanhmuc()),
                           rowlabel('Tags'),
                           MyTextForm(
                             text_hind: 'Tags',
@@ -227,51 +234,71 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
                             noidung: _mota,
                             isvalidate: false,
                           ),
-                          Container(
-                              // ignore: deprecated_member_use
-                              child: RaisedButton.icon(
+
+                          // ignore: deprecated_member_use
+                          RaisedButton.icon(
                             onPressed: () {
                               selectFile();
                             },
-                            icon: Icon(Icons.folder_open),
-                            label: Text("Chọn file"),
-                            color: Colors.redAccent,
-                            colorBrightness: Brightness.dark,
-                          )),
-                          Text(filename),
-                          // Text(result.files.first),
-                          Row(
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.fromLTRB(15, 10, 0, 0),
-                                  child: MaterialButton(
-                                      // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyDuThaoVanBanChiTiet(
-                                                      id: widget.id)),
-                                        );
-                                      },
-                                      color: Colors.red,
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.close,
-                                            size: 17,
-                                            color: Colors.white,
-                                          ),
-                                          Text(
-                                            'Hủy',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(color: white),
-                                          ),
-                                        ],
-                                      ))),
-                            ],
-                          )
+                            icon: Icon(
+                              Icons.folder_open,
+                              color: Colors.white,
+                            ),
+                            label: Text(
+                              "Chọn file",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            color: Colors.red,
+                            // colorBrightness: Brightness.light,
+                          ),
+                          if (lstfiledinhkem != null)
+                            for (int i = 0; i < lstfiledinhkem.length; i++)
+                              InkWell(
+                                child: Row(
+                                  children: [
+                                    Text(lstfiledinhkem[i].ten),
+                                    Icon(Icons.delete)
+                                  ],
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    lstfiledinhkem.removeAt(i);
+                                  });
+                                },
+                              ),
+                          // Row(
+                          //   children: [
+                          //     Container(
+                          //         margin: EdgeInsets.fromLTRB(15, 10, 0, 0),
+                          //         child: MaterialButton(
+                          //             // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          //             onPressed: () {
+                          //               Navigator.push(
+                          //                 context,
+                          //                 MaterialPageRoute(
+                          //                     builder: (context) =>
+                          //                         MyDuThaoVanBanChiTiet(
+                          //                             id: widget.id)),
+                          //               );
+                          //             },
+                          //             color: Colors.red,
+                          //             child: Row(
+                          //               children: [
+                          //                 Icon(
+                          //                   Icons.close,
+                          //                   size: 17,
+                          //                   color: Colors.white,
+                          //                 ),
+                          //                 Text(
+                          //                   'Hủy',
+                          //                   textAlign: TextAlign.center,
+                          //                   style: TextStyle(color: white),
+                          //                 ),
+                          //               ],
+                          //             )
+                          //             )),
+                          //   ],
+                          // )
                         ],
                       )),
                 ),
@@ -334,7 +361,9 @@ class _MyThemMoiCongViec extends State<MyThemMoiCongViec> {
         "ParentID": widget.parentID,
         "DanhMucGiaTriID":
             lstdanhmucgiatri.length > 0 ? lstdanhmucgiatri.join(',') : '',
-        "lstfile": lstfile
+        "lstfile": lstfiledinhkem != null && lstfiledinhkem.length > 0
+            ? lstfiledinhkem.map((e) => e.toJson()).toList()
+            : null
       };
       AddEvent addEvent = new AddEvent();
       addEvent.data = data;

@@ -1,6 +1,5 @@
 import 'package:app_eoffice/models/DanhMucTenItem.dart';
 import 'package:app_eoffice/models/DonViItem.dart';
-import 'package:app_eoffice/models/Message.dart';
 import 'package:app_eoffice/models/Nguoidungitem.dart';
 import 'package:app_eoffice/models/NhomNguoiDungItem.dart';
 import 'package:app_eoffice/models/WorkTaskCommentItem.dart';
@@ -85,6 +84,16 @@ class CongViec_Api {
       var url = "/CongViec/Finish";
       var message = await base_service.post(dataquery, url);
       return message;
+    } catch (ex) {
+      return ex;
+    }
+  }
+
+  Future<dynamic> postuploadfile(dataquery, donviid) async {
+    try {
+      var url = "/CongViec/UploadJsonFile?DonViID=" + donviid;
+      var lstfile = await base_service.post(dataquery, url);
+      return lstfile;
     } catch (ex) {
       return ex;
     }
