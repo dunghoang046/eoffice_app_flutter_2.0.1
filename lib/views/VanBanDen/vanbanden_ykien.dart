@@ -1,5 +1,5 @@
 import 'package:app_eoffice/block/base/state.dart';
-import 'package:app_eoffice/block/vanbandi_block.dart';
+import 'package:app_eoffice/block/vanbandenbloc.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDenYkienItem.dart';
@@ -73,8 +73,8 @@ class _MyVanBanDenYKien extends State<MyVanBanDenYKien> {
             }),
         backgroundColor: colorbartop,
       ),
-      body:
-          BlocBuilder<BlocVanBanDiAction, ActionState>(buildWhen: (pre, state) {
+      body: BlocBuilder<BlocVanBanDenAction, ActionState>(
+          buildWhen: (pre, state) {
         if (state is ViewYKienState) {
           loadykien();
         }

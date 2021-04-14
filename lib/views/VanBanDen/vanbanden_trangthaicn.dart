@@ -83,20 +83,16 @@ class _MyTrangThaiVanBanDenCaNhan extends State<MyTrangThaiVanBanDenCaNhan> {
                 SearchableDropdown.single(
                   items: [
                     DropdownMenuItem(
-                      child: Text("Chọn trạng thái"),
-                      value: 0,
-                    ),
-                    DropdownMenuItem(
                       child: Text("Đã xử lý"),
                       value: 3,
                     ),
                     DropdownMenuItem(
                       child: Text("Đang xử lý"),
-                      value: 2,
+                      value: 1,
                     ),
                     DropdownMenuItem(
-                      child: Text("Chờ xử lý"),
-                      value: 4,
+                      child: Text("Chưa xử lý"),
+                      value: 0,
                     ),
                   ],
                   value: selectedValue,
