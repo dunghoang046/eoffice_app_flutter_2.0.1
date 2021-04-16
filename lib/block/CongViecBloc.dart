@@ -86,7 +86,7 @@ class CongViecblock extends Blocdispose {
           topStoriesStreamController.sink.add(_lstobject);
         currentPage = currentPage + 1;
       } catch (e) {
-        throw Exception('Failed to get data');
+        throw Exception('Lỗi lấy dữ liệu');
       }
     }
   }
@@ -110,6 +110,7 @@ class BlocCongViecAction extends Bloc<ActionEvent, ActionState> {
   @override
   Stream<ActionState> mapEventToState(ActionEvent event) async* {
     try {
+      isError = false;
       yield LoadingState();
       if (event is AddEvent) {
         await objapi.postaddcongviec(event.data).then((objdata) {

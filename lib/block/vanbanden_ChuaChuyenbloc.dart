@@ -8,7 +8,7 @@ class VanBanDenChuaChuyenBloc extends Blocdispose {
   int currentPageNow = 1;
   int currentPage = 1;
   int total = 0;
-  var _lstobject = List<VanBanDenItem>();
+  var _lstobject = <VanBanDenItem>[];
   final _repository = Vanbanden_api();
 
   var _isLoadingMore = false;

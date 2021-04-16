@@ -12,6 +12,7 @@ class SettingfingerprintPage extends StatelessWidget {
 }
 
 bool isSelected = false;
+bool isSelectednotification = false;
 SharedPreferences sharedPreferences;
 
 class MySettingfingerprintPage extends StatefulWidget {
@@ -48,40 +49,82 @@ class _MySettingfingerprintPage extends State<MySettingfingerprintPage> {
             ),
             body: SingleChildScrollView(
                 child: Container(
-              margin: EdgeInsets.fromLTRB(10, 20, 5, 0),
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Text(
-                      'Đăng nhập bằng vân tay',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isSelected = !isSelected;
-                        onselect();
-                      });
-                    },
-                    child: Center(
-                      child: CustomSwitchButton(
-                        backgroundColor: Colors.blueGrey,
-                        unCheckedColor: Colors.white,
-                        animationDuration: Duration(milliseconds: 400),
-                        checkedColor: Colors.lightGreen,
-                        checked: isSelected,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ))));
+                    margin: EdgeInsets.fromLTRB(10, 20, 5, 0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                              child: Text(
+                                'Đăng nhập bằng vân tay',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isSelected = !isSelected;
+                                  onselect();
+                                });
+                              },
+                              child: Center(
+                                child: CustomSwitchButton(
+                                  backgroundColor: Colors.blueGrey,
+                                  unCheckedColor: Colors.white,
+                                  animationDuration:
+                                      Duration(milliseconds: 400),
+                                  checkedColor: Colors.lightGreen,
+                                  checked: isSelected,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                              child: Text(
+                                'Nhận thông báo Trên Mobile',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isSelectednotification =
+                                      !isSelectednotification;
+                                  onselectNoti();
+                                });
+                              },
+                              child: Center(
+                                child: CustomSwitchButton(
+                                  backgroundColor: Colors.blueGrey,
+                                  unCheckedColor: Colors.white,
+                                  animationDuration:
+                                      Duration(milliseconds: 400),
+                                  checkedColor: Colors.lightGreen,
+                                  checked: isSelected,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )))));
   }
 
   void onselect() async {
     sharedPreferences.setBool("isFingerprint", isSelected);
+  }
+
+  void onselectNoti() async {
+    sharedPreferences.setBool("isNotification", isSelectednotification);
   }
 }

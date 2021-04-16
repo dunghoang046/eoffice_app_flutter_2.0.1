@@ -15,6 +15,7 @@ import 'package:app_eoffice/views/Notification/Notification.dart';
 import 'package:app_eoffice/views/Setting/Settingfingerprint.dart';
 import 'package:app_eoffice/views/Thongbao/Thongbao.dart';
 import 'package:app_eoffice/views/login.dart';
+
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/utils/Base.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:load/load.dart';
 import 'package:simple_router/simple_router.dart';
 import 'package:app_eoffice/block/login_bloc/auth_state.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() {
   runApp(
@@ -39,6 +41,8 @@ void main() {
   configLoading();
 }
 
+String messageTitle = "Empty";
+String notificationAlert = "alert";
 void configLoading() {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
@@ -55,6 +59,8 @@ void configLoading() {
     ..dismissOnTap = false
     ..customAnimation = CustomAnimation();
 }
+
+FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
 
 class CustomAnimation extends EasyLoadingAnimation {
   CustomAnimation();
@@ -125,6 +131,20 @@ String titlehead = 'Trang chủ';
 class _MyMain extends State<Mymain> {
   @override
   void initState() {
+    _firebaseMessaging.configure(
+      onMessage: (message) async {
+        setState(() {
+          messageTitle = message["notification"]["title"];
+          notificationAlert = "New Notification Alert";
+        });
+      },
+      onResume: (message) async {
+        setState(() {
+          messageTitle = message["data"]["title"];
+          notificationAlert = "Application opened from Notification";
+        });
+      },
+    );
     // _pageOptions = <StatelessWidget>[];
     _pageOptions.add(MyNotificationpage(globalKey: _scaffoldKey));
     super.initState();

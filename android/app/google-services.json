@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "619733425931",
+    "project_id": "flutterappeoffice",
+    "storage_bucket": "flutterappeoffice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619733425931:android:e043a66ba1377e01974c0e",
+        "android_client_info": {
+          "package_name": "com.tinduc.app_eoffice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619733425931-6tr1n0ee88f3e0deim4dike2ahn66ae0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMNnN15Tnw_R0tRt0CUcS5pLS1n04i1Co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619733425931-6tr1n0ee88f3e0deim4dike2ahn66ae0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
