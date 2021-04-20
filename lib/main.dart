@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app_eoffice/block/CongViecBloc.dart';
 import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
 import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
+import 'package:app_eoffice/block/settingbloc.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
 import 'package:app_eoffice/block/vanbandi_block.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
@@ -102,6 +103,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<BlocDuThaoVanBanAction>(
           create: (context) => BlocDuThaoVanBanAction(),
         ),
+        BlocProvider<BlocSettingAction>(
+          create: (context) => BlocSettingAction(),
+        ),
       ],
       child: MaterialApp(
           color: Colors.white,
@@ -131,25 +135,41 @@ String titlehead = 'Trang chủ';
 class _MyMain extends State<Mymain> {
   @override
   void initState() {
-    _firebaseMessaging.configure(
-      onMessage: (message) async {
-        setState(() {
-          messageTitle = message["notification"]["title"];
-          notificationAlert = "New Notification Alert";
-        });
-      },
-      onResume: (message) async {
-        setState(() {
-          messageTitle = message["data"]["title"];
-          notificationAlert = "Application opened from Notification";
-        });
-      },
-    );
+    // _firebaseMessaging.configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     print("onMessage: $message");
+    //     // _showItemDialog(message);
+    //   },
+    //   onBackgroundMessage: myBackgroundMessageHandler,
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     print("onLaunch: $message");
+    //     // _navigateToItemDetail(message);
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     print("onResume: $message");
+    //     // _navigateToItemDetail(message);
+    //   },
+    // );
     // _pageOptions = <StatelessWidget>[];
     _pageOptions.add(MyNotificationpage(globalKey: _scaffoldKey));
     super.initState();
     isHome = false;
     setState(() {});
+  }
+
+  Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) async {
+    if (message.containsKey('data')) {
+      // Handle data message
+      final dynamic data = message['data'];
+    }
+
+    if (message.containsKey('notification')) {
+      // Handle notification message
+      final dynamic notification = message['notification'];
+    }
+
+    // Or do other work.
   }
 
   void dispose() {

@@ -84,6 +84,16 @@ class Base_service {
     return null;
   }
 
+  Future<dynamic> postcauhinhnhannotification(dataquery) async {
+    try {
+      var url = "/NguoiDung/cauhinhnhannotification";
+      var message = await post(dataquery, url);
+      return message;
+    } catch (ex) {
+      return ex;
+    }
+  }
+
   void dispose() {
     dio.close();
   }

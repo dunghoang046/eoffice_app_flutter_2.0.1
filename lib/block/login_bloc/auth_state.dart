@@ -11,3 +11,5 @@ class AuthErrorState extends AuthState {}
 class AuthDoneState extends AuthState {}
 
 class AuthLogoutSate extends AuthState {}
+
+class AuthSettingNotificationState extends AuthState {}

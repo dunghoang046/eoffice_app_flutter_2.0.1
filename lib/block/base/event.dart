@@ -34,3 +34,5 @@ class TuChoiEvent extends ActionEvent {}
 class ApproverEvent extends ActionEvent {}
 
 class UploadfileEvent extends ActionEvent {}
+
+class SettingNhanNotificationEvent extends ActionEvent {}

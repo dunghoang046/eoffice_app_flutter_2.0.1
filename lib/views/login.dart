@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:app_eoffice/models/Nguoidungitem.dart';
 import 'package:app_eoffice/models/loginItem.dart';
 import 'package:app_eoffice/components/components.dart';
 import 'package:app_eoffice/services/local_auth_api.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/services/Base_service.dart';
 import 'package:app_eoffice/utils/Base.dart';
@@ -23,18 +27,74 @@ class Mylogin extends StatefulWidget {
 }
 
 bool isFlag = false;
+String messageTitle = '';
+FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
 final TextEditingController _usernameController = TextEditingController();
 final TextEditingController _passwordController = TextEditingController();
 
 class _Mylogin extends State<Mylogin> {
   @override
   void initState() {
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Thông báo'),
+                content: Text('Kích vào thông báo onMessage: $message'),
+              );
+            });
+        // _showItemDialog(message);
+      },
+      // onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Thông báo'),
+                content: Text('Kích vào thông báo onLaunch: $message'),
+              );
+            });
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        // _navigateToItemDetail(message);
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Thông báo'),
+                content: Text('Kích vào thông báo onResume: $message'),
+              );
+            });
+      },
+    );
     // _sharedPreferences();
     isSelectedremember = false;
     BlocProvider.of<BlocAuth>(context).add(LogoutEvent());
     loadlogin();
 
     super.initState();
+  }
+
+  Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) async {
+    if (message.containsKey('data')) {
+      // Handle data message
+      final dynamic data = message['data'];
+    }
+
+    if (message.containsKey('notification')) {
+      // Handle notification message
+      // ignore: unused_local_variable
+      final dynamic notification = message['notification'];
+    }
+
+    // Or do other work.
   }
 
   loadlogin() async {
@@ -48,6 +108,7 @@ class _Mylogin extends State<Mylogin> {
       objlogin.lang = "vi";
       objlogin.userName = sharedPreferences.getString("username");
       objlogin.password = sharedPreferences.getString("password");
+
       LoginEvent loginevent = new LoginEvent();
       loginevent.logindata = objlogin;
       // ignore: await_only_futures
@@ -113,6 +174,9 @@ class _Mylogin extends State<Mylogin> {
           basemessage = '';
         }
         if (state is LogedSate) {
+          var nguoidung = nguoidungsessionView.toJson().toString();
+          sharedPreferences.setString('nguoidungsession', '$nguoidung');
+
           dismiss();
         }
         return;

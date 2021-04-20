@@ -1,5 +1,12 @@
+import 'package:app_eoffice/block/base/event.dart';
+import 'package:app_eoffice/block/login_bloc/Auth_event.dart';
+import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
+import 'package:app_eoffice/block/settingbloc.dart';
+import 'package:app_eoffice/utils/Base.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_router/simple_router.dart';
 import 'package:custom_switch_button/custom_switch_button.dart';
@@ -31,6 +38,8 @@ class _MySettingfingerprintPage extends State<MySettingfingerprintPage> {
     sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.getBool("isFingerprint") != null)
       isSelected = sharedPreferences.getBool("isFingerprint");
+    if (sharedPreferences.getBool("isNotification") != null)
+      isSelectednotification = sharedPreferences.getBool("isNotification");
   }
 
   @override
@@ -110,7 +119,7 @@ class _MySettingfingerprintPage extends State<MySettingfingerprintPage> {
                                   animationDuration:
                                       Duration(milliseconds: 400),
                                   checkedColor: Colors.lightGreen,
-                                  checked: isSelected,
+                                  checked: isSelectednotification,
                                 ),
                               ),
                             ),
@@ -126,5 +135,15 @@ class _MySettingfingerprintPage extends State<MySettingfingerprintPage> {
 
   void onselectNoti() async {
     sharedPreferences.setBool("isNotification", isSelectednotification);
+    var strtoken = await FirebaseMessaging().getToken();
+    SettingNhanNotificationEvent settingnotificationEvent =
+        new SettingNhanNotificationEvent();
+    var objdata = {
+      'NguoiDungID': nguoidungsessionView.id,
+      'IsNotification': isSelectednotification,
+      'Token': strtoken
+    };
+    settingnotificationEvent.data = objdata;
+    BlocProvider.of<BlocSettingAction>(context).add(settingnotificationEvent);
   }
 }

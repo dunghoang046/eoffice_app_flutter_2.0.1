@@ -1,3 +1,4 @@
+import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/block/login_bloc/Auth_event.dart';
 import 'package:app_eoffice/block/login_bloc/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ class BlocAuth extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     try {
       bool _isLoged = false;
+      var isErrorsetting = false;
       if (event is LoginEvent) {
         yield AuLoadingState();
         var data = {
