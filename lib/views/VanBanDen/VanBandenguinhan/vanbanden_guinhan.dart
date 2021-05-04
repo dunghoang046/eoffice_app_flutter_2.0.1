@@ -1,3 +1,4 @@
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDenGuiNhanItem.dart';
 import 'package:app_eoffice/services/Vanbanden_api.dart';
@@ -57,7 +58,7 @@ class _MyVanBanDenGuNhan extends State<MyVanBanDenGuNhan> {
             onPressed: () {
               SimpleRouter.back();
             }),
-        backgroundColor: Color.fromARGB(255, 248, 144, 31),
+        backgroundColor: colorbartop,
       ),
       body: contentbody(dataquery),
       // floatingActionButton: FloatingActionButton(

@@ -1,3 +1,4 @@
+import 'package:app_eoffice/utils/Base.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/VanBanDiItem.dart';
@@ -56,7 +57,8 @@ class ViewVanBanDiPanel extends StatelessWidget {
               containerRow('Người nhận: ', obj.strnguoinhan),
               if (obj.lstfile.length > 0) containerRow('File đính kèm: ', ''),
               for (var i = 0; i < obj.lstfile.length; i++)
-                containerRow('', obj.lstfile[i].ten),
+                containerRowViewfile(obj.lstfile[i].ten, obj.lstfile[i].id,
+                    obj.lstfile[i].filelink),
             ],
           ),
         ));

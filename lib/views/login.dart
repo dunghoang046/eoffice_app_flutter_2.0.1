@@ -38,27 +38,27 @@ class _Mylogin extends State<Mylogin> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Thông báo'),
-                content: Text('Kích vào thông báo onMessage: $message'),
-              );
-            });
+        // showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       return AlertDialog(
+        //         title: Text('Thông báo'),
+        //         content: Text('Kích vào thông báo onMessage: $message'),
+        //       );
+        //     });
         // _showItemDialog(message);
       },
       // onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Thông báo'),
-                content: Text('Kích vào thông báo onLaunch: $message'),
-              );
-            });
+        // showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       return AlertDialog(
+        //         title: Text('Thông báo'),
+        //         content: Text('Kích vào thông báo onLaunch: $message'),
+        //       );
+        //     });
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
@@ -174,8 +174,8 @@ class _Mylogin extends State<Mylogin> {
           basemessage = '';
         }
         if (state is LogedSate) {
-          var nguoidung = nguoidungsessionView.toJson().toString();
-          sharedPreferences.setString('nguoidungsession', '$nguoidung');
+          // var nguoidung = nguoidungsessionView.toJson().toString();
+          // sharedPreferences.setString('nguoidungsession', '$nguoidung');
 
           dismiss();
         }
@@ -199,7 +199,7 @@ class _Mylogin extends State<Mylogin> {
                               child: Padding(
                             padding: EdgeInsets.only(top: 30.0),
                             child: Image.asset(
-                              "assets/images/logo_login.png",
+                              "assets/images/logo_login_1.png",
                               width: ScreenUtil().setWidth(270),
                               height: ScreenUtil().setHeight(100),
                             ),

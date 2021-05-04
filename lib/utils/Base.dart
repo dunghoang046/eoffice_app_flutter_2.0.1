@@ -1,10 +1,13 @@
+import 'package:app_eoffice/views/PDFScreen.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/LookupItem.dart';
 import 'package:app_eoffice/models/Nguoidungitem.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
 import 'package:load/load.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:simple_router/simple_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 bool islogin = false;
@@ -17,7 +20,7 @@ int tabIndex = 0;
 bool isautologin = true;
 bool isSelectedremember = false;
 NguoiDungItem nguoidungsessionView = new NguoiDungItem();
-String strurlviewfile = "http://badinhedu.e-office.vn/";
+String strurlviewfile = "http://viconship.e-office.vn/";
 checkinternet() async {
   var connectivityResult = await (Connectivity().checkConnectivity());
   if (connectivityResult == ConnectivityResult.mobile ||
@@ -94,7 +97,7 @@ Future<void> dismiss() async {
   await EasyLoading.dismiss();
 }
 
-Widget containerRowViewfile(String value, String filelink) => Container(
+Widget containerRowViewfile(String value, int id, String filelink) => Container(
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -114,9 +117,14 @@ Widget containerRowViewfile(String value, String filelink) => Container(
                     TextSpan(text: value, style: TextStyle(color: Colors.black))
                   ])),
               onTap: () async {
-                var urlfile =
-                    strurlviewfile + "view_file.aspx?FileID=" + filelink;
-                _launchURL(urlfile);
+                if (filelink.contains('.pdf') || filelink.contains('.PDF')) {
+                  var urlfile = strurlviewfile + filelink;
+                  SimpleRouter.forward(MyPDFSceen(pathfile: urlfile));
+                } else {
+                  var urlfile =
+                      strurlviewfile + "view_file.aspx?FileID=" + id.toString();
+                  _launchURL(urlfile);
+                }
               },
             ),
           )

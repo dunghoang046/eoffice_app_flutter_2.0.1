@@ -50,7 +50,8 @@ class ViewDuThaoVanBanPanel extends StatelessWidget {
             containerRow('Trạng thái người dùng: ', 'Đang xử lý'),
           if (obj.lstfile.length > 0) containerRow('File đính kèm: ', ''),
           for (var i = 0; i < obj.lstfile.length; i++)
-            containerRow('', obj.lstfile[i].ten),
+            containerRowViewfile(
+                obj.lstfile[i].ten, obj.lstfile[i].id, obj.lstfile[i].filelink),
         ],
       ),
     );

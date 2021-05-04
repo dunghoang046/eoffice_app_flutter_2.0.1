@@ -243,14 +243,12 @@ class _MyMain extends State<Mymain> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text(
-              '',
-              style: TextStyle(color: Colors.blue[100], fontSize: 25),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/logo_login_1.png'))),
             ),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                image: DecorationImage(
-                    image: AssetImage('assets/images/logo_home.png'))),
           ),
           Container(
             color: Colors.blue[50],
@@ -403,12 +401,28 @@ class _MyMain extends State<Mymain> {
             actions: <Widget>[
               new GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
-                child: Text("Không"),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  color: Colors.blue,
+                  child: Text(
+                    "Không",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
               SizedBox(height: 16),
               new GestureDetector(
                 onTap: () => closeapp(context),
-                child: Text("Có"),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  color: Colors.red,
+                  child: Text(
+                    "Có",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
             ],
           ),

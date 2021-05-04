@@ -1,3 +1,4 @@
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
@@ -61,7 +62,7 @@ class _MyVanBanDenpage extends State<MyVanBanDenpage>
         appBar: PreferredSize(
           child: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
-              backgroundColor: Color.fromARGB(255, 248, 144, 31),
+              backgroundColor: colorbar,
               leading: new IconButton(
                   icon: Icon(Icons.menu),
                   onPressed: () {
