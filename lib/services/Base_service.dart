@@ -7,19 +7,33 @@ NguoiDungItem nguoidungsession = new NguoiDungItem();
 
 // ignore: camel_case_types
 class Base_service {
-  // final baseUrl = 'http://192.168.0.102:8086//api';
+  final baseUrl = 'http://192.168.1.233:8086//api';
   // final _baseUrl = 'http://api.e-office.vn//api';
-  final baseUrl = 'http://api.e-office.vn//api';
+  // final baseUrl = 'http://api.e-office.vn//api';
   // final _baseUrl = 'http://192.168.43.4:8086//api';
   static final Base_service _internal = Base_service.internal();
   factory Base_service() => _internal;
   Base_service.internal();
+
+  getHeaders() {
+    return {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+      'Authorization': "**",
+      'User-Aagent': "4.1.0;android;6.0.1;default;A001",
+      "HZUID": "2",
+    };
+  }
 
 // ignore: unused_element
   Future<dynamic> getlogin(data1) async {
     Dio dio = new Dio();
     NguoiDungItem user;
     try {
+      // dio.options.headers['content-Type'] = 'text/plain; charset=UTF-8';
+      // dio.options.headers['Access-Control-Allow-Origin'] = '*';
+      // dio.options.headers['Access-Control-Allow-Methods'] = 'GET , POST';
+      dio.options.headers = getHeaders();
       var response = await dio.post('$baseUrl/NguoiDung/Login', data: data1);
       if (response.statusCode == 200) {
         if (response.data != null &&

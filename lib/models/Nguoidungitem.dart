@@ -78,12 +78,12 @@ class NguoiDungItem {
     tennhomnguoidung = map['TenNhomNguoiDung'];
     // didong = map['DiDong'];
   }
-  Map<String, dynamic> toJson() => {
-        'ID': id,
-        'TenHienThi': tenhienthi,
-        'Token': token,
-        'TenTruyCap': tentruycap
-      };
+  // Map<String, dynamic> toJson() => {
+  //       'ID': id,
+  //       'TenHienThi': tenhienthi,
+  //       'Token': token,
+  //       'TenTruyCap': tentruycap
+  //     };
 
   NguoiDungItem.fromJson(Map json)
       : id = json['ID'],
