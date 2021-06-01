@@ -247,7 +247,7 @@ class _MyMain extends State<Mymain> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   image: DecorationImage(
-                      image: AssetImage('assets/images/logo_login_1.png'))),
+                      image: AssetImage('assets/images/logo_login.png'))),
             ),
           ),
           Container(
@@ -345,10 +345,8 @@ class _MyMain extends State<Mymain> {
             if (tabIndex == 0) isHome = true;
             if (islogin == false || nguoidungsessionView == null) {
             } else {
-              if (!checkquyen(nguoidungsessionView.quyenhan,
-                      new QuyenHan().VanthuDonvi) &&
-                  !checkquyen(nguoidungsessionView.quyenhan,
-                      new QuyenHan().Vanthuphongban)) {
+              if (!checkquyen(
+                  nguoidungsessionView.quyenhan, new QuyenHan().VanthuDonvi)) {
                 _pageOptions.add(MyVanBanDenpage(
                   globalKey: _scaffoldKey,
                 ));

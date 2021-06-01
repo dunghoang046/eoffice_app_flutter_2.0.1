@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
-import 'package:app_eoffice/utils/menu.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_all.dart';
 import 'package:provider/provider.dart';
 import 'package:app_eoffice/services/Base_service.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:simple_router/simple_router.dart';
 
 int currentPage = 0;
 int currentPageNow = 1;
@@ -35,11 +36,14 @@ class _MyDuThaoVanBanpage extends State<MyDuThaoVanBanpage>
   List<StatefulWidget> lsttabview = <StatefulWidget>[];
   @override
   void initState() {
+    SimpleRouter.onAfterPush = (widget) {
+      RefreshController();
+    };
     super.initState();
 
     keyword = '';
     if (nguoidungsession != null)
-      _tabController = TabController(vsync: this, length: 5);
+      _tabController = TabController(vsync: this, length: 4);
   }
 
   Icon cusIcon = Icon(Icons.search, color: Colors.white);
@@ -123,7 +127,7 @@ class _MyDuThaoVanBanpage extends State<MyDuThaoVanBanpage>
                       new Tab(text: 'Chưa XL'),
                       new Tab(text: 'Đang XL'),
                       new Tab(text: 'Đã XL'),
-                      new Tab(text: 'Chờ phát hành'),
+                      // new Tab(text: 'Chờ phát hành'),
                     ],
                     labelColor: Colors.blue,
                   ),
@@ -165,14 +169,14 @@ class _MyDuThaoVanBanpage extends State<MyDuThaoVanBanpage>
                       create: (context) => new DuThaoVanBanblock(keyword, 3),
                       dispose: (context, bloc) => bloc.dispose(),
                     ),
-                    Provider<DuThaoVanBanblock>(
-                      child: MyDuThaoVanBanAllpage(
-                        requestkeyword: keyword,
-                        requestblock: new DuThaoVanBanblock(keyword, 4),
-                      ),
-                      create: (context) => new DuThaoVanBanblock(keyword, 4),
-                      dispose: (context, bloc) => bloc.dispose(),
-                    ),
+                    // Provider<DuThaoVanBanblock>(
+                    //   child: MyDuThaoVanBanAllpage(
+                    //     requestkeyword: keyword,
+                    //     requestblock: new DuThaoVanBanblock(keyword, 4),
+                    //   ),
+                    //   create: (context) => new DuThaoVanBanblock(keyword, 4),
+                    //   dispose: (context, bloc) => bloc.dispose(),
+                    // ),
                   ],
                 ),
               ),

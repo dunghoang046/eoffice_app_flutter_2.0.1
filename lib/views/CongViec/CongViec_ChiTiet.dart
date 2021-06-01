@@ -90,7 +90,9 @@ class _MyCongViecChiTiet extends State<MyCongViecChiTiet> {
         }
         return;
       }, builder: (context, state) {
-        return contentbody();
+        return SingleChildScrollView(
+          child: contentbody(),
+        );
       }),
       floatingActionButton: buildSpeedDial(),
     );

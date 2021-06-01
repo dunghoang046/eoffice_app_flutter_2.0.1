@@ -24,9 +24,11 @@ class _VanBanDenPanel extends State<VanBanDenPanel>
     super.dispose();
   }
 
+  GlobalKey<ScaffoldState> _scaffoldKeyrefeshVBDen = GlobalKey<ScaffoldState>();
   Widget _buildView({List<VanBanDenItem> topStories}) {
     return SmartRefresher(
         controller: _refreshController,
+        key: _scaffoldKeyrefeshVBDen,
         header: ClassicHeader(
           idleText: 'Đang tải dữ liệu',
           completeText: 'Tải dữ liệu thành công',

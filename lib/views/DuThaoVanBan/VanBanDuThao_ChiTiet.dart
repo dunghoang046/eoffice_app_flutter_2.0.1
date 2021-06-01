@@ -60,9 +60,6 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
         vitringuoikyid = objvb.vitringuoikyid;
       }
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override

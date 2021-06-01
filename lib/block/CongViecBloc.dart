@@ -86,7 +86,7 @@ class CongViecblock extends Blocdispose {
           topStoriesStreamController.sink.add(_lstobject);
         currentPage = currentPage + 1;
       } catch (e) {
-        throw Exception('Lỗi lấy dữ liệu');
+        throw Exception('Lỗi lấy dữ liệu: ' + e.toString());
       }
     }
   }

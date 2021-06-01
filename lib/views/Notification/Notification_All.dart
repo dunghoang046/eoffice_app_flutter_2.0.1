@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:app_eoffice/widget/Notification/Notification_panel.dart';
 
 import 'package:app_eoffice/block/notification_block.dart';
+import 'package:simple_router/simple_router.dart';
 
 Vanbanden_api vbdenapi;
 
@@ -30,6 +31,7 @@ class _MyNotificationAllpage extends State<MyNotificationAllpage>
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(_loadMoreTopStoriesIfNeed);
+    
     super.initState();
   }
 

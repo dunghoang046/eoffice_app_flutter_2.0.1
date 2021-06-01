@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:app_eoffice/models/Nguoidungitem.dart';
 import 'package:app_eoffice/models/loginItem.dart';
 import 'package:app_eoffice/components/components.dart';
 import 'package:app_eoffice/services/local_auth_api.dart';
@@ -199,7 +196,7 @@ class _Mylogin extends State<Mylogin> {
                               child: Padding(
                             padding: EdgeInsets.only(top: 30.0),
                             child: Image.asset(
-                              "assets/images/logo_login_1.png",
+                              "assets/images/logo_login.png",
                               width: ScreenUtil().setWidth(270),
                               height: ScreenUtil().setHeight(100),
                             ),

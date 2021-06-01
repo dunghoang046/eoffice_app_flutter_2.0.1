@@ -7,14 +7,13 @@ NguoiDungItem nguoidungsession = new NguoiDungItem();
 
 // ignore: camel_case_types
 class Base_service {
-  //final baseUrl = 'http://192.168.1.233:8086//api';
+  final baseUrl = 'http://192.168.0.112:8092//api';
   // final _baseUrl = 'http://api.e-office.vn//api';
-  final baseUrl = 'http://api.e-office.vn//api';
+  // final baseUrl = 'http://apihpu2.e-office.vn//api';
   // final _baseUrl = 'http://192.168.43.4:8086//api';
   static final Base_service _internal = Base_service.internal();
   factory Base_service() => _internal;
   Base_service.internal();
-
   getHeaders() {
     return {
       'Accept': 'application/json, text/plain, */*',

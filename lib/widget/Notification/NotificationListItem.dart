@@ -1,4 +1,3 @@
-import 'package:app_eoffice/views/Notification/notiTest.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:date_format/date_format.dart';
@@ -11,12 +10,14 @@ import 'package:simple_router/simple_router.dart';
 
 class NotificationListItem extends StatelessWidget {
   final NotificationItem obj;
-  NotificationListItem({this.obj, List<NotificationItem> topStories});
+  final List<NotificationItem> topStories;
+  NotificationListItem({this.obj, this.topStories});
   @override
   Widget build(BuildContext context) {
     void _ontap(NotificationItem notificationitem) {
       // Navigator.push(
       //     context, MaterialPageRoute(builder: (context) => MyNotitest()));
+
       if (notificationitem.kieuid == 2) {
         Navigator.push(
             context,
@@ -71,6 +72,7 @@ class NotificationListItem extends StatelessWidget {
         child: ListTile(
             onTap: () {
               _ontap(obj);
+              topStories.remove(obj);
             },
             title: Text(obj.noidung != null ? obj.noidung : '',
                 style: TextStyle(

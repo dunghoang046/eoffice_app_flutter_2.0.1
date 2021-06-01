@@ -25,10 +25,10 @@ class WorkTaskItem {
   int status;
   int parentID;
   String taskAllID;
-  String projectID;
+  int projectID;
   int inDocumentID;
   int outDocumentID;
-  String progress;
+  int progress;
   String finishDate;
   String actuallyStartDate;
   String actuallyEndDate;
@@ -118,13 +118,13 @@ class WorkTaskItem {
       List<dynamic> vbData = map['LtsFileAttach'];
       lstfile = vbData.map((f) => FileAttachItem.fromMap(f)).toList();
     } else
-      lstfile = new List<FileAttachItem>();
+      lstfile = <FileAttachItem>[];
 
     if (map['LtsUserPerform'] != null && map['LtsUserPerform'].length > 0) {
       List<dynamic> vbData = map['LtsUserPerform'];
       ltsUserPerform = vbData.map((f) => UserItem.fromMap(f)).toList();
     } else
-      ltsUserPerform = new List<UserItem>();
+      ltsUserPerform = <UserItem>[];
 
     if (map['LtsUserFollow'] != null && map['LtsUserFollow'].length > 0) {
       List<dynamic> vbData = map['LtsUserFollow'];
@@ -136,7 +136,7 @@ class WorkTaskItem {
       List<dynamic> vbData = map['LtsGroupPerform'];
       ltsGroupPerform = vbData.map((f) => UserDonViItem.fromMap(f)).toList();
     } else
-      ltsGroupPerform = new List<UserDonViItem>();
+      ltsGroupPerform = <UserDonViItem>[];
 
     if (map['LtsGroupFollow'] != null && map['LtsGroupFollow'].length > 0) {
       List<dynamic> vbData = map['LtsGroupFollow'];

@@ -2,6 +2,7 @@ import 'package:app_eoffice/utils/Base.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/WorkTaskItem.dart';
 import 'package:date_format/date_format.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class CongViecViewPanel extends StatelessWidget {
   WorkTaskItem obj;
@@ -23,12 +24,9 @@ class CongViecViewPanel extends StatelessWidget {
             offset: Offset(0, 3), // changes position of shadow
           ),
         ],
-        // border: Border.all(
-        //   color: Colors.red[500],
-        // ),
       ),
       padding: EdgeInsets.all(7),
-      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+      // margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Column(
         children: <Widget>[
           containerRow('Tên công việc: ', obj.title),
@@ -63,9 +61,10 @@ class CongViecViewPanel extends StatelessWidget {
                 obj.ltsUserGroupPerform
                     .map((value) => value.fullName)
                     .join(', ')),
-          containerRow('Mô tả: ', obj.description),
+          containerRowHtml('Mô tả: ', obj.description),
           containerRow('Trạng thái: ', obj.strTrangthai),
-          containerRow('Tiến độ: ', obj.progress),
+          if (obj.progress != null && obj.progress > 0)
+            containerRow('Tiến độ: ', obj.progress.toString()),
           if (obj.lstfile.length > 0) containerRow('File đính kèm: ', ''),
           for (var i = 0; i < obj.lstfile.length; i++)
             containerRowViewfile(
@@ -75,8 +74,6 @@ class CongViecViewPanel extends StatelessWidget {
     );
   }
 
-  var underlineStyle =
-      TextStyle(decoration: TextDecoration.underline, color: Colors.black);
   Widget containerRow(String label, String value) => Container(
         decoration: BoxDecoration(
           border: Border(
@@ -88,6 +85,7 @@ class CongViecViewPanel extends StatelessWidget {
         ),
         padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Expanded(
                 child: RichText(
@@ -101,6 +99,23 @@ class CongViecViewPanel extends StatelessWidget {
                       TextSpan(
                           text: value, style: TextStyle(color: Colors.black))
                     ])))
+          ],
+        ),
+      );
+
+  Widget containerRowHtml(String label, String value) => Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.black26,
+            ),
+            // right: BorderSide(color: Colors.green, width: 6),
+          ),
+        ),
+        padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
+        child: Row(
+          children: <Widget>[
+            Expanded(child: Html(data: "<b>" + label + "</b>" + value)),
           ],
         ),
       );
