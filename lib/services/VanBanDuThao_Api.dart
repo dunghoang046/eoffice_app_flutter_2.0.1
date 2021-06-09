@@ -2,6 +2,8 @@ import 'package:app_eoffice/models/DonViItem.dart';
 import 'package:app_eoffice/models/DuThaoVanBanItem.dart';
 import 'package:app_eoffice/models/LanhDaoTrinhDTItem.dart';
 import 'package:app_eoffice/models/NguoiDungitem.dart';
+import 'package:app_eoffice/models/NhomNguoiDungItem.dart';
+import 'package:app_eoffice/models/VanBanDiGuiNhanItem.dart';
 import 'package:app_eoffice/models/VanBanDiYKienItem.dart';
 import 'Base_service.dart';
 
@@ -34,6 +36,20 @@ class DuThaoVanBan_api {
     return obj;
   }
 
+  // Future<List<VanBanDiGuiNhanItem>>  getduthaovanbanguinhan(dataquery) async {
+  //   var url = "/VanBanDuThao/Getthongtinguinhanvanban";
+  //   var vbData = await base_service.getbase(dataquery, url);
+  //    var lst = vbData.map((f) => VanBanDiGuiNhanItem.fromMap(f)).toList();
+  //   return lst;
+  // }
+
+  Future<List<VanBanDiGuiNhanItem>> getduthaovanbanguinhan(dataquery) async {
+    var url = "/VanBanDuThao/Getthongtinguinhanvanban";
+    List<dynamic> vbData = await base_service.getbase(dataquery, url);
+    var lstguinhan = vbData.map((f) => VanBanDiGuiNhanItem.fromMap(f)).toList();
+    return lstguinhan;
+  }
+
 // lấy lãnh đạo trình
   Future<LanhDaoTrinhDTItem> getlanhdaotrinh(dataquery) async {
     var url = "/VanBanDuThao/Getlanhdaotrinh";
@@ -54,6 +70,13 @@ class DuThaoVanBan_api {
     var url = "/VanBanDuThao/Getnguoidungdonvi";
     List<dynamic> vbData = await base_service.getbase(null, url);
     var lst = vbData.map((f) => NguoiDungItem.fromMap(f)).toList();
+    return lst;
+  }
+
+  Future<List<NhomNguoiDungItem>> getnhomdonvi() async {
+    var url = "/VanBanDuThao/Getnhomdonvi";
+    List<dynamic> vbData = await base_service.getbase(null, url);
+    var lst = vbData.map((f) => NhomNguoiDungItem.fromMap(f)).toList();
     return lst;
   }
 
@@ -105,6 +128,16 @@ class DuThaoVanBan_api {
   Future<dynamic> postykien(dataquery) async {
     try {
       var url = "/VanBanDuThao/ykien";
+      var message = await base_service.post(dataquery, url);
+      return message;
+    } catch (ex) {
+      return ex;
+    }
+  }
+
+  Future<dynamic> posthoanthanh(dataquery) async {
+    try {
+      var url = "/VanBanDuThao/hoanthanh";
       var message = await base_service.post(dataquery, url);
       return message;
     } catch (ex) {

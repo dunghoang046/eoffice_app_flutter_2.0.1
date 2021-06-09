@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/LookupItem.dart';
 import 'package:app_eoffice/models/Nguoidungitem.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
 import 'package:load/load.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:simple_router/simple_router.dart';
@@ -20,7 +19,7 @@ int tabIndex = 0;
 bool isautologin = true;
 bool isSelectedremember = false;
 NguoiDungItem nguoidungsessionView = new NguoiDungItem();
-String strurlviewfile = "http://viconship.e-office.vn/";
+String strurlviewfile = "http://hpu2.e-office.vn/";
 checkinternet() async {
   var connectivityResult = await (Connectivity().checkConnectivity());
   if (connectivityResult == ConnectivityResult.mobile ||

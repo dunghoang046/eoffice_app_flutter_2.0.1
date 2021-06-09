@@ -62,7 +62,7 @@ class _MyDuThaoVanBanTuCHoi extends State<MyDuThaoVanBanTuCHoi> {
             body: SingleChildScrollView(
                 child: BlocBuilder<BlocDuThaoVanBanAction, ActionState>(
                     buildWhen: (previousState, state) {
-              if (state is DoneState) {
+              if (state is ViewState) {
                 Toast.show(basemessage, context,
                     duration: 2,
                     gravity: Toast.TOP,

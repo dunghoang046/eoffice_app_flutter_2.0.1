@@ -3,10 +3,17 @@ class LoginItem {
   String password;
   String checkFingerprint;
   String lang;
-  LoginItem({this.userName, this.password, this.lang, this.checkFingerprint});
+  int donviid;
+  LoginItem(
+      {this.userName,
+      this.password,
+      this.lang,
+      this.checkFingerprint,
+      this.donviid});
   LoginItem.fromMap(Map<String, dynamic> map) {
     userName = map['userName'];
     password = map['password'];
+    donviid = map['DonViID'];
     checkFingerprint = map['checkFingerprint'];
     lang = map['lang'];
   }

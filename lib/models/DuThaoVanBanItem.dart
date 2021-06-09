@@ -1,4 +1,6 @@
+import 'package:app_eoffice/models/DanhMucGiaTriItem.dart';
 import 'package:app_eoffice/models/DonViItem.dart';
+import 'package:app_eoffice/models/VanBanDiGuiNhanItem.dart';
 
 import 'FileAttachItem.dart';
 
@@ -25,6 +27,7 @@ class DuThaoVanBanItem {
   int total;
   List<FileAttachItem> lstfile;
   List<DonViItem> lstdonvi;
+  List<VanBanDiGuiNhanItem> lstguinhan;
   String strdonvinhan;
   String strnhomdonvinhan;
   String strnguoinhan;
@@ -41,6 +44,8 @@ class DuThaoVanBanItem {
   bool isTraLai;
   bool isThuHoi;
   int vitringuoikyid;
+  bool ishoanthanh;
+  List<DanhMucGiaTriItem> lstdanhmucgiatri;
   DuThaoVanBanItem(
       {this.id,
       this.sokyhieu,
@@ -79,6 +84,9 @@ class DuThaoVanBanItem {
       this.isTraLai,
       this.isThuHoi,
       this.vitringuoikyid,
+      this.lstdanhmucgiatri,
+      this.ishoanthanh,
+      this.lstguinhan,
       this.total});
   DuThaoVanBanItem.fromMap(Map<String, dynamic> map) {
     id = map['ID'];
@@ -111,6 +119,7 @@ class DuThaoVanBanItem {
     isDuyet = map['IsDuyet'];
     isTuChoi = map['IsTuChoi'];
     isPhatHanh = map['IsPhatHanh'];
+    ishoanthanh = map['IsHoanThanh'];
     isKetThuc = map['IsKetThuc'];
     isHuyDuyet = map['IsHuyDuyet'];
     isTraLai = map['IsTraLai'];
@@ -126,5 +135,18 @@ class DuThaoVanBanItem {
       lstdonvi = vbData.map((f) => DonViItem.fromMap(f)).toList();
     } else
       lstdonvi = new List<DonViItem>();
+    if (map['LtsDanhMucGiaTri'] != null && map['LtsDanhMucGiaTri'].length > 0) {
+      List<dynamic> vbData = map['LtsDanhMucGiaTri'];
+      lstdanhmucgiatri =
+          vbData.map((f) => DanhMucGiaTriItem.fromMap(f)).toList();
+    } else
+      lstdanhmucgiatri = new List<DanhMucGiaTriItem>();
+
+    if (map['LtsVanBanDiGuiNhan'] != null &&
+        map['LtsVanBanDiGuiNhan'].length > 0) {
+      List<dynamic> vbData = map['LtsVanBanDiGuiNhan'];
+      lstguinhan = vbData.map((f) => VanBanDiGuiNhanItem.fromMap(f)).toList();
+    } else
+      lstguinhan = new List<VanBanDiGuiNhanItem>();
   }
 }

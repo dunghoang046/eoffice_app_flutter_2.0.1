@@ -44,6 +44,7 @@ class BlocAuth extends Bloc<AuthEvent, AuthState> {
           yield AuthErrorState();
         }
       }
+
       if (event is LogoutEvent) {
         nguoidungsessionView = null;
         tokenview = null;

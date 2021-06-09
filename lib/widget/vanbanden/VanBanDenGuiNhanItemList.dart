@@ -1,3 +1,4 @@
+import 'package:app_eoffice/services/Base_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:date_format/date_format.dart';
@@ -80,6 +81,11 @@ class VanBanDenGUiNhanItemList extends StatelessWidget {
                 children: <Widget>[
                   containerRow('Người gửi: ', obj.tennguoigui),
                   containerRow('Người nhận: ', obj.tennguoinhan),
+                  containerRow(
+                      'Đơn vị nhận: ',
+                      (obj.tendonvinhan == null || obj.tendonvinhan.length <= 0)
+                          ? nguoidungsession.tendonvi
+                          : obj.tendonvinhan),
                   containerRow(
                     'Thời gian gửi: ',
                     obj.thoigiangui != null

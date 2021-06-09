@@ -38,7 +38,7 @@ class VanBanDiGuiNhanItem {
     daumoi = map['DauMoi'];
     phoihop = map['PhoiHop'];
     thoigiangui = map['ThoiGianGui'];
-    thoigiannhan = map['ThoiGianNhan'];
-    trangthai = map['TrangThai'];
+    thoigiannhan = map['ThoiGianDoc'];
+    trangthai = map['TrangThaiID'];
   }
 }

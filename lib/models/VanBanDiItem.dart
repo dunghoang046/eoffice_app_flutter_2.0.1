@@ -1,3 +1,4 @@
+import 'package:app_eoffice/models/DanhMucGiaTriItem.dart';
 import 'package:app_eoffice/models/DonViItem.dart';
 
 import 'FileAttachItem.dart';
@@ -24,6 +25,7 @@ class VanBanDiItem {
   String tenloaivanban;
   int total;
   List<FileAttachItem> lstfile;
+  List<DanhMucGiaTriItem> lstdanhmucgiatri;
   List<DonViItem> lstdonvi;
   String strdonvinhan;
   String strnhomdonvinhan;
@@ -55,6 +57,7 @@ class VanBanDiItem {
       this.strnhomdonvinhan,
       this.strnguoinhan,
       this.lstdonvi,
+      this.lstdanhmucgiatri,
       this.total});
   VanBanDiItem.fromMap(Map<String, dynamic> map) {
     id = map['ID'];
@@ -89,5 +92,12 @@ class VanBanDiItem {
       lstdonvi = vbData.map((f) => DonViItem.fromMap(f)).toList();
     } else
       lstdonvi = <DonViItem>[];
+
+    if (map['LtsDanhMucGiaTri'] != null && map['LtsDanhMucGiaTri'].length > 0) {
+      List<dynamic> vbData = map['LtsDanhMucGiaTri'];
+      lstdanhmucgiatri =
+          vbData.map((f) => DanhMucGiaTriItem.fromMap(f)).toList();
+    } else
+      lstdanhmucgiatri = new List<DanhMucGiaTriItem>();
   }
 }

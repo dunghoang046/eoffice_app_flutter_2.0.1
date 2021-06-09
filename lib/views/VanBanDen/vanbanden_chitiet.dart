@@ -1,6 +1,8 @@
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
+import 'package:app_eoffice/services/Base_service.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
+import 'package:app_eoffice/utils/quyenhan.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_TraLai.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_TrangThaivb.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_trangthaicn.dart';
@@ -73,7 +75,6 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
     super.initState();
   }
 
-  bool isLoading = true;
   void dispose() {
     super.dispose();
   }
@@ -83,30 +84,33 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
       var dataquery = {"ID": '' + widget.id.toString() + ''};
       obj = objapi.getbyId(dataquery);
       var vb = await obj;
+
       var dataquerycheck = {
         "ID": '' + widget.id.toString() + '',
         "VanBanDiID": '' + vb.vanbandiid.toString() + '',
         "VanBanDenID": '' + vb.vanbandenid.toString() + ''
       };
-      checktrangthaivb = vb.lstguinhan
-                  .where((element) =>
-                      element.nguoinhanid == nguoidungsessionView.id &&
-                      element.daumoi == true)
-                  .length >
-              0
-          ? true
-          : false;
-      checktrangthaicn = vb.lsttrangthai
-                  .where((element) =>
-                      element.nguoidungid == nguoidungsessionView.id)
-                  .length >
-              0
-          ? true
-          : false;
       var objmsg = await objapi.checktralai(dataquerycheck);
-      checktralai = objmsg.error;
       setState(() {
-        isLoading = false;
+        checktrangthaivb = vb.lstguinhan
+                    .where((element) =>
+                        element.nguoinhanid == nguoidungsessionView.id &&
+                        element.daumoi == true)
+                    .length >
+                0
+            ? true
+            : false;
+        checktrangthaicn = (vb.lsttrangthai
+                        .where((element) =>
+                            element.nguoidungid == nguoidungsessionView.id)
+                        .length >
+                    0 &&
+                !checkquyen(
+                    nguoidungsession.quyenhan, QuyenHan().VanthuDonvi) &&
+                !checkquyen(nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
+            ? true
+            : false;
+        checktralai = objmsg.error;
       });
     }
   }
@@ -148,7 +152,8 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
             SimpleRouter.forward(MyVanBanDenGuNhan(id: widget.id));
           },
           label: 'Gửi nhận ',
-          labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          labelStyle:
+              TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
           labelBackgroundColor: Colors.deepOrangeAccent,
         ),
         SpeedDialChild(
@@ -158,22 +163,24 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
             SimpleRouter.forward(MyVanBanDenYKien(id: widget.id));
           },
           label: 'Ý kiến',
-          labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          labelStyle:
+              TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
           labelBackgroundColor: Colors.green,
         ),
-        // if (checktrangthaivb)
-        SpeedDialChild(
-          child: Icon(Icons.done, color: Colors.white),
-          backgroundColor: Colors.blue,
-          onTap: () {
-            SimpleRouter.forward(MyTrangThaiVanBanDen(
-              id: widget.id,
-            ));
-          },
-          label: 'Trạng thái VB',
-          labelStyle: TextStyle(fontWeight: FontWeight.w500),
-          labelBackgroundColor: Colors.blue,
-        ),
+        if (checktrangthaivb)
+          SpeedDialChild(
+            child: Icon(Icons.done, color: Colors.white),
+            backgroundColor: Colors.blue,
+            onTap: () {
+              SimpleRouter.forward(MyTrangThaiVanBanDen(
+                id: widget.id,
+              ));
+            },
+            label: 'Trạng thái VB',
+            labelStyle:
+                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+            labelBackgroundColor: Colors.blue,
+          ),
         if (checktrangthaicn)
           SpeedDialChild(
             child: Icon(Icons.done, color: Colors.white),
@@ -184,7 +191,8 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
               ));
             },
             label: 'Trạng thái cá nhân',
-            labelStyle: TextStyle(fontWeight: FontWeight.w500),
+            labelStyle:
+                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             labelBackgroundColor: Colors.blue,
           ),
         if (checktralai)
@@ -197,7 +205,8 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
               ));
             },
             label: 'Trả lại',
-            labelStyle: TextStyle(fontWeight: FontWeight.w500),
+            labelStyle:
+                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             labelBackgroundColor: Colors.deepOrange,
           ),
       ],
@@ -207,7 +216,8 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
   @override
   Widget build(BuildContext context) {
     var dataquery = {"ID": '' + widget.id.toString() + ''};
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         title: Text(
@@ -228,11 +238,13 @@ class _MyVanVanDenChiTiet extends State<MyVanVanDenChiTiet> {
           return;
         },
         builder: (context, state) {
-          return contentbody(dataquery);
+          return SingleChildScrollView(
+            child: contentbody(dataquery),
+          );
         },
       ),
       floatingActionButton: buildSpeedDial(),
-    );
+    ));
   }
 
   // ignore: unused_element

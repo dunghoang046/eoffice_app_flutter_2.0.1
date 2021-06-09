@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:app_eoffice/block/CongViecBloc.dart';
 import 'package:app_eoffice/utils/Base.dart';
-import 'package:app_eoffice/utils/menu.dart';
 import 'package:app_eoffice/views/CongViec/CongViec_All.dart';
 import 'package:app_eoffice/views/CongViec/CongViec_ThemMoi.dart';
 import 'package:provider/provider.dart';
@@ -102,11 +101,11 @@ class _MyCongViecpage extends State<MyCongViecpage>
                   });
                 },
               ),
-              IconButton(
-                icon: Icon(Icons.more_vert),
-                onPressed: () {},
-                color: Colors.white,
-              )
+              // IconButton(
+              //   icon: Icon(Icons.more_vert),
+              //   onPressed: () {},
+              //   color: Colors.white,
+              // )
             ],
             title: cusSearchBar),
         preferredSize: Size.fromHeight(50),

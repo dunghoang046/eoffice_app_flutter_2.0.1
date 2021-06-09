@@ -25,6 +25,12 @@ class _MyComBo_Lanhdaobutphe extends State<MyComBo_Lanhdaobutphe> {
   NguoiDung_Api nndApi = new NguoiDung_Api();
   String _selectItem;
   @override
+  void initState() {
+    ltsLanhDao = [];
+    super.initState();
+  }
+
+  @override
   DonVi_Api dvApi = new DonVi_Api();
   Widget build(BuildContext context) {
     // TODO: implement build

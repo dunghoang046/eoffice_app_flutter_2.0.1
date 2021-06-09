@@ -15,14 +15,21 @@ class MyComBo_Lanhdaotrinh extends StatefulWidget {
 }
 
 var dataquery = {
-  "Chucvu": '2,3,4,6',
-  "DonViID": '' + nguoidungsessionView.donviid.toString() + ''
+  "strquyenhan": '6293', // lãnh đạo đơn vị
+  "DonViID": '' + nguoidungsessionView.donviid.toString() + '',
+  "root": "true"
 };
 String strLanhDaoTrinh = '';
 List<int> lstlanhdaotrinh = <int>[];
 
 class _MyComBo_Lanhdaotrinh extends State<MyComBo_Lanhdaotrinh> {
   NguoiDung_Api nndApi = new NguoiDung_Api();
+  @override
+  void initState() {
+    lstlanhdaotrinh = [];
+    super.initState();
+  }
+
   @override
   DonVi_Api dvApi = new DonVi_Api();
   Widget build(BuildContext context) {
@@ -33,7 +40,7 @@ class _MyComBo_Lanhdaotrinh extends State<MyComBo_Lanhdaotrinh> {
   List<int> selectedItemsldt = [];
   Widget combo(dataquery) => Center(
           child: FutureBuilder(
-        future: nndApi.getnguoidungbychucvu(dataquery),
+        future: nndApi.getnguoidungbyquyenhan(dataquery),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Center(

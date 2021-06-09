@@ -1,3 +1,4 @@
+import 'package:app_eoffice/services/Base_service.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/DuThaoVanBanItem.dart';
@@ -42,12 +43,61 @@ class ViewDuThaoVanBanPanel extends StatelessWidget {
           containerRow('Người phê duyệt: ', obj.tennguoiky),
           containerRow('Loại văn bản: ', obj.tenloaivanban),
           containerRow('Trích yếu: ', obj.trichyeu),
-          if ((obj.trangthaiid == 5 || obj.isvanbandi) &&
-              nguoidungsessionView.id == obj.nguoitaoid)
-            containerRow('Trạng thái người dùng: ', 'Đã xử lý'),
-          if (nguoidungsessionView.id == obj.nguoitaoid &&
-              (obj.trangthaiid != 5 || !obj.isvanbandi))
+          if (obj.lstguinhan != null &&
+              obj.lstguinhan.length > 0 &&
+              obj.lstguinhan.where((element) =>
+                      element.nguoinhanid == nguoidungsession.id) !=
+                  null &&
+              obj.lstguinhan
+                      .where((element) =>
+                          element.nguoinhanid == nguoidungsession.id)
+                      .length >
+                  0 &&
+              obj.lstguinhan
+                      .where((element) =>
+                          element.nguoinhanid == nguoidungsession.id)
+                      .toList()[0]
+                      .trangthai ==
+                  0)
+            containerRow('Trạng thái người dùng: ', 'Chưa xử lý'),
+          if (obj.lstguinhan != null &&
+              obj.lstguinhan.length > 0 &&
+              obj.lstguinhan.where((element) =>
+                      element.nguoinhanid == nguoidungsession.id) !=
+                  null &&
+              obj.lstguinhan
+                      .where((element) =>
+                          element.nguoinhanid == nguoidungsession.id)
+                      .length >
+                  0 &&
+              obj.lstguinhan
+                      .where((element) =>
+                          element.nguoinhanid == nguoidungsession.id)
+                      .toList()[0]
+                      .trangthai ==
+                  1)
             containerRow('Trạng thái người dùng: ', 'Đang xử lý'),
+          if (obj.lstguinhan != null &&
+              obj.lstguinhan.length > 0 &&
+              obj.lstguinhan.where((element) =>
+                      element.nguoinhanid == nguoidungsession.id) !=
+                  null &&
+              obj.lstguinhan
+                      .where((element) =>
+                          element.nguoinhanid == nguoidungsession.id)
+                      .length >
+                  0 &&
+              obj.lstguinhan
+                      .where((element) =>
+                          element.nguoinhanid == nguoidungsession.id)
+                      .toList()[0]
+                      .trangthai ==
+                  3)
+            containerRow('Trạng thái người dùng: ', 'Đã xử lý'),
+          if (obj.lstdanhmucgiatri != null && obj.lstdanhmucgiatri.length > 0)
+            for (var i = 0; i < obj.lstdanhmucgiatri.length; i++)
+              containerRow(obj.lstdanhmucgiatri[i].tenDanhMuc + ": ",
+                  obj.lstdanhmucgiatri[i].ten),
           if (obj.lstfile.length > 0) containerRow('File đính kèm: ', ''),
           for (var i = 0; i < obj.lstfile.length; i++)
             containerRowViewfile(

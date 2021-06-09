@@ -21,6 +21,12 @@ List<int> lstDonViPhoiHop = new List<int>();
 class _MyComBo_DonViPhoiHop extends State<MyComBo_DonViPhoiHop> {
   String strDonViPhoiHop = '';
   @override
+  void initState() {
+    lstDonViPhoiHop = [];
+    super.initState();
+  }
+
+  @override
   DonVi_Api dvApi = new DonVi_Api();
   Widget build(BuildContext context) {
     // TODO: implement build

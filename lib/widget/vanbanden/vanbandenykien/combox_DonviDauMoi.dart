@@ -21,6 +21,12 @@ List<int> lstDonViDauMoi = new List<int>();
 class _MyComBo_DonViDauMoi extends State<MyComBo_DonViDauMoi> {
   String strDonViDauMoi = '';
   @override
+  void initState() {
+    lstDonViDauMoi = [];
+    super.initState();
+  }
+
+  @override
   DonVi_Api dvApi = new DonVi_Api();
   Widget build(BuildContext context) {
     // TODO: implement build

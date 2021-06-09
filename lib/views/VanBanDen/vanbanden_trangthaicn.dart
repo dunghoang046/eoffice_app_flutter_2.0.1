@@ -148,7 +148,7 @@ class _MyTrangThaiVanBanDenCaNhan extends State<MyTrangThaiVanBanDenCaNhan> {
 
   // ignore: non_constant_identifier_names
   void _click_add() {
-    if (selectedValue != null && selectedValue > 0) {
+    if (selectedValue != null) {
       var data = {
         "VanBanID": widget.id,
         "TrangThaiID": selectedValue,

@@ -14,6 +14,12 @@ List<int> lstnguoidung = new List<int>();
 
 class _MyComBo_NguoiDung extends State<MyComBo_NguoiDung> {
   @override
+  void initState() {
+    lstnguoidung = [];
+    super.initState();
+  }
+
+  @override
   Vanbandi_api dvApi = new Vanbandi_api();
   Widget build(BuildContext context) {
     // TODO: implement build

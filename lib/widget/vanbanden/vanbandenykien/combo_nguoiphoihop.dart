@@ -21,6 +21,7 @@ List<int> lstNguoiPhoiHop = new List<int>();
 
 class _MyComBo_NguoiphoiHop extends State<MyComBo_NguoiphoiHop> {
   void initState() {
+    lstNguoiPhoiHop = [];
     super.initState();
     if (nguoidungsessionView.vitriid != 3 &&
         !checkquyen(nguoidungsessionView.quyenhan, QuyenHan().VanthuDonvi) &&
@@ -65,9 +66,9 @@ class _MyComBo_NguoiphoiHop extends State<MyComBo_NguoiphoiHop> {
                 selectedItems: selectedItemsnph,
                 hint: Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Text("Chọn người xử lý"),
+                  child: Text("Chọn người phối hợp"),
                 ),
-                searchHint: "Chọn người xử lý",
+                searchHint: "Chọn người phối hợp",
                 onChanged: (value) {
                   lstNguoiPhoiHop = new List<int>();
                   setState(() {

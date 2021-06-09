@@ -36,3 +36,11 @@ class ApproverEvent extends ActionEvent {}
 class UploadfileEvent extends ActionEvent {}
 
 class SettingNhanNotificationEvent extends ActionEvent {}
+
+class SendEvent extends ActionEvent {}
+
+class LoginSwitchEvent extends ActionEvent {}
+
+class LoginSwitchPBEvent extends ActionEvent {}
+
+class RefreshEvent extends ActionEvent {}

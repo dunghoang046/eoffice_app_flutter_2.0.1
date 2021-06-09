@@ -15,6 +15,11 @@ String lanhdaotrinhid;
 
 class _MyComBo_LanhdaoTrinhDT extends State<MyComBo_LanhdaoTrinhDT> {
   @override
+  void initState() {
+    lanhdaotrinhid = '';
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return combo();

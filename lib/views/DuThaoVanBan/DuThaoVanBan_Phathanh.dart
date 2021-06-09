@@ -48,7 +48,7 @@ class _MyDuThaoVanBanPhatHanh extends State<MyDuThaoVanBanPhatHanh> {
             appBar: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
               title: Text(
-                'Trình lãnh đạo',
+                'Phát hành',
                 style: TextStyle(color: Colors.white),
               ),
               leading: new IconButton(

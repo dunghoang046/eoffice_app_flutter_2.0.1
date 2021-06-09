@@ -15,7 +15,7 @@ import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/Combo_LanhDaoLienQuan.dart
 import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/Combo_PhongBanLienQuan.dart';
 import 'package:app_eoffice/widget/DuThaoVanBan/Trinh/Combo_canbolienquan.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:load/load.dart';
+import 'package:date_format/date_format.dart';
 import 'package:simple_router/simple_router.dart';
 import 'package:toast/toast.dart';
 import 'package:intl/intl.dart';
@@ -38,6 +38,9 @@ class _MyDuThaoVanBanTrinh extends State<MyDuThaoVanBanTrinh> {
   void initState() {
     loaddata();
     _noidung.text = '';
+    _ngaytrinhky.text = formatDate(
+        DateTime.parse(DateTime.now().toString()), [dd, '/', mm, '/', yyyy]);
+    BlocProvider.of<BlocDuThaoVanBanAction>(context).add(ListEvent());
   }
 
   void loaddata() async {
@@ -132,39 +135,11 @@ class _MyDuThaoVanBanTrinh extends State<MyDuThaoVanBanTrinh> {
                       Row(
                         children: [
                           Container(
-                              margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                              child: MaterialButton(
-                                  padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                                  onPressed: () {
-                                    _clicktrinhld();
-                                  },
-                                  color: Colors.blue,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.save,
-                                        size: 17,
-                                        color: Colors.white,
-                                      ),
-                                      Text(
-                                        'Phát hành',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: white),
-                                      ),
-                                    ],
-                                  ))),
-                          Container(
                               margin: EdgeInsets.fromLTRB(15, 10, 0, 0),
                               child: MaterialButton(
                                   // padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              MyDuThaoVanBanChiTiet(
-                                                  id: widget.id)),
-                                    );
+                                    SimpleRouter.back();
                                   },
                                   color: Colors.red,
                                   child: Row(
@@ -237,8 +212,8 @@ class _MyDuThaoVanBanTrinh extends State<MyDuThaoVanBanTrinh> {
         "LanhDaoLienQuan": lstlanhdaolienquan,
         "PhongBanDonViLienQuan": lstphongbanlienquan,
         "CanBoLienQuan": lstcanbolienquan,
-        "NoiDung": _noidung,
-        "NgayTrinhKy": _ngaytrinhky,
+        "NoiDung": _noidung.text,
+        "NgayTrinhKy": _ngaytrinhky.text,
       };
       TrinhLDEvent yKienEvent = new TrinhLDEvent();
       yKienEvent.data = data;
@@ -254,6 +229,7 @@ class NgayTrinhKy extends StatelessWidget {
     return Column(children: <Widget>[
       DateTimeField(
         controller: _ngaytrinhky,
+        initialValue: DateTime.now(),
         decoration: InputDecoration(
           // hintText: "Nội dung",
           fillColor: Colors.white,

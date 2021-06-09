@@ -10,9 +10,15 @@ class MyComBo_NhomNguoiDung extends StatefulWidget {
   _MyComBo_NhomNguoiDung createState() => new _MyComBo_NhomNguoiDung();
 }
 
-List<int> lstnhomnguoidung = new List<int>();
+List<int> lstnhomnguoidung = <int>[];
 
 class _MyComBo_NhomNguoiDung extends State<MyComBo_NhomNguoiDung> {
+  @override
+  void initState() {
+    lstnhomnguoidung = [];
+    super.initState();
+  }
+
   @override
   Vanbandi_api dvApi = new Vanbandi_api();
   Widget build(BuildContext context) {

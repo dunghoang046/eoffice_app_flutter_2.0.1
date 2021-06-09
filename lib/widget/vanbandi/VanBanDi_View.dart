@@ -55,6 +55,9 @@ class ViewVanBanDiPanel extends StatelessWidget {
               containerRow('Đơn vị nhận: ', obj.strdonvinhan),
               containerRow('Nhóm đơn vị nhận: ', obj.strnhomdonvinhan),
               containerRow('Người nhận: ', obj.strnguoinhan),
+              for (var i = 0; i < obj.lstdanhmucgiatri.length; i++)
+                containerRow(obj.lstdanhmucgiatri[i].tenDanhMuc + ": ",
+                    obj.lstdanhmucgiatri[i].ten),
               if (obj.lstfile.length > 0) containerRow('File đính kèm: ', ''),
               for (var i = 0; i < obj.lstfile.length; i++)
                 containerRowViewfile(obj.lstfile[i].ten, obj.lstfile[i].id,

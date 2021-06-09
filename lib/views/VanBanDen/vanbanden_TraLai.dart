@@ -76,11 +76,6 @@ class _MyTraLaiVanBanDen extends State<MyTraLaiVanBanDen> {
                 TextFormField(
                   controller: _noidung,
                   decoration: InputDecoration(hintText: 'Nhập nội dung'),
-                  onChanged: (value) {
-                    setState(() {
-                      _noidung.text = value;
-                    });
-                  },
                 ),
               ],
             ),

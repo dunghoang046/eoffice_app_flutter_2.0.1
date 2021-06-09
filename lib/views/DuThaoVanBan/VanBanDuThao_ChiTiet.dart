@@ -1,8 +1,15 @@
+import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
+import 'package:app_eoffice/block/base/state.dart';
+import 'package:app_eoffice/services/Base_service.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
+import 'package:app_eoffice/utils/quyenhan.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_Duyet.dart';
+import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_GuiNhan.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_Phathanh.dart';
+import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan_TrangThai.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanban_TuChoi.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:app_eoffice/models/DuThaoVanBanItem.dart';
 import 'package:app_eoffice/services/VanBanDuThao_Api.dart';
@@ -29,6 +36,7 @@ bool istrinh = false;
 bool isDuyet = false;
 bool isTuChoi = false;
 bool isvanbandi = false;
+bool ishoanthanh = false;
 int trangthaiid = 0;
 int vitringuoikyid = 0;
 
@@ -52,12 +60,15 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
       obj = objapi.getbyId(dataquery);
       objvb = await obj;
       if (objvb != null && objvb.id > 0) {
-        istrinh = objvb.isTrinh;
-        isDuyet = objvb.isDuyet;
-        isTuChoi = objvb.isTuChoi;
-        isvanbandi = objvb.isvanbandi;
-        trangthaiid = objvb.trangthaiid;
-        vitringuoikyid = objvb.vitringuoikyid;
+        setState(() {
+          istrinh = objvb.isTrinh;
+          isDuyet = objvb.isDuyet;
+          isTuChoi = objvb.isTuChoi;
+          isvanbandi = objvb.isvanbandi;
+          trangthaiid = objvb.trangthaiid;
+          vitringuoikyid = objvb.vitringuoikyid;
+          ishoanthanh = objvb.ishoanthanh;
+        });
       }
     }
   }
@@ -79,7 +90,18 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
             }),
         backgroundColor: colorbartop,
       ),
-      body: contentbody(dataquery),
+      // body: contentbody(dataquery),
+      body: BlocBuilder<BlocDuThaoVanBanAction, ActionState>(
+        buildWhen: (previousState, state) {
+          if (state is ViewState) {
+            loaddata();
+          }
+          return;
+        },
+        builder: (context, state) {
+          return contentbody(dataquery);
+        },
+      ),
       floatingActionButton: buildSpeedDial(),
     );
   }
@@ -113,13 +135,7 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
         visible: true,
         curve: Curves.bounceIn,
         children: [
-          if ((istrinh &&
-                  !nguoidungsessionView.tennhomnguoidung.contains('HĐTV')) ||
-              (isDuyet &&
-                  (nguoidungsessionView.vitriid == 4 ||
-                      (nguoidungsessionView.vitriid == 3 &&
-                          !nguoidungsessionView.tennhomnguoidung
-                              .contains('HĐTV')))))
+          if (istrinh)
             SpeedDialChild(
               child: Icon(Icons.send, color: Colors.white),
               backgroundColor: Colors.blue,
@@ -133,7 +149,7 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
                   TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
               labelBackgroundColor: Colors.blue,
             ),
-          if (isDuyet && nguoidungsessionView.vitriid != 4)
+          if (isDuyet)
             SpeedDialChild(
               child: Icon(Icons.arrow_drop_up, color: Colors.white),
               backgroundColor: Colors.blue,
@@ -161,13 +177,16 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
                   TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
               labelBackgroundColor: Colors.red,
             ),
-          if ((trangthaiid != 5 &&
-                  trangthaiid != 2 &&
-                  trangthaiid != 6 &&
-                  (!isvanbandi | (isvanbandi && trangthaiid == 4))) &&
-              (nguoidungsessionView.vitriid != 3 &&
-                  trangthaiid == 3 &&
-                  vitringuoikyid == 3))
+          // if ((trangthaiid != 5 &&
+          //         trangthaiid != 2 &&
+          //         trangthaiid != 6 &&
+          //         isvanbandi!=true &&
+          //         (!isvanbandi || (isvanbandi && trangthaiid == 4))) &&
+          //     (trangthaiid == 3 &&
+          //         checkquyen(
+          //             nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi)))
+          if (trangthaiid == 3 &&
+              !checkquyen(nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
             SpeedDialChild(
               child: Icon(Icons.bookmark, color: Colors.white),
               backgroundColor: Colors.blue,
@@ -181,6 +200,18 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
                   TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
               labelBackgroundColor: Colors.blue,
             ),
+          if (ishoanthanh)
+            SpeedDialChild(
+              child: Icon(Icons.done, color: Colors.white),
+              backgroundColor: Colors.blue,
+              onTap: () {
+                SimpleRouter.forward(MyDuThaoTrangThai(id: widget.id));
+              },
+              label: 'Cập nhật trạng thái',
+              labelStyle:
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              labelBackgroundColor: Colors.blue,
+            ),
           SpeedDialChild(
             child: Icon(Icons.comment, color: Colors.white),
             backgroundColor: Colors.blue,
@@ -188,6 +219,17 @@ class _MyDuThaoVanBanChiTiet extends State<MyDuThaoVanBanChiTiet> {
               SimpleRouter.forward(MyDuThaoVanBanYKien(id: widget.id));
             },
             label: 'Ý kiến',
+            labelStyle:
+                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+            labelBackgroundColor: Colors.blue,
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.sync, color: Colors.white),
+            backgroundColor: Colors.blue,
+            onTap: () {
+              SimpleRouter.forward(MyDuThaoVanBanGuiNhan(id: widget.id));
+            },
+            label: 'Gửi nhận',
             labelStyle:
                 TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             labelBackgroundColor: Colors.blue,

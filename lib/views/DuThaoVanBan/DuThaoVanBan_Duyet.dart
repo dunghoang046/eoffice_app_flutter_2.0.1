@@ -39,7 +39,7 @@ class _MyDuThaoVanBanDuyet extends State<MyDuThaoVanBanDuyet> {
             appBar: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
               title: Text(
-                'Trình lãnh đạo',
+                'Duyệt',
                 style: TextStyle(color: Colors.white),
               ),
               leading: new IconButton(
@@ -169,13 +169,13 @@ class _MyDuThaoVanBanDuyet extends State<MyDuThaoVanBanDuyet> {
   }
 
   void _clicktrinhld() {
-    if ((_noidung == null || (_noidung.text.length <= 0))) {
+    if ((_noidung.text == null || (_noidung.text.length <= 0))) {
       Toast.show('Bạn chưa nhập nội dung ', context,
           duration: 2, gravity: Toast.TOP, backgroundColor: Colors.red);
     } else {
       var data = {
         "VanBanID": widget.id,
-        "NoiDung": _noidung,
+        "NoiDung": _noidung.text,
       };
       ApproverEvent yKienEvent = new ApproverEvent();
       yKienEvent.data = data;

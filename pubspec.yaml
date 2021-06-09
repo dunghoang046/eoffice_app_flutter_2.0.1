@@ -78,6 +78,7 @@ dependencies:
   # pdf_viewer_2: ^1.0.3
   flutter_plugin_pdf_viewer: ^1.0.7
   flutter_html: ^0.8.2
+  page_transition: "^2.0.2"
 dev_dependencies:
   flutter_test:
     sdk: flutter

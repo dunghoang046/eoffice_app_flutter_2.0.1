@@ -1,5 +1,3 @@
-import 'package:app_eoffice/models/loginItem.dart';
-
 abstract class AuthEvent {
   // LoginItem logindata;
   dynamic logindata;

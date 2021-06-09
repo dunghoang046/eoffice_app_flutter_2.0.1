@@ -1,10 +1,6 @@
 import 'dart:async';
-import 'package:app_eoffice/models/LichLamViecItem.dart';
 import 'package:app_eoffice/models/NoiDungLichItem.dart';
-import 'package:app_eoffice/models/YearWeekItem.dart';
 import 'package:app_eoffice/services/LichLamViec_Api.dart';
-import 'package:app_eoffice/services/Notification_Api.dart';
-import 'package:app_eoffice/models/NotificationItem.dart';
 import 'base_bloc.dart';
 
 class LichlamViecBloc extends Blocdispose {
@@ -29,22 +25,22 @@ class LichlamViecBloc extends Blocdispose {
     "Loai": '3',
     "LoaiListID": '0'
   };
-  LichlamViecBloc(yearselect, weekselect) {
-    _loadInitTopStories(yearselect, weekselect);
+  LichlamViecBloc(yearselect, weekselect, loai) {
+    _loadInitTopStories(yearselect, weekselect, loai);
   }
-  void _loadInitTopStories(yearselect, weekselect) async {
-    loadMore(yearselect, weekselect);
+  void _loadInitTopStories(yearselect, weekselect, loai) async {
+    loadMore(yearselect, weekselect, loai);
   }
 
-  void loadtop(keyword, loai) async {
+  void loadtop(yearselect, weekselect, loai) async {
     _topStoriesStreamController = new StreamController();
     _lstobject = <NoiDungLichItem>[];
     currentPage = 1;
-    loadMore(keyword, loai);
+    loadMore(yearselect, weekselect, loai);
   }
 
-  void loadMore(yearselect, weekselect) async {
-    var requestdata = {'week': weekselect, 'year': yearselect};
+  void loadMore(yearselect, weekselect, loai) async {
+    var requestdata = {'week': weekselect, 'year': yearselect, 'Loai': loai};
     if (_topStoriesStreamController.isClosed)
       _topStoriesStreamController = new StreamController();
     var lst;

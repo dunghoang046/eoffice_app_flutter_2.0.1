@@ -1,4 +1,6 @@
 import 'package:app_eoffice/views/CongViec/CongViec_ChiTiet.dart';
+import 'package:app_eoffice/views/DatXe/DatXe.dart';
+import 'package:app_eoffice/views/DatXe/DatXe_ChiTiet.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/VanBanDuThao_ChiTiet.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_chitiet.dart';
 import 'package:app_eoffice/views/VanBanDi/VanBandi_Chtiet.dart';
@@ -81,6 +83,14 @@ class _NotificationPanel extends State<NotificationPanel>
           context,
           MaterialPageRoute(
               builder: (context) => MyCongViecChiTiet(
+                    id: notificationitem.itemid,
+                  )));
+    }
+    if (notificationitem.kieuid == 17) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyDatXeChiTiet(
                     id: notificationitem.itemid,
                   )));
     }

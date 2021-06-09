@@ -42,6 +42,7 @@ int selectedValue = 0;
 String weekselect = '0';
 // List<DropdownMenuItem> lstdryear = [];
 List<DropdownMenuItem<String>> lstdryear = [];
+TabController _tabController;
 
 class _MyLichlamViecpage extends State<MyLichlamViecpage>
     with SingleTickerProviderStateMixin {
@@ -49,6 +50,7 @@ class _MyLichlamViecpage extends State<MyLichlamViecpage>
 
   @override
   void initState() {
+    _tabController = TabController(vsync: this, length: 3);
     final date = DateTime.now();
     print(date.weekOfYear);
     lstdryear = [];
@@ -111,6 +113,26 @@ class _MyLichlamViecpage extends State<MyLichlamViecpage>
             body: DefaultTabController(
               length: 3,
               child: Scaffold(
+                appBar: new PreferredSize(
+                  preferredSize: Size.fromHeight(kToolbarHeight),
+                  child: new Container(
+                    height: 50.0,
+                    child: new TabBar(
+                      onTap: (index) {
+                        setState(() {
+                          indexselect = index;
+                        });
+                      },
+                      controller: _tabController,
+                      tabs: [
+                        new Tab(text: 'Lịch chung'),
+                        new Tab(text: 'Lịch đơn vị'),
+                        new Tab(text: 'Lịch trường'),
+                      ],
+                      labelColor: Colors.blue,
+                    ),
+                  ),
+                ),
                 body: Container(
                     margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Column(
@@ -118,18 +140,46 @@ class _MyLichlamViecpage extends State<MyLichlamViecpage>
                       children: [
                         week(),
                         Expanded(
-                          child: Provider<LichlamViecBloc>(
-                            child: MyLichlamViecAllpage(
-                              requestweek: weekselect,
-                              requesyear: yearselect,
-                              requestblock:
-                                  new LichlamViecBloc(yearselect, weekselect),
-                            ),
-                            create: (context) =>
-                                new LichlamViecBloc(yearselect, weekselect),
-                            dispose: (context, bloc) => bloc.dispose(),
+                            child: Center(
+                          child: TabBarView(
+                            controller: _tabController,
+                            children: [
+                              Provider<LichlamViecBloc>(
+                                child: MyLichlamViecAllpage(
+                                  requestweek: weekselect,
+                                  requesyear: yearselect,
+                                  requestblock: new LichlamViecBloc(
+                                      yearselect, weekselect, 0),
+                                ),
+                                create: (context) => new LichlamViecBloc(
+                                    yearselect, weekselect, 0),
+                                dispose: (context, bloc) => bloc.dispose(),
+                              ),
+                              Provider<LichlamViecBloc>(
+                                child: MyLichlamViecAllpage(
+                                  requestweek: weekselect,
+                                  requesyear: yearselect,
+                                  requestblock: new LichlamViecBloc(
+                                      yearselect, weekselect, 2),
+                                ),
+                                create: (context) => new LichlamViecBloc(
+                                    yearselect, weekselect, 2),
+                                dispose: (context, bloc) => bloc.dispose(),
+                              ),
+                              Provider<LichlamViecBloc>(
+                                child: MyLichlamViecAllpage(
+                                  requestweek: weekselect,
+                                  requesyear: yearselect,
+                                  requestblock: new LichlamViecBloc(
+                                      yearselect, weekselect, 1),
+                                ),
+                                create: (context) => new LichlamViecBloc(
+                                    yearselect, weekselect, 1),
+                                dispose: (context, bloc) => bloc.dispose(),
+                              ),
+                            ],
                           ),
-                        )
+                        )),
                       ],
                     )),
               ),

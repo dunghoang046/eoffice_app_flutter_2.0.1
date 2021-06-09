@@ -1,3 +1,5 @@
+import 'package:app_eoffice/models/DanhMucGiaTriItem.dart';
+
 import 'FileAttachItem.dart';
 import 'VanBanDenGuiNhanItem.dart';
 import 'VanbandentrangthaiItem.dart';
@@ -27,6 +29,7 @@ class VanBanDenItem {
   int trangthaivanbanid;
   List<FileAttachItem> lstfile;
   List<VanBanDenGuiNhanItem> lstguinhan;
+  List<DanhMucGiaTriItem> lstdanhmucgiatri;
   List<VanbandentrangthaiItem> lsttrangthai;
   int vanbandenid;
   int vanbandiid;
@@ -57,6 +60,7 @@ class VanBanDenItem {
       this.vanbandiid,
       this.lstguinhan,
       this.lsttrangthai,
+      this.lstdanhmucgiatri,
       this.ghichu});
   VanBanDenItem.fromMap(Map<String, dynamic> map) {
     id = map['ID'];
@@ -90,5 +94,12 @@ class VanBanDenItem {
           vbData.map((f) => VanbandentrangthaiItem.fromMap(f)).toList();
     } else
       lsttrangthai = new List<VanbandentrangthaiItem>();
+
+    if (map['LtsDanhMucGiaTri'] != null && map['LtsDanhMucGiaTri'].length > 0) {
+      List<dynamic> vbData = map['LtsDanhMucGiaTri'];
+      lstdanhmucgiatri =
+          vbData.map((f) => DanhMucGiaTriItem.fromMap(f)).toList();
+    } else
+      lstdanhmucgiatri = new List<DanhMucGiaTriItem>();
   }
 }

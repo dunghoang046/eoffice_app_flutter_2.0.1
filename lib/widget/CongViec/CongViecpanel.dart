@@ -1,3 +1,4 @@
+import 'package:app_eoffice/services/Base_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:app_eoffice/block/CongViecBloc.dart';
@@ -8,6 +9,7 @@ import 'package:app_eoffice/views/CongViec/CongViec_ThemMoi.dart';
 import 'package:app_eoffice/widget/Base_widget.dart';
 import 'package:app_eoffice/widget/NoInternetConnection.dart';
 import 'package:date_format/date_format.dart';
+import 'package:simple_router/simple_router.dart';
 
 class CongViecpanel extends StatefulWidget {
   CongViecblock congviecBloc;
@@ -113,12 +115,14 @@ class _CongViecpanel extends State<CongViecpanel> {
             padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
             child: ListTile(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MyCongViecChiTiet(
-                                id: topStories[index].id,
-                              )));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => MyCongViecChiTiet(
+                  //               id: topStories[index].id,
+                  //             )));
+                  SimpleRouter.forward(
+                      MyCongViecChiTiet(id: topStories[index].id));
                 },
                 title: Text(
                     topStories[index].title != null
@@ -167,41 +171,45 @@ class _CongViecpanel extends State<CongViecpanel> {
                 )),
           ),
           secondaryActions: <Widget>[
-            IconSlideAction(
-              caption: 'Sửa',
-              color: Colors.black45,
-              icon: Icons.more_horiz,
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyThemMoiCongViec(
-                              id: topStories[index].id,
-                            )));
-              },
-            ),
-            IconSlideAction(
-              caption: 'Xóa',
-              color: Colors.red,
-              icon: Icons.delete,
-              onTap: () {
-                setState(() {
-                  topStories.removeAt(index);
+            if (topStories[index].createdUserID == nguoidungsession.id)
+              IconSlideAction(
+                caption: 'Sửa',
+                color: Colors.black45,
+                icon: Icons.more_horiz,
+                onTap: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => MyThemMoiCongViec(
+                  //               id: topStories[index].id,
+                  //             )));
+                  SimpleRouter.forward(
+                      MyThemMoiCongViec(id: topStories[index].id));
+                },
+              ),
+            if (topStories[index].createdUserID == nguoidungsession.id)
+              IconSlideAction(
+                caption: 'Xóa',
+                color: Colors.red,
+                icon: Icons.delete,
+                onTap: () {
                   setState(() {
-                    widget.congviecBloc.totaldelete =
-                        widget.congviecBloc.totaldelete + 1;
-                    if (widget.congviecBloc.total >
-                            (topStories.length +
-                                widget.congviecBloc.totaldelete) &&
-                        widget.congviecBloc.isloadingdelete) {
-                      widget.congviecBloc.loadMore('', 0);
-                    } else
-                      widget.congviecBloc.isloadingdelete = false;
-                    // }
+                    topStories.removeAt(index);
+                    setState(() {
+                      widget.congviecBloc.totaldelete =
+                          widget.congviecBloc.totaldelete + 1;
+                      if (widget.congviecBloc.total >
+                              (topStories.length +
+                                  widget.congviecBloc.totaldelete) &&
+                          widget.congviecBloc.isloadingdelete) {
+                        widget.congviecBloc.loadMore('', 0);
+                      } else
+                        widget.congviecBloc.isloadingdelete = false;
+                      // }
+                    });
                   });
-                });
-              },
-            ),
+                },
+              ),
           ],
         );
       },

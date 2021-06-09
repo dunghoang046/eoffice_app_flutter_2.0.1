@@ -3,6 +3,8 @@ import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/components/components.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
+import 'package:app_eoffice/views/DuThaoVanBan/Trinh/combo_NguoiNhan.dart';
+import 'package:app_eoffice/views/DuThaoVanBan/Trinh/combo_NhomDonVi.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/utils/Base.dart';
@@ -106,11 +108,13 @@ class _MyDuThaoVanBanYKienForm extends State<MyDuThaoVanBanYKienForm> {
                         noidung: _noidung,
                       ),
                       rowlabel('Người nhận'),
-                      MyComBo_NguoiDung(),
+                      MyComBo_NguoiNhan(),
                       rowlabel('Cán bộ liên quan'),
                       MyComBo_CanBoLienQuan(),
                       rowlabel('Phòng ban liên quan'),
                       MyComBo_PhongBanLienQuan(),
+                      rowlabel('Nhóm đơn vị'),
+                      MyComBo_NhomDonVi(),
                       rowlabel('Hạn xử lý'),
                       HanXuLy(),
                       Row(
@@ -186,7 +190,8 @@ class _MyDuThaoVanBanYKienForm extends State<MyDuThaoVanBanYKienForm> {
     if ((lstnguoidung == null || (lstnguoidung.length <= 0)) &&
         (_noidung.text == null || (_noidung.text.length <= 0)) &&
         (lstnguoidung == null || (lstnguoidung.length <= 0)) &&
-        (lstphongbanlienquan == null || (lstphongbanlienquan.length <= 0))) {
+        (lstphongbanlienquan == null || (lstphongbanlienquan.length <= 0)) &&
+        (lstnhomdonvi == null || (lstnhomdonvi.length <= 0))) {
       Toast.show('Bạn chưa nhập thông tin  ', context,
           duration: 2, gravity: Toast.TOP, backgroundColor: Colors.red);
     } else {
@@ -194,9 +199,10 @@ class _MyDuThaoVanBanYKienForm extends State<MyDuThaoVanBanYKienForm> {
         "VanBanID": widget.id,
         "NoiDung": _noidung.text,
         "HanXuLy": _hanxuly.text,
-        "NguoiNhanVanBan": lstnguoidung,
+        "NguoiNhanVanBan": lstnguoinhan,
         "CanBoLienQuan": lstcanbolienquan,
         "PhongBanDonViLienQuan": lstphongbanlienquan,
+        "NhomDonViLienQuan": lstnhomdonvi
       };
       YKienEvent yKienEvent = new YKienEvent();
       yKienEvent.data = data;

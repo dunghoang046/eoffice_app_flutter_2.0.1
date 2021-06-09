@@ -1,3 +1,7 @@
+import 'package:app_eoffice/models/DonViItem.dart';
+import 'package:app_eoffice/models/NguoiDungDonViNhomNguoiDungItem.dart';
+import 'package:app_eoffice/models/VaiTroItem.dart';
+
 class NguoiDungItem {
   int id;
   String tenhienthi;
@@ -27,6 +31,10 @@ class NguoiDungItem {
   String token;
   String linkanh;
   String tennhomnguoidung;
+  List<DonViItem> lstphongban;
+  List<DonViItem> lstdonvicuanguoidung;
+  List<VaiTroItem> lstvaitro;
+  List<NguoiDungDonViNhomNguoiDungItem> lstthongtin;
   NguoiDungItem({
     this.id,
     this.tenhienthi,
@@ -56,6 +64,10 @@ class NguoiDungItem {
     this.token,
     this.linkanh,
     this.tennhomnguoidung,
+    this.lstphongban,
+    this.lstdonvicuanguoidung,
+    this.lstvaitro,
+    this.lstthongtin,
   });
   NguoiDungItem.fromMap(Map<String, dynamic> map) {
     id = map['ID'];
@@ -74,20 +86,32 @@ class NguoiDungItem {
     email = map['Email'];
     tenchucvu = map['TenChucVu'];
     linkanh = map['LinkAnh'];
-    dienthoai = map['SoDienThoai'];
+    dienthoai = map['DienThoai'];
     tennhomnguoidung = map['TenNhomNguoiDung'];
-    // didong = map['DiDong'];
+    didong = map['DiDong'];
+    anhdaidien = map['AnhDaiDien'];
+    if (map['LstPhongBan'] != null && map['LstPhongBan'].length > 0) {
+      List<dynamic> vbData = map['LstPhongBan'];
+      lstphongban = vbData.map((f) => DonViItem.fromMap(f)).toList();
+    } else
+      lstphongban = <DonViItem>[];
+    if (map['LtsDonViCuaNguoiDung'] != null &&
+        map['LtsDonViCuaNguoiDung'].length > 0) {
+      List<dynamic> vbData = map['LtsDonViCuaNguoiDung'];
+      lstdonvicuanguoidung = vbData.map((f) => DonViItem.fromMap(f)).toList();
+    } else
+      lstphongban = <DonViItem>[];
+    if (map['LtsVaiTro'] != null && map['LtsVaiTro'].length > 0) {
+      List<dynamic> vbData = map['LtsVaiTro'];
+      lstvaitro = vbData.map((f) => VaiTroItem.fromMap(f)).toList();
+    } else
+      lstvaitro = <VaiTroItem>[];
+    if (map['LtsThongTin'] != null && map['LtsThongTin'].length > 0) {
+      List<dynamic> vbData = map['LtsThongTin'];
+      lstthongtin = vbData
+          .map((f) => NguoiDungDonViNhomNguoiDungItem.fromMap(f))
+          .toList();
+    } else
+      lstthongtin = <NguoiDungDonViNhomNguoiDungItem>[];
   }
-  // Map<String, dynamic> toJson() => {
-  //       'ID': id,
-  //       'TenHienThi': tenhienthi,
-  //       'Token': token,
-  //       'TenTruyCap': tentruycap
-  //     };
-
-  NguoiDungItem.fromJson(Map json)
-      : id = json['ID'],
-        tenhienthi = json['TenHienThi'],
-        tentruycap = json['TenTruyCap'],
-        token = json['Token'];
 }

@@ -43,6 +43,23 @@ Widget horizontalLine() => Padding(
       ),
     );
 
+Widget containerRow(String label, String value) => Container(
+      padding: EdgeInsets.fromLTRB(0, 2, 10, 2),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+              child: RichText(
+                  softWrap: true,
+                  text: TextSpan(children: <TextSpan>[
+                    TextSpan(
+                        text: label + '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black)),
+                    TextSpan(text: value, style: TextStyle(color: Colors.black))
+                  ])))
+        ],
+      ),
+    );
 Widget notrecord() => Center(
       child: Text(
         'Không có bản ghi nào',

@@ -22,6 +22,7 @@ List<int> lstNguoiDauMoi = new List<int>();
 class _MyComBo_NguoiXuLy extends State<MyComBo_NguoiXuLy> {
   void initState() {
     super.initState();
+    lstNguoiDauMoi = [];
     if (nguoidungsessionView.vitriid != 3 &&
         !checkquyen(nguoidungsessionView.quyenhan, QuyenHan().VanthuDonvi) &&
         nguoidungsessionView.ltsphongbanid.length > 0) {

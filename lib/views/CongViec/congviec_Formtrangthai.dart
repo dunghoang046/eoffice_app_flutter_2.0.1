@@ -39,10 +39,9 @@ class _MyFormTrangThaiCongViec extends State<MyFormTrangThaiCongViec> {
     return Center(
         child: BlocBuilder<BlocCongViecAction, ActionState>(
             buildWhen: (previousState, state) {
-      if (state is DoneState) {
-        Toast.show(basemessage, context,
-            duration: 2, gravity: Toast.TOP, backgroundColor: Colors.green);
-        BlocProvider.of<BlocCongViecAction>(context).add(ListEvent());
+      if (state is ViewState) {
+        // Toast.show(basemessage, context,
+        //     duration: 2, gravity: Toast.TOP, backgroundColor: Colors.green);
         SimpleRouter.back();
       }
       if (state is ErrorState) {
@@ -88,10 +87,10 @@ class _MyFormTrangThaiCongViec extends State<MyFormTrangThaiCongViec> {
                       child: Text("Hủy"),
                       value: 4,
                     ),
-                    DropdownMenuItem(
-                      child: Text("Làm lại"),
-                      value: 1,
-                    )
+                    // DropdownMenuItem(
+                    //   child: Text("Làm lại"),
+                    //   value: 1,
+                    // )
                   ],
                   value: selectedValue,
                   hint: "Chọn trạng thái",

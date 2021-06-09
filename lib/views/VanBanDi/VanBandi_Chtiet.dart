@@ -90,7 +90,8 @@ class _MyVanVanDiChiTiet extends State<MyVanVanDiChiTiet> {
               SimpleRouter.forward(MyVanBanDiGuiNhan(id: widget.id));
             },
             label: 'Gửi nhận ',
-            labelStyle: TextStyle(fontWeight: FontWeight.w500),
+            labelStyle:
+                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             labelBackgroundColor: Colors.deepOrangeAccent,
           ),
         ]);

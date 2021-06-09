@@ -16,7 +16,15 @@ class DuThaoVanBanListItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border(
-            left: BorderSide(color: Colors.green, width: 13),
+            left: BorderSide(
+                color: obj.trangthaiid == 1
+                    ? Colors.grey
+                    : (obj.trangthaiid == 10
+                        ? Colors.yellow[700]
+                        : (obj.trangthaiid == 2
+                            ? Colors.blue[300]
+                            : Colors.green)),
+                width: 13),
           ),
           // borderRadius: BorderRadius.circular(10),
           shape: BoxShape.rectangle,
@@ -114,34 +122,6 @@ class DuThaoVanBanListItem extends StatelessWidget {
               ],
             )),
       ),
-      // actions: <Widget>[
-      //   IconSlideAction(
-      //     caption: 'Archive',
-      //     color: Colors.blue,
-      //     icon: Icons.archive,
-      //     // onTap: () => _showSnackBar('Archive'),
-      //   ),
-      //   IconSlideAction(
-      //     caption: 'Share',
-      //     color: Colors.indigo,
-      //     icon: Icons.share,
-      //     // onTap: () => _showSnackBar('Share'),
-      //   ),
-      // ],
-      // secondaryActions: <Widget>[
-      //   IconSlideAction(
-      //     caption: 'Sửa',
-      //     color: Colors.black45,
-      //     icon: Icons.more_horiz,
-      //     // onTap: () => _showSnackBar('More'),
-      //   ),
-      //   IconSlideAction(
-      //     caption: 'Xóa',
-      //     color: Colors.red,
-      //     icon: Icons.delete,
-      //     // onTap: () => _showSnackBar('Delete'),
-      //   ),
-      // ],
     );
   }
 }

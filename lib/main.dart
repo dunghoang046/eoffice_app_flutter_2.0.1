@@ -1,17 +1,22 @@
 import 'dart:io';
 
 import 'package:app_eoffice/block/CongViecBloc.dart';
+import 'package:app_eoffice/block/DatXeBloc.dart';
 import 'package:app_eoffice/block/DuThaoVanBanblock.dart';
+import 'package:app_eoffice/block/NguoiDungblock.dart';
 import 'package:app_eoffice/block/login_bloc/auth_bloc.dart';
 import 'package:app_eoffice/block/settingbloc.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
 import 'package:app_eoffice/block/vanbandi_block.dart';
+import 'package:app_eoffice/services/Base_service.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/utils/menu.dart';
 import 'package:app_eoffice/utils/quyenhan.dart';
 import 'package:app_eoffice/views/CongViec/CongViec.dart';
+import 'package:app_eoffice/views/DatXe/DatXe.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/DuThaoVanBan.dart';
 import 'package:app_eoffice/views/LichlamViec/LichlamViec.dart';
+import 'package:app_eoffice/views/Nguoidung/HoSoCaNhan.dart';
 import 'package:app_eoffice/views/Notification/Notification.dart';
 import 'package:app_eoffice/views/Setting/Settingfingerprint.dart';
 import 'package:app_eoffice/views/Thongbao/Thongbao.dart';
@@ -106,6 +111,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<BlocSettingAction>(
           create: (context) => BlocSettingAction(),
         ),
+        BlocProvider<BlocDatXeAction>(
+          create: (context) => BlocDatXeAction(),
+        ),
+        BlocProvider<BlocNguoiDungAction>(
+          create: (context) => BlocNguoiDungAction(),
+        ),
       ],
       child: MaterialApp(
           color: Colors.white,
@@ -151,10 +162,13 @@ class _MyMain extends State<Mymain> {
     //   },
     // );
     // _pageOptions = <StatelessWidget>[];
-    _pageOptions.add(MyNotificationpage(globalKey: _scaffoldKey));
+
     super.initState();
     isHome = false;
-    setState(() {});
+    setState(() {
+      // _pageOptions = [];
+      // _pageOptions.add(MyNotificationpage(globalKey: _scaffoldKey));
+    });
   }
 
   Future<dynamic> myBackgroundMessageHandler(
@@ -215,7 +229,7 @@ class _MyMain extends State<Mymain> {
               ),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
+              icon: Icon(Icons.outbond),
               title: Text(
                 'Văn bản đi',
                 style: stylebottomnav,
@@ -242,13 +256,35 @@ class _MyMain extends State<Mymain> {
           child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/logo_login.png'))),
-            ),
+          Container(
+            height: 150,
+            color: Colors.white,
+            child: DrawerHeader(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                // Container(
+                //   alignment: Alignment.center,
+                //   margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                //   child: Text(
+                //     'Hệ thống quản lý văn bản và điều hành',
+                //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                //   ),
+                // ),
+                Image(image: AssetImage('assets/images/logo_login.png')),
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Card(
+                    child: ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text('Xin chào ' + nguoidungsession.tenhienthi),
+                    ),
+                  ),
+                )
+              ],
+            )),
           ),
           Container(
             color: Colors.blue[50],
@@ -265,7 +301,7 @@ class _MyMain extends State<Mymain> {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.notification_important),
+                  leading: Icon(Icons.calendar_today),
                   title: Text('Lịch làm việc'),
                   onTap: () {
                     _scaffoldKey.currentState.openEndDrawer();
@@ -274,45 +310,77 @@ class _MyMain extends State<Mymain> {
                     ));
                   },
                 ),
+                if (checkquyen(
+                    nguoidungsessionView.quyenhan, new QuyenHan().Vanbanden))
+                  ListTile(
+                    leading: Icon(Icons.verified_user),
+                    title: Text('Văn bản đến'),
+                    onTap: () {
+                      setState(() {
+                        tabIndex = 1;
+                        if (_scaffoldKey.currentState.isDrawerOpen) {
+                          _scaffoldKey.currentState.openEndDrawer();
+                        } else {
+                          _scaffoldKey.currentState.openDrawer();
+                        }
+                      });
+                    },
+                  ),
+                if (checkquyen(
+                    nguoidungsessionView.quyenhan, new QuyenHan().Vanbandi))
+                  ListTile(
+                    leading: Icon(Icons.outbond),
+                    title: Text('Văn bản đi'),
+                    onTap: () {
+                      setState(() {
+                        tabIndex = 2;
+                        if (_scaffoldKey.currentState.isDrawerOpen) {
+                          _scaffoldKey.currentState.openEndDrawer();
+                        } else {
+                          _scaffoldKey.currentState.openDrawer();
+                        }
+                      });
+                    },
+                  ),
+                if (checkquyen(
+                    nguoidungsessionView.quyenhan, new QuyenHan().Congviec))
+                  ListTile(
+                    leading: Icon(Icons.work),
+                    title: Text('Công việc'),
+                    onTap: () {
+                      setState(() {
+                        tabIndex = 3;
+                        if (_scaffoldKey.currentState.isDrawerOpen) {
+                          _scaffoldKey.currentState.openEndDrawer();
+                        } else {
+                          _scaffoldKey.currentState.openDrawer();
+                        }
+                      });
+                    },
+                  ),
+                if (checkquyen(nguoidungsessionView.quyenhan,
+                    new QuyenHan().Thongtindatxe))
+                  ListTile(
+                    leading: Icon(Icons.car_rental),
+                    title: Text('Thông tin đặt xe'),
+                    onTap: () {
+                      setState(() {
+                        if (_scaffoldKey.currentState.isDrawerOpen) {
+                          _scaffoldKey.currentState.openEndDrawer();
+                        } else {
+                          _scaffoldKey.currentState.openDrawer();
+                        }
+                        SimpleRouter.forward(DatXepage());
+                      });
+                    },
+                  ),
                 ListTile(
-                  leading: Icon(Icons.verified_user),
-                  title: Text('Văn bản đến'),
+                  leading: Icon(Icons.person),
+                  title: Text('Hồ sơ cá nhân'),
                   onTap: () {
                     setState(() {
-                      tabIndex = 1;
-                      if (_scaffoldKey.currentState.isDrawerOpen) {
-                        _scaffoldKey.currentState.openEndDrawer();
-                      } else {
-                        _scaffoldKey.currentState.openDrawer();
-                      }
-                    });
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Văn bản đi'),
-                  onTap: () {
-                    setState(() {
-                      tabIndex = 2;
-                      if (_scaffoldKey.currentState.isDrawerOpen) {
-                        _scaffoldKey.currentState.openEndDrawer();
-                      } else {
-                        _scaffoldKey.currentState.openDrawer();
-                      }
-                    });
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.border_color),
-                  title: Text('Công việc'),
-                  onTap: () {
-                    setState(() {
-                      tabIndex = 3;
-                      if (_scaffoldKey.currentState.isDrawerOpen) {
-                        _scaffoldKey.currentState.openEndDrawer();
-                      } else {
-                        _scaffoldKey.currentState.openDrawer();
-                      }
+                      _scaffoldKey.currentState.openEndDrawer();
+                      SimpleRouter.forward(HoSoCaNhanPage());
                     });
                   },
                 ),
@@ -340,6 +408,8 @@ class _MyMain extends State<Mymain> {
       BlocBuilder<BlocAuth, AuthState>(buildWhen: (previousState, state) {
         if (state is LogedSate) {
           if (islogin) {
+            _pageOptions = [];
+            _pageOptions.add(MyNotificationpage(globalKey: _scaffoldKey));
             if (widget.datatabindex != null && widget.datatabindex >= 0)
               tabIndex = widget.datatabindex;
             if (tabIndex == 0) isHome = true;

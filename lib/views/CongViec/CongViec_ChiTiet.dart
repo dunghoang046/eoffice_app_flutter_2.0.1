@@ -1,6 +1,8 @@
 import 'package:app_eoffice/block/CongViecBloc.dart';
 import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
+import 'package:app_eoffice/services/Base_service.dart';
+import 'package:app_eoffice/utils/Base.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/views/CongViec/CongViec_ThemMoi.dart';
 import 'package:app_eoffice/views/CongViec/congviec_Formtrangthai.dart';
@@ -9,12 +11,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:app_eoffice/models/WorkTaskItem.dart';
 import 'package:app_eoffice/services/CongViec_Api.dart';
-import 'package:app_eoffice/services/VanBanDuThao_Api.dart';
 import 'package:app_eoffice/views/CongViec/ThanhPhanThamGia.dart';
 import 'package:app_eoffice/widget/CongViec/CongViecViewPanel.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
-import 'package:load/load.dart';
 import 'package:simple_router/simple_router.dart';
+import 'package:toast/toast.dart';
 
 class MyCongViecChiTiet extends StatefulWidget {
   final int id;
@@ -23,7 +24,6 @@ class MyCongViecChiTiet extends StatefulWidget {
 }
 
 Future<WorkTaskItem> obj = new WorkTaskItem() as Future<WorkTaskItem>;
-WorkTaskItem objvb = new WorkTaskItem();
 CongViec_Api objapi = new CongViec_Api();
 TextEditingController _noidung = new TextEditingController();
 TextEditingController _noidungtuchoi = new TextEditingController();
@@ -34,6 +34,7 @@ bool isTuChoi = false;
 bool isvanbandi = false;
 int trangthaiid = 0;
 int vitringuoikyid = 0;
+bool iscapnhat = false;
 List<int> lstid = <int>[];
 WorkTaskItem objcv;
 
@@ -41,13 +42,13 @@ class _MyCongViecChiTiet extends State<MyCongViecChiTiet> {
   // ignore: must_call_super
   @override
   void initState() {
+    iscapnhat = false;
     loaddata();
     _noidung.text = '';
     _noidungtuchoi.text = '';
     _noidungphathanh.text = '';
   }
 
-  bool isLoading = true;
   @override
   void dispose() {
     print('Đóng chi tiết cv');
@@ -58,18 +59,23 @@ class _MyCongViecChiTiet extends State<MyCongViecChiTiet> {
     if (widget.id != null && widget.id > 0) {
       var dataquery = {"ID": '' + widget.id.toString() + ''};
       obj = objapi.getbyId(dataquery);
-      objvb = await obj;
-      if (objcv != null)
+
+      objcv = await obj;
+      if (objcv != null) {
         lstid = objcv.ltsUserPerform.map((value) => value.id).toList();
+        if (objcv.createdUserID == nguoidungsession.id) {
+          setState(() {
+            iscapnhat = true;
+          });
+        }
+      }
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         title: Text(
@@ -85,8 +91,13 @@ class _MyCongViecChiTiet extends State<MyCongViecChiTiet> {
       ),
       body: BlocBuilder<BlocCongViecAction, ActionState>(
           buildWhen: (previousState, state) {
-        if (state is ViewState) {
+        if (state is ViewState && basemessage.length > 0) {
           loaddata();
+          if (basemessage != null && basemessage.length > 0) {
+            Toast.show(basemessage, context,
+                duration: 2, gravity: Toast.TOP, backgroundColor: Colors.green);
+            basemessage = '';
+          }
         }
         return;
       }, builder: (context, state) {
@@ -95,7 +106,7 @@ class _MyCongViecChiTiet extends State<MyCongViecChiTiet> {
         );
       }),
       floatingActionButton: buildSpeedDial(),
-    );
+    ));
   }
 
   Widget contentbody() => Center(
@@ -127,155 +138,68 @@ class _MyCongViecChiTiet extends State<MyCongViecChiTiet> {
         visible: true,
         curve: Curves.bounceIn,
         children: [
-          SpeedDialChild(
-            child: Icon(Icons.group_add, color: Colors.white),
-            backgroundColor: Colors.blue,
-            onTap: () {
-              SimpleRouter.forward(MyThanhPhanThamGia(
-                id: widget.id,
-                lstselect: lstid,
-              ));
-            },
-            label: 'Thành phần tham gia',
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            labelBackgroundColor: Colors.blue,
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.ac_unit, color: Colors.white),
-            backgroundColor: Colors.blue,
-            onTap: () {
-              SimpleRouter.forward(MyThemMoiCongViec(
-                id: 0,
-                parentID: widget.id,
-              ));
-            },
-            label: 'Giao việc tiếp',
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            labelBackgroundColor: Colors.blue,
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.sync, color: Colors.white),
-            backgroundColor: Colors.red,
-            onTap: () {
-              SimpleRouter.forward(MyFormTrangThaiCongViec(
-                id: widget.id,
-              ));
-            },
-            label: 'Trạng thái',
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            labelBackgroundColor: Colors.red,
-          ),
+          if (iscapnhat && objcv.status != 3)
+            SpeedDialChild(
+              child: Icon(Icons.group_add, color: Colors.white),
+              backgroundColor: Colors.blue,
+              onTap: () {
+                SimpleRouter.forward(MyThanhPhanThamGia(
+                  id: widget.id,
+                  lstselect: lstid,
+                ));
+              },
+              label: 'Thành phần tham gia',
+              labelStyle:
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              labelBackgroundColor: Colors.blue,
+            ),
+          if (iscapnhat && objcv.status != 3)
+            SpeedDialChild(
+              child: Icon(Icons.ac_unit, color: Colors.white),
+              backgroundColor: Colors.blue,
+              onTap: () {
+                SimpleRouter.forward(MyThemMoiCongViec(
+                  id: 0,
+                  parentID: widget.id,
+                ));
+              },
+              label: 'Giao việc tiếp',
+              labelStyle:
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              labelBackgroundColor: Colors.blue,
+            ),
+          if (iscapnhat && objcv.status != 3)
+            SpeedDialChild(
+              child: Icon(Icons.sync, color: Colors.white),
+              backgroundColor: Colors.red,
+              onTap: () {
+                SimpleRouter.forward(MyFormTrangThaiCongViec(
+                  id: widget.id,
+                ));
+              },
+              label: 'Trạng thái',
+              labelStyle:
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              labelBackgroundColor: Colors.red,
+            ),
+          if (iscapnhat && objcv.status == 3)
+            SpeedDialChild(
+              child: Icon(Icons.keyboard_return, color: Colors.white),
+              backgroundColor: Colors.blue,
+              onTap: () {
+                var data = {
+                  "CongViecID": widget.id,
+                  "TrangThaiID": 1,
+                };
+                RefreshEvent addEvent = new RefreshEvent();
+                addEvent.data = data;
+                BlocProvider.of<BlocCongViecAction>(context).add(addEvent);
+              },
+              label: 'Làm lại',
+              labelStyle:
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              labelBackgroundColor: Colors.blue,
+            ),
         ]);
-  }
-
-// action duyệt
-  // ignore: unused_element
-  void _clickapproved() {
-    showLoadingDialog();
-    DuThaoVanBan_api objapi = new DuThaoVanBan_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NoiDung": _noidung.text,
-    };
-
-    objapi.postapproved(data).then((objdata) {
-      hideLoadingDialog();
-      // if (objdata["Error"] == true)
-      //   Fluttertoast.showToast(
-      //       msg: objdata["Title"],
-      //       toastLength: Toast.LENGTH_SHORT,
-      //       gravity: ToastGravity.TOP,
-      //       // timeInSecForIosWeb: 1,
-      //       backgroundColor: Colors.red,
-      //       textColor: Colors.white,
-      //       fontSize: 16.0);
-      // else {
-      //   Fluttertoast.showToast(
-      //       msg: objdata["Title"],
-      //       toastLength: Toast.LENGTH_SHORT,
-      //       gravity: ToastGravity.TOP,
-      //       // timeInSecForIosWeb: 1,
-      //       backgroundColor: Colors.green,
-      //       textColor: Colors.white,
-      //       fontSize: 16.0);
-      //   Navigator.of(context, rootNavigator: true).pop();
-      // }
-    });
-  }
-
-  void _clickfinsh() {
-    FinshEvent finshEvent = new FinshEvent();
-    finshEvent.data = null;
-    BlocProvider.of<BlocCongViecAction>(context).add(finshEvent);
-  }
-
-  void _clickreject() {
-    showLoadingDialog();
-    DuThaoVanBan_api objapi = new DuThaoVanBan_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NoiDung": _noidungtuchoi.text,
-    };
-
-    objapi.postreject(data).then((objdata) {
-      hideLoadingDialog();
-      // if (objdata["Error"] == true)
-      //   Fluttertoast.showToast(
-      //       msg: objdata["Title"],
-      //       toastLength: Toast.LENGTH_SHORT,
-      //       gravity: ToastGravity.TOP,
-      //       // timeInSecForIosWeb: 1,
-      //       backgroundColor: Colors.red,
-      //       textColor: Colors.white,
-      //       fontSize: 16.0);
-      // else {
-      //   Fluttertoast.showToast(
-      //       msg: objdata["Title"],
-      //       toastLength: Toast.LENGTH_SHORT,
-      //       gravity: ToastGravity.TOP,
-      //       // timeInSecForIosWeb: 1,
-      //       backgroundColor: Colors.green,
-      //       textColor: Colors.white,
-      //       fontSize: 16.0);
-      //   Navigator.of(context, rootNavigator: true).pop();
-      // }
-    });
-  }
-
-  void _clickdistribute() {
-    showLoadingDialog();
-    DuThaoVanBan_api objapi = new DuThaoVanBan_api();
-    var data = {
-      "VanBanID": widget.id,
-      "NoiDung": _noidungphathanh.text,
-      "PhamViID": '2',
-    };
-
-    objapi.postreject(data).then((objdata) {
-      hideLoadingDialog();
-      // if (objdata["Error"] == true)
-      //   Fluttertoast.showToast(
-      //       msg: objdata["Title"],
-      //       toastLength: Toast.LENGTH_SHORT,
-      //       gravity: ToastGravity.TOP,
-      //       // timeInSecForIosWeb: 1,
-      //       backgroundColor: Colors.red,
-      //       textColor: Colors.white,
-      //       fontSize: 16.0);
-      // else {
-      //   Fluttertoast.showToast(
-      //       msg: objdata["Title"],
-      //       toastLength: Toast.LENGTH_SHORT,
-      //       gravity: ToastGravity.TOP,
-      //       // timeInSecForIosWeb: 1,
-      //       backgroundColor: Colors.green,
-      //       textColor: Colors.white,
-      //       fontSize: 16.0);
-      //   Navigator.of(context, rootNavigator: true).pop();
-      // }
-    });
   }
 }

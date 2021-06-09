@@ -92,11 +92,11 @@ class _MyNotificationpage extends State<MyNotificationpage>
                     });
                   },
                 ),
-                IconButton(
-                  icon: Icon(Icons.more_vert),
-                  onPressed: () {},
-                  color: Colors.white,
-                )
+                // IconButton(
+                //   icon: Icon(Icons.more_vert),
+                //   onPressed: () {},
+                //   color: Colors.white,
+                // )
               ],
               title: cusSearchBar),
           preferredSize: Size.fromHeight(50),

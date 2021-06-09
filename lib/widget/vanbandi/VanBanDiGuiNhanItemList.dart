@@ -78,6 +78,7 @@ class VanBanDiGuiNhanItemList extends StatelessWidget {
               subtitle: Column(
                 children: <Widget>[
                   containerRow('Người gửi: ', obj.tennguoigui),
+                  containerRow('Đơn vị nhận: ', obj.tendonvinhan),
                   containerRow('Người nhận: ', obj.tennguoinhan),
                   containerRow(
                     'Thời gian gửi: ',

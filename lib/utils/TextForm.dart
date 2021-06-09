@@ -37,7 +37,7 @@ class _MyTextForm extends State<MyTextForm> {
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: BorderSide(
-              color: Colors.grey[200],
+              color: Colors.grey[300],
               width: 1.0,
             ),
           ),

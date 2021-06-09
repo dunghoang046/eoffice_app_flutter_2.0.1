@@ -2,7 +2,6 @@ import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
-import 'package:app_eoffice/utils/menu.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_all.dart';
 import 'package:provider/provider.dart';
 import 'package:app_eoffice/services/Base_service.dart';
@@ -98,11 +97,11 @@ class _MyVanBanDenpage extends State<MyVanBanDenpage>
                     });
                   },
                 ),
-                IconButton(
-                  icon: Icon(Icons.more_vert),
-                  onPressed: () {},
-                  color: Colors.white,
-                )
+                // IconButton(
+                //   icon: Icon(Icons.more_vert),
+                //   onPressed: () {},
+                //   color: Colors.white,
+                // )
               ],
               title: cusSearchBar),
           preferredSize: Size.fromHeight(50),

@@ -14,12 +14,14 @@ Vanbanden_api vbdenapi;
 class MyLichlamViecAllpage extends StatefulWidget {
   final String requestweek;
   final String requesyear;
+  final String requesloai;
   LichlamViecBloc requestblock;
 
   MyLichlamViecAllpage({
     this.requestweek,
     this.requesyear,
     this.requestblock,
+    this.requesloai,
   });
   _MyLichlamViecAllpage createState() => _MyLichlamViecAllpage();
 }
@@ -36,7 +38,7 @@ class _MyLichlamViecAllpage extends State<MyLichlamViecAllpage>
     _scrollController = ScrollController();
     // _scrollController.addListener(_loadMoreTopStoriesIfNeed);
     // var requestdata = {'week': widget.requestweek, 'year': widget.requesyear};
-    widget.requestblock.loadMore(widget.requesyear, widget.requestweek);
+    widget.requestblock.loadMore(widget.requesyear, widget.requestweek,widget.requesloai);
     super.initState();
   }
 
@@ -59,13 +61,13 @@ class _MyLichlamViecAllpage extends State<MyLichlamViecAllpage>
     var requestdata = {'week': widget.requestweek, 'year': widget.requesyear};
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      widget.requestblock.loadMore(requestdata, 0);
+      widget.requestblock.loadMore(widget.requestweek, widget.requesyear,widget.requesloai);
     }
     if (_scrollController.position.atEdge) {
       if (_scrollController.position.pixels <=
           _scrollController.position.minScrollExtent) {
         setState(() {
-          widget.requestblock.loadtop(requestdata, 0);
+          widget.requestblock.loadtop(widget.requestweek, widget.requesyear,widget.requesloai);
         });
       }
     }

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:date_format/date_format.dart';
 import 'package:app_eoffice/models/VanBanDenYkienItem.dart';
-import 'package:app_eoffice/views/VanBanDen/vanbanden_chitiet.dart';
 
 class VanBanDenYKienItemList extends StatelessWidget {
   final List<VanBanDenYKienItem> lstobj;
@@ -47,20 +44,6 @@ class VanBanDenYKienItemList extends StatelessWidget {
           margin: EdgeInsets.fromLTRB(15, 8, 10, 2),
           padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
           child: ListTile(
-              onTap: () {},
-              leading: SizedBox(
-                width: 40,
-                height: 40,
-                child: MaterialButton(
-                  color: Colors.blue,
-                  child: Text(
-                    index.toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () {},
-                ),
-              ),
               title: Text(obj.noidung != null ? obj.noidung : '',
                   style: TextStyle(color: Colors.blue, fontSize: 16)),
               subtitle: Column(

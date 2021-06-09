@@ -56,6 +56,10 @@ class ViewVanBanPanel extends StatelessWidget {
           if (obj.isxuly == null) containerRow('Trạng thái VB: ', 'Chưa xử lý'),
           if (obj.isxuly == false)
             containerRow('Trạng thái VB: ', 'Đang xử lý'),
+          if (obj.lstdanhmucgiatri != null)
+            for (var i = 0; i < obj.lstdanhmucgiatri.length; i++)
+              containerRow(obj.lstdanhmucgiatri[i].tenDanhMuc + ": ",
+                  obj.lstdanhmucgiatri[i].ten),
           if (obj.isxuly == true) containerRow('Trạng thái VB: ', 'Đã xử lý'),
           if (obj.lstfile.length > 0) containerRow('File đính kèm: ', ''),
           for (var i = 0; i < obj.lstfile.length; i++)

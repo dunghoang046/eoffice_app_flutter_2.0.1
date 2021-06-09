@@ -3,9 +3,11 @@ import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/block/vanbandenbloc.dart';
 import 'package:app_eoffice/components/components.dart';
 import 'package:app_eoffice/utils/ColorUtils.dart';
+import 'package:app_eoffice/widget/vanbanden/vanbandenykien/combo_DonViNhan.dart';
+import 'package:app_eoffice/widget/vanbanden/vanbandenykien/combo_NhomNguoiNhan.dart';
+import 'package:app_eoffice/widget/vanbanden/vanbandenykien/combo_nguoinhan.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/LookupItem.dart';
 import 'package:app_eoffice/services/Base_service.dart';
@@ -47,6 +49,8 @@ class _MyVanBanDenYKienForm extends State<MyVanBanDenYKienForm> {
   void initState() {
     BlocProvider.of<BlocVanBanDenAction>(context).add(NoEven());
     super.initState();
+    _noidung.text = '';
+    _hanxuly.text = '';
     loaddata();
   }
 
@@ -120,56 +124,98 @@ class _MyVanBanDenYKienForm extends State<MyVanBanDenYKienForm> {
                   children: <Widget>[
                     if (checkquyen(nguoidungsession.quyenhan,
                             QuyenHan().VanthuDonvi) ||
-                        nguoidungsession.vitriid == 2)
+                        checkquyen(
+                            nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
                       rowlabel('Trình lãnh đạo'),
                     if (checkquyen(nguoidungsession.quyenhan,
                             QuyenHan().VanthuDonvi) ||
-                        nguoidungsession.vitriid == 2)
+                        checkquyen(
+                            nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
                       MyComBo_Lanhdaotrinh(),
-                    if (checkquyen(nguoidungsession.quyenhan,
-                            QuyenHan().VanthuDonvi) ||
-                        nguoidungsession.vitriid == 2)
+                    if (checkquyen(
+                        nguoidungsession.quyenhan, QuyenHan().VanthuDonvi))
                       rowlabel('Lãnh đạo bút phê'),
-                    if (checkquyen(nguoidungsession.quyenhan,
-                            QuyenHan().VanthuDonvi) ||
-                        nguoidungsession.vitriid == 2)
-                      // MyComBo_sign(
-                      //   lstlookup: lstlanhdao,
-                      //   text_hint: 'Chọn lãnh đạo bút phê',
-                      // ),
+                    if (checkquyen(
+                        nguoidungsession.quyenhan, QuyenHan().VanthuDonvi))
                       MyComBo_Lanhdaobutphe(),
                     if (checkquyen(nguoidungsession.quyenhan,
                             QuyenHan().VanthuDonvi) ||
-                        nguoidungsession.vitriid == 3 ||
-                        nguoidungsession.vitriid == 2)
+                        checkquyen(
+                            nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
                       rowlabel('Đơn vị đầu mối'),
                     if (checkquyen(nguoidungsession.quyenhan,
                             QuyenHan().VanthuDonvi) ||
-                        nguoidungsession.vitriid == 3 ||
-                        nguoidungsession.vitriid == 2)
+                        checkquyen(
+                            nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
                       MyComBo_DonViDauMoi(),
                     if (checkquyen(nguoidungsession.quyenhan,
                             QuyenHan().VanthuDonvi) ||
-                        nguoidungsession.vitriid == 3 ||
-                        nguoidungsession.vitriid == 2)
+                        checkquyen(
+                            nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
                       rowlabel('Đơn vị phối hợp'),
                     if (checkquyen(nguoidungsession.quyenhan,
                             QuyenHan().VanthuDonvi) ||
-                        nguoidungsession.vitriid == 3 ||
-                        nguoidungsession.vitriid == 2)
+                        checkquyen(
+                            nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
                       MyComBo_DonViPhoiHop(),
-                    if (nguoidungsession.vitriid != 5 &&
-                        nguoidungsession.vitriid != 2)
+                    if (checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().VanthuDonvi) ||
+                        checkquyen(
+                            nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
+                      rowlabel('Đơn vị nhận'),
+                    if (checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().VanthuDonvi) ||
+                        checkquyen(
+                            nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
+                      MyComBo_DonViNhan(),
+                    if (checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaodonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().VanthuDonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaophongban))
                       rowlabel('Người xử lý'),
-                    if (nguoidungsession.vitriid != 5 &&
-                        nguoidungsession.vitriid != 2)
+                    if (checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaodonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().VanthuDonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaophongban))
                       MyComBo_NguoiXuLy(),
-                    if (nguoidungsession.vitriid != 5 &&
-                        nguoidungsession.vitriid != 2)
+                    if (checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaodonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().VanthuDonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaophongban))
                       rowlabel('Người phối hợp'),
-                    if (nguoidungsession.vitriid != 5 &&
-                        nguoidungsession.vitriid != 2)
+                    if (checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaodonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().VanthuDonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaophongban))
                       MyComBo_NguoiphoiHop(),
+                    if (checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaodonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().VanthuDonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaophongban))
+                      rowlabel('Người nhận'),
+                    if (checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaodonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().VanthuDonvi) ||
+                        checkquyen(nguoidungsession.quyenhan,
+                            QuyenHan().Lanhdaophongban))
+                      MyComBo_NguoiNhan(),
+                    if (checkquyen(
+                        nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
+                      rowlabel('Nhóm người nhận'),
+                    if (checkquyen(
+                        nguoidungsession.quyenhan, QuyenHan().Lanhdaodonvi))
+                      MyComBo_NhomNguoiNhan(),
                     rowlabel('Nội dung'),
                     MyTextForm(
                       text_hind: 'Nội dung',
@@ -260,6 +306,10 @@ class _MyVanBanDenYKienForm extends State<MyVanBanDenYKienForm> {
             (lstNguoiDauMoi != null && lstNguoiDauMoi.length <= 0)) &&
         (lstNguoiPhoiHop == null ||
             (lstNguoiPhoiHop != null && lstNguoiPhoiHop.length <= 0)) &&
+        (lstNguoinhan == null ||
+            (lstNguoinhan != null && lstNguoinhan.length <= 0)) &&
+        (lstnhomnguoinhan == null ||
+            (lstnhomnguoinhan != null && lstnhomnguoinhan.length <= 0)) &&
         (_hanxuly.text == null || _hanxuly.text == '')) {
       Toast.show('Bạn chưa nhập thông tin ', context,
           duration: 2, gravity: Toast.TOP, backgroundColor: Colors.red);
@@ -273,6 +323,9 @@ class _MyVanBanDenYKienForm extends State<MyVanBanDenYKienForm> {
         "LstDonViPhoiHop": lstDonViPhoiHop,
         "LstNguoiDauMoi": lstNguoiDauMoi,
         "LstNguoiPhoiHop": lstNguoiPhoiHop,
+        "LstDonViNhan": lstDonVinhan,
+        "LstNguoiNhan": lstNguoinhan,
+        "LstNhomNguoiNhan": lstnhomnguoinhan,
         "HanXuLy": _hanxuly.text
       };
       YKienEvent yKienEvent = new YKienEvent();

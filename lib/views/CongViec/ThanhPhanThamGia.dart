@@ -2,11 +2,11 @@ import 'package:app_eoffice/block/CongViecBloc.dart';
 import 'package:app_eoffice/block/base/event.dart';
 import 'package:app_eoffice/block/base/state.dart';
 import 'package:app_eoffice/components/components.dart';
+import 'package:app_eoffice/utils/ColorUtils.dart';
 import 'package:app_eoffice/widget/CongViec/ThanhPhanThamGia/select_donvi.dart';
 import 'package:app_eoffice/widget/CongViec/ThanhPhanThamGia/select_nguoidung.dart';
 import 'package:app_eoffice/widget/CongViec/ThanhPhanThamGia/select_nhomnguoidung.dart';
 
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eoffice/models/DonViItem.dart';
 import 'package:app_eoffice/models/ModelForm/DanhMucCongViecItem.dart';
@@ -14,12 +14,10 @@ import 'package:app_eoffice/models/NguoiDungitem.dart';
 import 'package:app_eoffice/models/NhomNguoiDungItem.dart';
 import 'package:app_eoffice/services/CongViec_Api.dart';
 import 'package:app_eoffice/utils/Base.dart';
-import 'package:app_eoffice/utils/TextForm.dart';
 import 'package:app_eoffice/views/DuThaoVanBan/VanBanDuThao_ChiTiet.dart';
 import 'package:app_eoffice/widget/CongViec/ThemMoi/combo_DanhMuc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toast/toast.dart';
-import 'package:intl/intl.dart';
 import 'package:app_eoffice/models/WorkTaskItem.dart';
 import 'package:date_format/date_format.dart';
 
@@ -115,7 +113,7 @@ class _MyThanhPhanThamGia extends State<MyThanhPhanThamGia> {
                         onPressed: () {
                           Navigator.pop(context);
                         }),
-                    backgroundColor: Color.fromARGB(255, 248, 144, 31),
+                    backgroundColor: colorbartop,
                     actions: <Widget>[_onLoginClick1()],
                   ),
                   body: SingleChildScrollView(

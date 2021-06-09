@@ -101,7 +101,7 @@ class BlocDuThaoVanBanAction extends Bloc<ActionEvent, ActionState> {
         if (isError)
           yield ErrorState();
         else
-          yield DoneState();
+          yield ViewState();
       }
       if (event is YKienEvent) {
         yield LoadingState();
@@ -112,7 +112,18 @@ class BlocDuThaoVanBanAction extends Bloc<ActionEvent, ActionState> {
         if (isError)
           yield ErrorState();
         else
-          yield DoneState();
+          yield ViewYKienState();
+      }
+      if (event is HoanThanhEvent) {
+        yield LoadingState();
+        await objapi.posthoanthanh(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        if (isError)
+          yield ErrorState();
+        else
+          yield ViewState();
       }
       if (event is PhatHanhEvent) {
         yield LoadingState();
@@ -123,7 +134,7 @@ class BlocDuThaoVanBanAction extends Bloc<ActionEvent, ActionState> {
         if (isError)
           yield ErrorState();
         else
-          yield DoneState();
+          yield ViewState();
       }
       if (event is TuChoiEvent) {
         yield LoadingState();
@@ -134,7 +145,7 @@ class BlocDuThaoVanBanAction extends Bloc<ActionEvent, ActionState> {
         if (isError)
           yield ErrorState();
         else
-          yield DoneState();
+          yield ViewState();
       }
       if (event is ApproverEvent) {
         yield LoadingState();
@@ -145,10 +156,13 @@ class BlocDuThaoVanBanAction extends Bloc<ActionEvent, ActionState> {
         if (isError)
           yield ErrorState();
         else
-          yield DoneState();
+          yield ViewState();
       }
       if (event is NoEven) yield NoState();
       if (event is ViewYKienEvent) yield ViewYKienState();
-    } catch (ex) {}
+    } catch (ex) {
+      basemessage = "Có lỗi xảy ra vui lòng xem lại";
+      yield ErrorState();
+    }
   }
 }

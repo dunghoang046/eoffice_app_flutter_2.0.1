@@ -51,7 +51,7 @@ class _MyVanBanDiGuiNhan extends State<MyVanBanDiGuiNhanForm> {
                 body: SingleChildScrollView(
                     child: BlocBuilder<BlocVanBanDiAction, ActionState>(
                         buildWhen: (previousState, state) {
-                  if (state is DoneState) {
+                  if (state is ViewState) {
                     Toast.show(basemessage, context,
                         duration: 2,
                         gravity: Toast.TOP,

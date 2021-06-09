@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:app_eoffice/models/VanBanDenItem.dart';
 import 'package:date_format/date_format.dart';
 import 'package:app_eoffice/views/VanBanDen/vanbanden_chitiet.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:simple_router/simple_router.dart';
 
 class VanBanDenListItem extends StatelessWidget {
@@ -36,7 +37,18 @@ class VanBanDenListItem extends StatelessWidget {
         margin: EdgeInsets.fromLTRB(15, 8, 10, 0),
         padding: EdgeInsets.fromLTRB(0, 7, 0, 7),
         child: ListTile(
-            onTap: () => SimpleRouter.forward(VanBanDenChiTiet(id: obj.id)),
+            onTap: () => {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.leftToRight,
+                      child: VanBanDenChiTiet(
+                        id: obj.id,
+                      ),
+                    ),
+                  ),
+                  // SimpleRouter.forward(VanBanDenChiTiet(id: obj.id))
+                },
             title: Text(obj.trichyeu != null ? obj.trichyeu : '',
                 style: TextStyle(
                     color: Colors.black54, fontWeight: FontWeight.bold)),

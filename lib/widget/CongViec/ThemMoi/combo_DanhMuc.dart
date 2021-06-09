@@ -25,9 +25,10 @@ class _MyComBo_Danhmuc extends State<MyComBo_Danhmuc> {
   loaddata() async {
     var dm = await widget.lstdm;
     // ignore: deprecated_member_use
-    lstdanhmucgiatri = new List(dm.lstdanhmuc.length);
+    if (dm != null && dm.lstdanhmuc != null)
+      lstdanhmucgiatri = new List(dm.lstdanhmuc.length);
     var lstdmgtcv = <DanhMucGiaTriItem>[];
-    if (dm.obj != null) lstdmgtcv = dm.obj.lstdanhmucgt;
+    if (dm != null && dm.obj != null) lstdmgtcv = dm.obj.lstdanhmucgt;
     for (var i = 0; i < dm.lstdanhmuc.length; i++) {
       lstdanhmucgiatri[i] = '0';
       if (lstdmgtcv != null && lstdmgtcv.length > 0)
@@ -48,11 +49,14 @@ class _MyComBo_Danhmuc extends State<MyComBo_Danhmuc> {
 
   List<DropdownMenuItem> getdr(DanhMucTenItem item) {
     List<DropdownMenuItem> lstdm = [];
-    for (var j = 0; j < item.lstdanhmucgt.length; j++) {
-      lstdm.add(DropdownMenuItem(
-        child: Text(item.lstdanhmucgt[j].tenDanhMuc),
-        value: item.lstdanhmucgt[j].id.toString(),
-      ));
+    if (item.lstdanhmucgt != null) {
+      for (var j = 0; j < item.lstdanhmucgt.length; j++) {
+        if (item.lstdanhmucgt[j] != null)
+          lstdm.add(DropdownMenuItem(
+            child: Text(item.lstdanhmucgt[j].ten),
+            value: item.lstdanhmucgt[j].id.toString(),
+          ));
+      }
     }
     return lstdm;
   }
@@ -68,7 +72,6 @@ class _MyComBo_Danhmuc extends State<MyComBo_Danhmuc> {
           }
           if (snapshot.hasData) {
             DanhMucCongViecItem listdm = snapshot.data;
-
             if (listdm.lstdanhmuc.length > 0) {
               return Center(
                   child: Column(

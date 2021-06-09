@@ -52,16 +52,29 @@ class CongViecViewPanel extends StatelessWidget {
           if (obj.ltsUserPerform.length > 0)
             containerRow('Thực hiện: ',
                 obj.ltsUserPerform.map((value) => value.fullName).join(', ')),
+          if (obj.ltsUserFollow.length > 0)
+            containerRow('Theo dõi: ',
+                obj.ltsUserFollow.map((value) => value.fullName).join(', ')),
           if (obj.ltsGroupPerform.length > 0)
-            containerRow('Đơn vị xử lý: ',
-                obj.ltsGroupPerform.map((value) => value.fullName).join(', ')),
+            containerRow('Đơn vị thực hiện: ',
+                obj.ltsGroupPerform.map((value) => value.tendonvi).join(', ')),
+          if (obj.ltsGroupFollow.length > 0)
+            containerRow('Đơn vị theo dõi: ',
+                obj.ltsGroupFollow.map((value) => value.tendonvi).join(', ')),
           if (obj.ltsUserGroupPerform.length > 0)
             containerRow(
                 'Nhóm thực hiện: ',
                 obj.ltsUserGroupPerform
                     .map((value) => value.fullName)
                     .join(', ')),
-          containerRowHtml('Mô tả: ', obj.description),
+          if (obj.ltsUserGroupFollow.length > 0)
+            containerRow(
+                'Nhóm theo dõi: ',
+                obj.ltsUserGroupFollow
+                    .map((value) => value.fullName)
+                    .join(', ')),
+          if (obj.description != null)
+            containerRowHtml('Mô tả: ', obj.description),
           containerRow('Trạng thái: ', obj.strTrangthai),
           if (obj.progress != null && obj.progress > 0)
             containerRow('Tiến độ: ', obj.progress.toString()),

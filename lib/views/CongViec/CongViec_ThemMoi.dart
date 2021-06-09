@@ -17,9 +17,7 @@ import 'package:app_eoffice/models/NhomNguoiDungItem.dart';
 import 'package:app_eoffice/services/CongViec_Api.dart';
 import 'package:app_eoffice/utils/Base.dart';
 import 'package:app_eoffice/utils/TextForm.dart';
-import 'package:app_eoffice/views/DuThaoVanBan/VanBanDuThao_ChiTiet.dart';
 import 'package:app_eoffice/widget/CongViec/ThemMoi/combo_DanhMuc.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simple_router/simple_router.dart';
@@ -357,6 +355,8 @@ class NgayKetThuc extends StatelessWidget {
     return Column(children: <Widget>[
       DateTimeField(
         controller: _ngayketthuc,
+        initialValue:
+            objcvadd.endDate != null ? DateTime.parse(objcvadd.endDate) : '',
         decoration: InputDecoration(
             hintText: "Ngày kết thúc",
             fillColor: Colors.white,
@@ -377,7 +377,7 @@ class NgayKetThuc extends StatelessWidget {
                 color: Colors.grey[200],
               ),
             ),
-            labelText: 'Nội dung'),
+            labelText: 'Ngày kết thúc'),
         format: format,
         onShowPicker: (context, currentValue) {
           return showDatePicker(
@@ -387,6 +387,10 @@ class NgayKetThuc extends StatelessWidget {
               lastDate: DateTime(2100),
               confirmText: 'Chọn',
               cancelText: 'Hủy');
+        },
+        // ignore: missing_return
+        validator: (value) {
+          if (value == null) return 'Vui lòng nhập dữ liệu';
         },
       ),
     ]);
@@ -400,6 +404,9 @@ class NgayBatDau extends StatelessWidget {
     return Column(children: <Widget>[
       DateTimeField(
         controller: _ngaybatdau,
+        initialValue: objcvadd.startDate != null
+            ? DateTime.parse(objcvadd.startDate)
+            : '',
         decoration: InputDecoration(
             hintText: "Ngày bắt đầu",
             fillColor: Colors.white,
@@ -420,7 +427,7 @@ class NgayBatDau extends StatelessWidget {
                 color: Colors.grey[200],
               ),
             ),
-            labelText: 'Nội dung'),
+            labelText: 'Ngày bắt đầu'),
         format: format,
         onShowPicker: (context, currentValue) {
           return showDatePicker(
@@ -430,6 +437,10 @@ class NgayBatDau extends StatelessWidget {
               lastDate: DateTime(2100),
               confirmText: 'Chọn',
               cancelText: 'Hủy');
+        },
+        // ignore: missing_return
+        validator: (value) {
+          if (value == null) return 'Vui lòng nhập dữ liệu';
         },
       ),
     ]);

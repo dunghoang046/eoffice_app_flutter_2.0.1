@@ -14,6 +14,11 @@ List<int> lstnhomdonvi = new List<int>();
 
 class _MyComBo_NhomDonVi extends State<MyComBo_NhomDonVi> {
   @override
+  void initState() {
+    lstnhomdonvi = [];
+    super.initState();
+  }
+  @override
   Vanbandi_api dvApi = new Vanbandi_api();
   Widget build(BuildContext context) {
     // TODO: implement build

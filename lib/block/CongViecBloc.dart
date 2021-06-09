@@ -131,13 +131,30 @@ class BlocCongViecAction extends Bloc<ActionEvent, ActionState> {
           // lstfile = objdata["Data"];
         });
       }
+      // if (event is FinshEvent) {
+      //   await objapi.postfinsh(event.data).then((objdata) {
+      //     if (objdata["Error"] == true) isError = true;
+      //     basemessage = objdata["Title"];
+      //   });
+      //   yield DoneState();
+      // }
       if (event is FinshEvent) {
         await objapi.postfinsh(event.data).then((objdata) {
           if (objdata["Error"] == true) isError = true;
           basemessage = objdata["Title"];
         });
-        yield DoneState();
+        yield ViewState();
       }
-    } catch (ex) {}
+      if (event is RefreshEvent) {
+        await objapi.postfinsh(event.data).then((objdata) {
+          if (objdata["Error"] == true) isError = true;
+          basemessage = objdata["Title"];
+        });
+        yield ViewState();
+      }
+    } catch (ex) {
+      basemessage = "Đã có lỗi xảy ra vui lòng xem lai";
+      yield ErrorState();
+    }
   }
 }
